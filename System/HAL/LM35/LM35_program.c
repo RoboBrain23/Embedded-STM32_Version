@@ -25,7 +25,7 @@ void LM35_init()
         RCC_enableClk (RCC_APB2, GPIOA);
 		
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOA, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOA, LM35_channel_ID, INPUT_ANALOG);
     }
 	
     // check if LM35_channel_ID is within valid range for GPIOB
@@ -35,7 +35,7 @@ void LM35_init()
         RCC_enableClk (RCC_APB2, GPIOB);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOB, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOB, LM35_channel_ID, INPUT_ANALOG);
     }
 	
     // check if LM35_channel_ID is within valid range for GPIOC
@@ -45,7 +45,7 @@ void LM35_init()
         RCC_enableClk (RCC_APB2, GPIOC);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOC, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOC, LM35_channel_ID, INPUT_ANALOG);
     }
 	
     // if LM35_channel_ID is out of range, do nothing or return error

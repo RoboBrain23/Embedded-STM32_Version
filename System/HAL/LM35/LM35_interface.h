@@ -41,4 +41,48 @@ int8 LM35_getTemperature();
 #endif
 
 
+
+/**				*** Driver Description ***
+
+This is a driver for LM35 temperature sensor on STM32F103C6 microcontroller.
+
+Initialization:
+Call LM35_init() to initialize the necessary peripheral(GPIO,ADC,RCC) Clocks and pins.
+
+Configuration:
+Define the MEASURE_SETUP macro to choose the desired temperature range (LM35_BASIC or LM35_FULL_RANGE).
+Set the LM35_channel_ID and LM35_convertion_NUM variables to the desired values.
+
+API:
+The driver provides a single API function, LM35_getTemperature(), which returns the temperature value in degrees Celsius.
+The function reads the voltage output of the LM35 sensor using an ADC,
+converts the ADC reading to a temperature value using the formula provided in the code, and returns the temperature value as an uint8 type.
+
+Error handling:
+The driver does not provide any error handling functionality. However, if the LM35_channel_ID option is set to an invalid value,
+the driver will not perform any initialization and will simply return without an error message.
+
+Limitations:
+The driver assumes that the LM35 sensor is linearly proportional to temperature and correctly calibrated. 
+The maximum operating temperature for the LM35 sensor is 150 degrees Celsius, as defined by the LM35_MAX_TEMPERATURE macro. 
+For LM35_FULL_RANGE mode, an external hardware circuit is needed.
+
+Examples:
+Here is an example code snippet that demonstrates how to use the LM35 driver to read the temperature value from the LM35 sensor:
+>
+> //initialize the LM35 driver
+> LM35_init();
+>
+> //read the temperature value
+> uint8 temp = LM35_getTemperature();
+
+Dependencies:
+An STM32F103C6 microcontroller
+An analog to digital converter (ADC) module
+GPIO pins configured for input analog mode
+RCC driver for enabling the clock of the GPIO and ADC modules
+
+*/
+
+
 #endif //LM35_INTERFACE_H

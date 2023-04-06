@@ -8,6 +8,22 @@
 #ifndef SPI_CONFIG_H
 #define SPI_CONFIG_H
 
+/**
+ Requirements:
+ 
+- Enable the RCC peripheral clock for the GPIO pins connected to the SPI peripheral.
+- Configure the GPIO pins as alternate function push-pull mode for SPI peripheral.
+- Enable the RCC peripheral clock for the SPI peripheral.
+- Configure the SPI peripheral by calling SPI1/SPI2_init() function.
+- Enable the NVIC interrupt for SPI1/SPI2 IRQHandler function.
+
+ Note: GPIO pins used for SPI communication are:
+       - SPI1: PA4 (NSS), PA5 (SCK), PA6 (MISO), PA7 (MOSI)
+       - SPI2: PB12 (NSS), PB13 (SCK), PB14 (MISO), PB15 (MOSI)
+**/
+
+
+
 // Flag to set software slave pin control for SPI1
 #define SPI1_SET_SLAVE_PIN_SOFTWARE 1
 

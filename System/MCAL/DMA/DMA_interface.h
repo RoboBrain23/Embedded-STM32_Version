@@ -39,26 +39,49 @@
 
 typedef struct
 {
-    uint8 channel_Priority;
-    uint8 memory_Size;
-    uint8 per_Size;
-    uint8 mem_Inc;
-    uint8 per_Inc;
-    uint8 circular_Mode;
-    uint8 transfer_Dir;
-    uint8 transfer_Err_Int;
-    uint8 half_Transfer_Int;
-    uint8 trnsfer_Complete_Int;
-    uint8 Mem2Mem_Mode;
-}DMA_Channel_Config_t;
+    uint8 channel_Priority;     // DMA channel priority level
+    uint8 memory_Size;          // Memory data transfer size
+    uint8 per_Size;             // Peripheral data transfer size
+    uint8 mem_Inc;              // Memory increment mode
+    uint8 per_Inc;              // Peripheral increment mode
+    uint8 circular_Mode;        // Circular mode
+    uint8 transfer_Dir;         // Data transfer direction
+    uint8 transfer_Err_Int;     // Transfer error interrupt
+    uint8 half_Transfer_Int;    // Half transfer interrupt
+    uint8 trnsfer_Complete_Int; // Transfer complete interrupt
+    uint8 Mem2Mem_Mode;         // Memory to memory mode
+} DMA_Channel_Config_t;
 
 
-/* channelNum : 1 to 7 */
-/* DataLength : 0 up to 65535*/
-void DMA_InitChannel   (uint8 channelNum, DMA_Channel_Config_t * DMA_channelCfgPtr);
-void DMA_StartTransmit (uint8 channelNum, uint32 * ptrAddressSrc, uint32 * ptrAddressDes, uint32 DataLength);
+/* 
+ * Initialize DMA channel with the given configuration settings.
+ * channelNum: DMA channel number (1 to 7)
+ * DMA_channelCfgPtr: pointer to DMA channel configuration struct
+ */
+void DMA_InitChannel(uint8 channelNum, DMA_Channel_Config_t *DMA_channelCfgPtr);
+
+
+/*
+ * Start DMA data transmission.
+ * channelNum: DMA channel number (1 to 7)
+ * ptrAddressSrc: pointer to source memory location
+ * ptrAddressDes: pointer to destination memory location
+ * DataLength: length of data to be transmitted (0 up to 65535)
+ */
+void DMA_StartTransmit(uint8 channelNum, uint32 *ptrAddressSrc, uint32 *ptrAddressDes, uint32 DataLength);
+
+
+/*
+ * Set callback function to handle DMA interrupts.
+ * DMA_channelNumber: DMA channel number (1 to 7)
+ * DMA_Ch_CmpTtr: function pointer for transfer complete interrupt handler
+ * DMA_CH_HlfTtr: function pointer for half transfer interrupt handler
+ * DMA_CH_ErrTtr: function pointer for transfer error interrupt handler
+ */
 void DMA_setCallBackInt(uint8 DMA_channelNumber, void (*DMA_Ch_CmpTtr)(void), void (*DMA_CH_HlfTtr)(void), void (*DMA_CH_ErrTtr)(void));
 
+
+// Interrupt handlers for each DMA channel
 void DMA1_Channel1_IRQHandler(void);
 void DMA1_Channel2_IRQHandler(void);
 void DMA1_Channel3_IRQHandler(void);
@@ -66,6 +89,7 @@ void DMA1_Channel4_IRQHandler(void);
 void DMA1_Channel5_IRQHandler(void);
 void DMA1_Channel6_IRQHandler(void);
 void DMA1_Channel7_IRQHandler(void);
+
 
 
 #endif // DMA_INTERFACE_H

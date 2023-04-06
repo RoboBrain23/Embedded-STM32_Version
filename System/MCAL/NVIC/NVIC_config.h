@@ -7,6 +7,16 @@
 #ifndef NVIC_CONFIG_H
 #define NVIC_CONFIG_H
 
+/*
+ requirements:
+
+- The RCC clock for the peripheral is enabled.
+- The interrupt vector table is configured and loaded in memory.
+- Any necessary initialization for the peripheral before generating the interrupt is performed.
+
+Note: Failure to meet these requirements may result in undefined behavior.
+ */
+
 
 /* [Must] 
  Options:

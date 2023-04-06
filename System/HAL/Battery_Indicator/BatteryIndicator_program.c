@@ -32,7 +32,7 @@ void BattInd_init()
         RCC_enableClk (RCC_APB2, GPIOA);
 		
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOA, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOA, BattInd_channel_ID, INPUT_ANALOG);
     }
 	
     // check if BattInd_channel_ID is within valid range for GPIOB
@@ -42,7 +42,7 @@ void BattInd_init()
         RCC_enableClk (RCC_APB2, GPIOB);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOB, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOB, BattInd_channel_ID, INPUT_ANALOG);
     }
 	
     // check if BattInd_channel_ID is within valid range for GPIOC
@@ -52,7 +52,7 @@ void BattInd_init()
         RCC_enableClk (RCC_APB2, GPIOC);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setBinDirection(GPIOC, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(GPIOC, BattInd_channel_ID, INPUT_ANALOG);
     }
 	
     // if BattInd_channel_ID is out of range, do nothing or return error

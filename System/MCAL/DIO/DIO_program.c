@@ -14,7 +14,7 @@
 
 
 /* Configures the direction (input or output) of a specific pin on a specific port.*/
-void DIO_setBinDirection(uint8 Port, uint8 Pin, uint8 Mode)
+void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode)
 {
     // Select the GPIO port based on the input parameter
     switch (Port)
@@ -79,7 +79,7 @@ void DIO_setBinDirection(uint8 Port, uint8 Pin, uint8 Mode)
 
 
 /* Set the binary value of a specific pin in a specific GPIO port.*/
-void setBinValue(uint8 Port, uint8 Pin, uint8 Value)
+void setPinValue(uint8 Port, uint8 Pin, uint8 Value)
 {
 	/* Select the appropriate GPIO port */
 	switch(Port)
@@ -112,36 +112,36 @@ void setBinValue(uint8 Port, uint8 Pin, uint8 Value)
 
 
  /* Get the binary value of a specific pin in a specific GPIO port. */
-uint8 getBinValue(uint8 Port, uint8 Pin)
+uint8 getPinValue(uint8 Port, uint8 Pin)
 {
-	uint8 binValue = 0;
+	uint8 pinValue = 0;
 	
 	switch(Port)
 	{
 		case GPIOA:
 			/* Read the binary value of the pin from GPIOA */
-			binValue = GET_BIT(GPIOA_IDR, Pin);
+			pinValue = GET_BIT(GPIOA_IDR, Pin);
 			break;
 		
 		case GPIOB:
 			/* Read the binary value of the pin from GPIOB */
-			binValue = GET_BIT(GPIOB_IDR, Pin);
+			pinValue = GET_BIT(GPIOB_IDR, Pin);
 			break;
 		
 		case GPIOC:
 			/* Read the binary value of the pin from GPIOC */
-			binValue = GET_BIT(GPIOC_IDR, Pin);
+			pinValue = GET_BIT(GPIOC_IDR, Pin);
 			break;
 	}
 	
 	/* Return the binary value of the pin */
-	return binValue;
+	return pinValue;
 }
 
 
 
 /* Sets the direction (input or output) of multiple pins in a specific GPIO port. */
-void DIO_setMultiBinsDirection(uint8 Port, uint8 startPin, uint8 Numpins, uint8 Mode)
+void DIO_setMultiPinsDirection(uint8 Port, uint8 startPin, uint8 Numpins, uint8 Mode)
 {
     // Check if the specified pins are within the range of 16 pins
     if((Numpins + startPin) <= 16)
@@ -150,7 +150,7 @@ void DIO_setMultiBinsDirection(uint8 Port, uint8 startPin, uint8 Numpins, uint8 
         for(uint8 i = 0; i < Numpins; i++)
         {
             // Set the direction of the current pin
-            DIO_setBinDirection(Port, startPin + i, Mode);
+            DIO_setPinDirection(Port, startPin + i, Mode);
         }
     }
     else
@@ -192,7 +192,7 @@ void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value )
 
 
 /* Returns the binary value of multiple pins on a specific GPIO port */
-uint16 getMultiBinValue(uint8 Port, uint8 StartPin, uint8 NumPins)
+uint16 getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins)
 {
     // Initialize binary value to 0
     uint16 pinsValue = 0;

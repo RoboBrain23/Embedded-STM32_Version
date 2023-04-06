@@ -9,6 +9,25 @@
 #define USART_CONFIG_H
 
 
+/** 
+ Requirements:
+
+- Enable the clock for the USART1 or USART2 peripheral using the RCC peripheral.
+- Configure the GPIO pins used for USART1 or USART2 communication as alternate function inputs/outputs.
+- Connect the USART1 or USART2 pins to the appropriate external device for communication.
+
+ GPIO pins used for USART communication:
+	USART1:
+		PA9: USART1_TX
+		PA10: USART1_RX
+	USART2:
+		PA2: USART2_TX
+		PA3: USART2_RX
+		
+ Note: Failing to meet any of these requirements may result in unexpected behavior of the driver.
+*/
+
+
 // Default USART configuration options for USART1
 #define USART1_STOP_BITS                                USART_1_STOP_BIT     // 1 stop bit			
 #define USART1_RECEIVER_ENABLE                          USART_ENABLED      	 // Receiver enabled

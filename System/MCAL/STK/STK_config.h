@@ -8,6 +8,12 @@
 #ifndef STK_CONFIG_H
 #define STK_CONFIG_H
 
+/**
+ NOTE:
+		EnSure that the SysTick timer is not being used by other drivers or application code, as the STK driver relies on it to generate interrupts.
+*/
+
+
 /*
 [Must]
 Options: 

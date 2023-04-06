@@ -9,7 +9,7 @@
 
 #define MCU STM32F103C6 
 
-/*>>>>>> MUST be Set Manually According to RCC Peripheral Values <<<<<<*/
+/****** It must be Set manually according to RCC peripheral values *******/
 
 // RCC_SYS_FRQ is the frequency of the internal RC oscillator in Hz
 #define SYSTEM_CLOCK_FREQUENCY 	8000000

@@ -8,6 +8,19 @@
 #ifndef RCC_CONFIG_H
 #define RCC_CONFIG_H
 
+/* 
+ IMPORTANT NOTES: 
+ 
+- The driver does not support error handling that may occur when setting different clock frequency inputs and prescaler values.
+ It is the responsibility of the user to ensure that correct configurations are set to avoid any errors.
+ 
+- The driver does not support getting the current frequency of clock buses.
+ In case of changing the default clock values, 
+ you should manually rewrite the clock frequency of each bus in "STM32F103C6.h" file to ensure correct functionality.
+
+*/
+
+
 
 /* [Must] Select clock type   
 Options:

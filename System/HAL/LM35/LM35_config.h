@@ -35,7 +35,7 @@ ADC_channel_t LM35_channel_ID = ADC_CHANNEL_0;
 	Conversion_1 .... Conversion_16
 	debends on channel sequence.
 */
-Convertion_Number LM35_convertion_NUM Conversion_1;
+Convertion_Number LM35_convertion_NUM = Conversion_1;
 
 /*	channels representation on its ports and pins:
 
