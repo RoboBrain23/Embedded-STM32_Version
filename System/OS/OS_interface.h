@@ -1,6 +1,6 @@
 /*******************************************************************************************/
-/* Author	   : Ibrahim Diab			   					   					 		   */
-/* File Name   : OS_interface.h    		   					   				 	 		   */
+/* Author      : Ibrahim Diab                                                              */
+/* File Name   : OS_interface.h                                                            */
 /* Description : Interface file for Simple Operating system to handle the application tasks*/
 /*******************************************************************************************/
 

@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : NVIC_program.c    		   		     			   */
-/* Description : Functions Implementation for NVIC module	  	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : NVIC_program.c                                    */
+/* Description : Functions Implementation for NVIC module          */
 /*******************************************************************/
 
 #include "std_types.h"
@@ -89,51 +89,51 @@ void NVIC_setPendingFlag  (uint8 IntNum)
 // This function clears the pending flag for the given interrupt number
 void NVIC_clearPendingFlag (uint8 IntNum)
 {
-	if ( IntNum <= 31 )
-	{
-		// Clear the interrupt pending flag in NVIC_ICPR0 register
-		NVIC_ICPR0 = ( 1 << IntNum );
-	}
-	
-	else if ( IntNum <= 59 )
-	{
-		// Clear the interrupt pending flag in NVIC_ICPR1 register
-		IntNum -= 32 ;
-		NVIC_ICPR1 = ( 1 << IntNum );
-	}
-	
-	else 
-	{
-		// Return error if interrupt number is out of range
-		/*Return Error */
-	}
+    if ( IntNum <= 31 )
+    {
+        // Clear the interrupt pending flag in NVIC_ICPR0 register
+        NVIC_ICPR0 = ( 1 << IntNum );
+    }
+    
+    else if ( IntNum <= 59 )
+    {
+        // Clear the interrupt pending flag in NVIC_ICPR1 register
+        IntNum -= 32 ;
+        NVIC_ICPR1 = ( 1 << IntNum );
+    }
+    
+    else 
+    {
+        // Return error if interrupt number is out of range
+        /*Return Error */
+    }
 }
 
 // This function gets the active status of the given interrupt number
 uint8 NVIC_getActiveFlag (uint8 IntNum)
 {
-	uint8 flagStatus=0;
-	
-	if ( IntNum <= 31 )
-	{
-		// Get the active status of the interrupt from NVIC_IABR0 register
-		flagStatus = GETBIT(NVIC_IABR0,IntNum);
-	}
-	
-	else if ( IntNum <= 59 )
-	{
-		// Get the active status of the interrupt from NVIC_IABR1 register
-		IntNum -= 32 ;
-		flagStatus = GETBIT(NVIC_IABR0,IntNum);
-	}
-	
-	else 
-	{
-		// Return error if interrupt number is out of range
-		/*Return Error */
-	}
-	
-	return flagStatus;
+    uint8 flagStatus=0;
+    
+    if ( IntNum <= 31 )
+    {
+        // Get the active status of the interrupt from NVIC_IABR0 register
+        flagStatus = GETBIT(NVIC_IABR0,IntNum);
+    }
+    
+    else if ( IntNum <= 59 )
+    {
+        // Get the active status of the interrupt from NVIC_IABR1 register
+        IntNum -= 32 ;
+        flagStatus = GETBIT(NVIC_IABR0,IntNum);
+    }
+    
+    else 
+    {
+        // Return error if interrupt number is out of range
+        /*Return Error */
+    }
+    
+    return flagStatus;
 }
 
 
@@ -141,31 +141,31 @@ uint8 NVIC_getActiveFlag (uint8 IntNum)
 // Note: Priority parameters must be limited between number of bits values for groups and subgroups as preconfigured value
 void NVIC_setPriority (uint8 IntNum, uint8 GroubPriority,  uint8 SubPriority)
 {
-	
-	if (IntNum >= 0)
-	{
-		// Set the priority for the interrupt in the NVIC_IPR[] register
-		NVIC_IPR[IntNum] = ((SubPriority|(GroubPriority << _4G_0S )) << 4 );
-	}
-	
-	#if NO_BITS_GROUBS_SUB == _4G_0S
-	SCB_AIRCR = 0x05FA0300 ;
-	
-	#elif NO_BITS_GROUBS_SUB == _3G_1S
-	SCB_AIRCR = 0x05FA0400 ;
-	
-	#elif NO_BITS_GROUBS_SUB == _2G_2S
-	SCB_AIRCR = 0x05FA0500 ;
-	
-	#elif NO_BITS_GROUBS_SUB == _1G_3S
-	SCB_AIRCR = 0x05FA0600 ;
-	
-	#elif NO_BITS_GROUBS_SUB == _0G_4S
-	SCB_AIRCR = 0x05FA0700 ;
-	
-	#else
-		#error "Wrong NO_BITS_GROUBS_SUB "
-	
-	#endif
-	
+    
+    if (IntNum >= 0)
+    {
+        // Set the priority for the interrupt in the NVIC_IPR[] register
+        NVIC_IPR[IntNum] = ((SubPriority|(GroubPriority << _4G_0S )) << 4 );
+    }
+    
+    #if NO_BITS_GROUBS_SUB == _4G_0S
+    SCB_AIRCR = 0x05FA0300 ;
+    
+    #elif NO_BITS_GROUBS_SUB == _3G_1S
+    SCB_AIRCR = 0x05FA0400 ;
+    
+    #elif NO_BITS_GROUBS_SUB == _2G_2S
+    SCB_AIRCR = 0x05FA0500 ;
+    
+    #elif NO_BITS_GROUBS_SUB == _1G_3S
+    SCB_AIRCR = 0x05FA0600 ;
+    
+    #elif NO_BITS_GROUBS_SUB == _0G_4S
+    SCB_AIRCR = 0x05FA0700 ;
+    
+    #else
+        #error "Wrong NO_BITS_GROUBS_SUB "
+    
+    #endif
+    
 }

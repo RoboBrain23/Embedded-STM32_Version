@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : AFIO_private.h    		   		     			   */
-/* Description : Private addresses for AFIO module stm32f103 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : AFIO_private.h                                    */
+/* Description : Private addresses for AFIO module stm32f103       */
 /*******************************************************************/
 
 
@@ -10,10 +10,10 @@
 
 typedef struct 
 {
-	volatile uint32 EVCR      ; 
-	volatile uint32 MAPR   	  ;
-	volatile uint32 EXTICR[4] ;
-	volatile uint32 MAPR2 	  ;
+    volatile uint32 EVCR      ; 
+    volatile uint32 MAPR      ;
+    volatile uint32 EXTICR[4] ;
+    volatile uint32 MAPR2     ;
 }AFIO_t;
 
 #define AFIO ((volatile AFIO_t *) 0x40010000)

@@ -1,7 +1,7 @@
 /********************************************************************************************/
-/* Author	   : Ibrahim Diab			   					     						    */
-/* File Name   : BatteryIndicator_program.c    		   		     			   			    */
-/* Description : Functions Implementation for Battery Indicator (HAL Layer) 				*/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : BatteryIndicator_program.c                                                 */
+/* Description : Functions Implementation for Battery Indicator (HAL Layer)                 */
 /********************************************************************************************/
 
 /* Library includes */
@@ -25,16 +25,16 @@
 /* This function initializes the battery indicator module */
 void BattInd_init()
 {
-	    // check if BattInd_channel_ID is within valid range for GPIOA
+        // check if BattInd_channel_ID is within valid range for GPIOA
     if(BattInd_channel_ID <= ADC_CHANNEL_7 && BattInd_channel_ID >= ADC_CHANNEL_0)
     {
         // enable clock for GPIOA
         RCC_enableClk (RCC_APB2, GPIOA);
-		
+        
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOA, BattInd_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // check if BattInd_channel_ID is within valid range for GPIOB
     else if(BattInd_channel_ID <= ADC_CHANNEL_9)
     {
@@ -44,7 +44,7 @@ void BattInd_init()
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOB, BattInd_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // check if BattInd_channel_ID is within valid range for GPIOC
     else if(BattInd_channel_ID <= ADC_CHANNEL_15)
     {
@@ -54,16 +54,16 @@ void BattInd_init()
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOC, BattInd_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // if BattInd_channel_ID is out of range, do nothing or return error
     else 
     {
         // do nothing
     }
-	
+    
     // enable clock for ADC1
     RCC_enableClk (RCC_APB2, ADC1);
-	
+    
     // initialize ADC1
     ADC_init(ADC1);
 
@@ -83,21 +83,21 @@ void BattInd_init()
 /* Get the battery capacity level based on lookup table */
 uint8 BattInd_getBatteryCapacityLevel()
 {
-	// Read battery voltage from ADC
-	uint16 batteryLevel = ADC_typeRead(ADC1 , BattInd_channel_ID);
-	
-	// Convert ADC value to actual voltage
-	batteryLevel = ((((batteryLevel / ADC_MAX_VALUE) * ADC_REF_VOLT_VALUE) * VOLTAGE_DIVIDER_RATIO));
-	
-	// Check which level the battery voltage falls into and return it
-	for(uint8 level = 9; level > 0; level--)
-	{
-		if(batteryLevel >= lookup_Table[level])
-			return (level+1);
-	}
-	
-	// If battery voltage is below the lowest level, return 0
-	return 0;
+    // Read battery voltage from ADC
+    uint16 batteryLevel = ADC_typeRead(ADC1 , BattInd_channel_ID);
+    
+    // Convert ADC value to actual voltage
+    batteryLevel = ((((batteryLevel / ADC_MAX_VALUE) * ADC_REF_VOLT_VALUE) * VOLTAGE_DIVIDER_RATIO));
+    
+    // Check which level the battery voltage falls into and return it
+    for(uint8 level = 9; level > 0; level--)
+    {
+        if(batteryLevel >= lookup_Table[level])
+            return (level+1);
+    }
+    
+    // If battery voltage is below the lowest level, return 0
+    return 0;
 }
 
 #elif BATTERY_DISCHARGE_CURVE == LINEAR 
@@ -105,17 +105,17 @@ uint8 BattInd_getBatteryCapacityLevel()
 /*Get the battery capacity percentage based on linear curve */
 uint8 BattInd_getBatteryCapacityPercentage()
 {
-	// Read battery voltage from ADC
-	uint16 batteryPercentage = ADC_typeRead(ADC1 , BattInd_channel_ID);
-	
-	// Convert ADC value to actual voltage
-	batteryPercentage = ((((batteryPercentage / ADC_MAX_VALUE) * ADC_REF_VOLT_VALUE) * VOLTAGE_DIVIDER_RATIO));
-	
-	// Calculate battery capacity percentage based on voltage range
-	batteryPercentage = ((batteryPercentage - VOLTAGE_FULLY_DISCHARGED) / (VOLTAGE_FULLY_CHARGED - VOLTAGE_FULLY_DISCHARGED));
-	
-	// Return the battery capacity percentage
-	return batteryPercentage;
+    // Read battery voltage from ADC
+    uint16 batteryPercentage = ADC_typeRead(ADC1 , BattInd_channel_ID);
+    
+    // Convert ADC value to actual voltage
+    batteryPercentage = ((((batteryPercentage / ADC_MAX_VALUE) * ADC_REF_VOLT_VALUE) * VOLTAGE_DIVIDER_RATIO));
+    
+    // Calculate battery capacity percentage based on voltage range
+    batteryPercentage = ((batteryPercentage - VOLTAGE_FULLY_DISCHARGED) / (VOLTAGE_FULLY_CHARGED - VOLTAGE_FULLY_DISCHARGED));
+    
+    // Return the battery capacity percentage
+    return batteryPercentage;
 }
 
 #endif

@@ -1,7 +1,7 @@
 /*********************************************************************************/
-/* Author	   : Ibrahim Diab			   					   					 */
-/* File Name   : LM35_config.h    		   						   				 */
-/* Description : Configuration for LM35 temperature sensor (HAL Layer)			 */
+/* Author      : Ibrahim Diab                                                    */
+/* File Name   : LM35_config.h                                                   */
+/* Description : Configuration for LM35 temperature sensor (HAL Layer)           */
 /*********************************************************************************/
 
 #ifndef LM35_CONFIG_H
@@ -9,21 +9,21 @@
 
 /*
  options :
-			LM35_BASIC 	    :	 Measure range   0c >> MAX VALUE (150c)		
-			LM35_FULL_RANGE :    Measure range -55c >> MAX VALUE (150c)   Note : It needs external hardware circuit.
+            LM35_BASIC      :    Measure range   0c >> MAX VALUE (150c)     
+            LM35_FULL_RANGE :    Measure range -55c >> MAX VALUE (150c)   Note : It needs external hardware circuit.
 */
 #define MEASURE_SETUP    LM35_BASIC
 
 
 /*
-	Depending on LM35 version specification.
+    Depending on LM35 version specification.
 */
-#define LM35_MAX_TEMPERATURE	150		// 150c
-#define SENSOR_MAX_VOLT_VALUE   1.5 	// 1.5V
+#define LM35_MAX_TEMPERATURE    150     // 150c
+#define SENSOR_MAX_VOLT_VALUE   1.5     // 1.5V
 
 /*
-	options :
-	ADC_CHANNEL_0 .... ADC_CHANNEL_15
+    options :
+    ADC_CHANNEL_0 .... ADC_CHANNEL_15
 */
 ADC_channel_t LM35_channel_ID = ADC_CHANNEL_0;
 
@@ -31,13 +31,13 @@ ADC_channel_t LM35_channel_ID = ADC_CHANNEL_0;
 /*
  The variable will be used to specify which ADC conversion to perform in STM32F103C6 microcontroller.
  
-	options:
-	Conversion_1 .... Conversion_16
-	debends on channel sequence.
+    options:
+    Conversion_1 .... Conversion_16
+    debends on channel sequence.
 */
 Convertion_Number LM35_convertion_NUM = Conversion_1;
 
-/*	channels representation on its ports and pins:
+/*  channels representation on its ports and pins:
 
 ADC1_IN0 : PA0
 ADC1_IN1 : PA1

@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : EXTI_interface.h    		   					   */
-/* Description : Interfacing macros for EXTI module			 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : EXTI_interface.h                                  */
+/* Description : Interfacing macros for EXTI module                */
 /*******************************************************************/
 
 // Preprocessor directive to prevent multiple inclusions of the same header file.

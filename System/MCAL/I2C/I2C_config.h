@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : I2C_config.h    		   						   */
-/* Description : Configuration for I2C module stm32f103		 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : I2C_config.h                                      */
+/* Description : Configuration for I2C module stm32f103            */
 /*******************************************************************/
 
 // This header file guards against multiple inclusion

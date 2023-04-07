@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : NVIC_interface.h    		   					   */
-/* Description : Interfacing macros for NVIC module			 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : NVIC_interface.h                                  */
+/* Description : Interfacing macros for NVIC module                */
 /*******************************************************************/
 #ifndef NVIC_INTERFACE_H
 #define NVIC_INTERFACE_H
@@ -36,8 +36,8 @@ void NVIC_setPriority(uint8 IntNum, uint8 GroubPriority, uint8 SubPriority);
 #define EXTI2              8   // External interrupt line 2
 #define EXTI3              9   // External interrupt line 3
 #define EXTI4              10  // External interrupt line 4
-#define EXTI9_5        	   23  // External interrupt lines 5 to 9
-#define EXTI15_10    	   40  // External interrupt lines 10 to 15
+#define EXTI9_5            23  // External interrupt lines 5 to 9
+#define EXTI15_10          40  // External interrupt lines 10 to 15
 #define TIM1_UP_TIM10      25  // Timer 1 update interrupt and timer 10 global interrupt
 #define TIM1_TRG_COM_TIM11 26  // Timer 1 trigger and commutation interrupt and timer 11 global interrupt
 #define TIM2               28  // Timer 2 global interrupt

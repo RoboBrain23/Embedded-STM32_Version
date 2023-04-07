@@ -1,16 +1,16 @@
 /*********************************************************************************/
-/* Author	   : Ibrahim Diab			   					   					 */
-/* File Name   : BatteryIndicator_config.h      						   		 */
-/* Description : Configuration for Battery Indicator (HAL Layer)				 */
+/* Author      : Ibrahim Diab                                                    */
+/* File Name   : BatteryIndicator_config.h                                       */
+/* Description : Configuration for Battery Indicator (HAL Layer)                 */
 /*********************************************************************************/
 
 #ifndef BATTERY_INDICATOR_CONFIG_H
 #define BATTERY_INDICATOR_CONFIG_H
 
 /*
-	options:
-				LINEAR 	   
-				NON_LINEAR 
+    options:
+                LINEAR     
+                NON_LINEAR 
 */
 #define BATTERY_DISCHARGE_CURVE NON_LINEAR // Choose the battery discharge curve option
 
@@ -24,8 +24,8 @@
 
 
 /*
-	options :
-	ADC_CHANNEL_0 .... ADC_CHANNEL_15
+    options :
+    ADC_CHANNEL_0 .... ADC_CHANNEL_15
 */
 ADC_channel_t BattInd_channel_ID = ADC_CHANNEL_1;
 
@@ -33,9 +33,9 @@ ADC_channel_t BattInd_channel_ID = ADC_CHANNEL_1;
 /*
  The variable will be used to specify which ADC conversion to perform in STM32F103C6 microcontroller.
  
-	options:
-	Conversion_1 .... Conversion_16
-	Depends on channel sequence.
+    options:
+    Conversion_1 .... Conversion_16
+    Depends on channel sequence.
 */
 Convertion_Number Batt_convertion_NUM = Conversion_2;
 

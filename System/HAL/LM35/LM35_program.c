@@ -1,7 +1,7 @@
 /********************************************************************************************/
-/* Author	   : Ibrahim Diab			   					     						    */
-/* File Name   : LM35_program.c    		   		     			   						    */
-/* Description : Functions Implementation for LM35 temperature sensor (HAL Layer) 			*/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : LM35_program.c                                                             */
+/* Description : Functions Implementation for LM35 temperature sensor (HAL Layer)           */
 /********************************************************************************************/
 
 #include "std_types.h"
@@ -17,17 +17,17 @@
 
 
 void LM35_init()
-{	
+{   
     // check if LM35_channel_ID is within valid range for GPIOA
     if(LM35_channel_ID <= ADC_CHANNEL_7 && LM35_channel_ID >= ADC_CHANNEL_0)
     {
         // enable clock for GPIOA
         RCC_enableClk (RCC_APB2, GPIOA);
-		
+        
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOA, LM35_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // check if LM35_channel_ID is within valid range for GPIOB
     else if(LM35_channel_ID <= ADC_CHANNEL_9)
     {
@@ -37,7 +37,7 @@ void LM35_init()
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOB, LM35_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // check if LM35_channel_ID is within valid range for GPIOC
     else if(LM35_channel_ID <= ADC_CHANNEL_15)
     {
@@ -47,16 +47,16 @@ void LM35_init()
         // set the direction of the corresponding GPIO pin to input analog mode
         DIO_setPinDirection(GPIOC, LM35_channel_ID, INPUT_ANALOG);
     }
-	
+    
     // if LM35_channel_ID is out of range, do nothing or return error
     else 
     {
         // do nothing
     }
-	
+    
     // enable clock for ADC1
     RCC_enableClk (RCC_APB2, ADC1);
-	
+    
     // initialize ADC1
     ADC_init(ADC1);
 
@@ -84,16 +84,16 @@ uint8 LM35_getTemperature()
     // temperature = (voltage * LM35_MAX_TEMPERATURE) / (ADC_MAX_VALUE * SENSOR_MAX_VOLT_VALUE)
     // Note: This formula assumes that the LM35 sensor is linearly proportional to temperature and correctly calibrated
     temperature = (((((temperature * ADC_REF_VOLT_VALUE) / ADC_MAX_VALUE) * LM35_MAX_TEMPERATURE) / SENSOR_MAX_VOLT_VALUE) + 0.5);
-	
+    
     // Return the temperature value as an int16 type
-	return (uint8)temperature;
+    return (uint8)temperature;
 }
 #elif MEASURE_SETUP == LM35_FULL_RANGE
 
 // Function to read full range temperature from an LM35 sensor and return the value as an int8 type
 int8 LM35_getTemperature()
 {
-	// To be implemented..
+    // To be implemented..
 }
 
 

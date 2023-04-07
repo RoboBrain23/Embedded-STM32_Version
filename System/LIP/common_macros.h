@@ -1,29 +1,29 @@
 /*******************************************/
-/* Author	   : Ibrahim Diab			   */
-/* File Name   : Common_Macros.h    	   */
-/* Description : Commonly used Macros	   */
+/* Author      : Ibrahim Diab              */
+/* File Name   : Common_Macros.h           */
+/* Description : Commonly used Macros      */
 /*******************************************/
 
 #ifndef COMMON_MACROS_H
 #define COMMON_MACROS_H
 
 // Set a certain bit in any register.
-#define SET_BIT(REG,BIT) 	(REG|=(1<<BIT))
+#define SET_BIT(REG,BIT)    (REG|=(1<<BIT))
 
 // Clear a certain bit in any register.
-#define CLR_BIT(REG,BIT) 	(REG&= ~(1<<BIT))
+#define CLR_BIT(REG,BIT)    (REG&= ~(1<<BIT))
 
 // Read the value of a certain bit in any register.
-#define GET_BIT(REG,BIT)	(REG&(1<<BIT))
+#define GET_BIT(REG,BIT)    (REG&(1<<BIT))
 
 // Toggle a certain bit in any register.
-#define TOG_BIT(REG,BIT)	(REG^=(1<<BIT))
+#define TOG_BIT(REG,BIT)    (REG^=(1<<BIT))
 
 // Rotate right a certain register value with specific number of rotates.
-#define ROR(REG,NUM)		(REG= (REG>>NUM | REG<<((sizeof(REG)*8)-NUM)))
+#define ROR(REG,NUM)        (REG= (REG>>NUM | REG<<((sizeof(REG)*8)-NUM)))
 
 // Rotate left a certain register value with specific number of rotates.
-#define ROL(REG,NUM)		(REG= (REG<<NUM | REG>>((sizeof(REG)*8)-NUM)))
+#define ROL(REG,NUM)        (REG= (REG<<NUM | REG>>((sizeof(REG)*8)-NUM)))
 
 // Modify a 2-bit field in a register starting at bit position FIELD
 #define MOD_2BIT(REG, FIELD, VAL)  (REG = (REG &  ~(0x3 << FIELD) ) | (VAL<<FIELD))

@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : DIO_interface.h    		   					   */
-/* Description : Interfacing macros for DIO module stm32f103 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : DIO_interface.h                                   */
+/* Description : Interfacing macros for DIO module stm32f103       */
 /*******************************************************************/
 
 // Header guard to prevent multiple inclusion of this header file

@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : DMA_interface.h    		   					   */
-/* Description : Interfacing macros for DMA module stm32f103 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : DMA_interface.h                                   */
+/* Description : Interfacing macros for DMA module stm32f103       */
 /*******************************************************************/
 
 
@@ -18,18 +18,18 @@
  * half_Transfer_Int: enable half transfer interrupt if set to 1
  * trnsfer_Complete_Int: enable transfer complete interrupt if set to 1
  */
-#define DMA_DISABLED 	 0	
-#define DMA_ENABLED 	 1
+#define DMA_DISABLED     0  
+#define DMA_ENABLED      1
 
 /* transfer_Dir: direction of data transfer */
-#define READ_FROM_MEM	 0
-#define READ_FROM_PER	 1
+#define READ_FROM_MEM    0
+#define READ_FROM_PER    1
 
 /* channel_Priority: priority level of the DMA channel */
-#define CHANNEL_LOW_PRIORITY  		0b00
-#define CHANNEL_MEDIUM_PRIORITY  	0b01
-#define CHANNEL_HIGH_PRIORITY  		0b10
-#define CHANNEL_VERY_HIGH_PRIORITY	0b11
+#define CHANNEL_LOW_PRIORITY        0b00
+#define CHANNEL_MEDIUM_PRIORITY     0b01
+#define CHANNEL_HIGH_PRIORITY       0b10
+#define CHANNEL_VERY_HIGH_PRIORITY  0b11
 
 /* memory_Size and per_Size: size of memory and peripheral data transfers */
 #define BITS_8  0b00

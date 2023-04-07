@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : USART_config.h    		   						   */
-/* Description : Configuration for USART module stm32f103		   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : USART_config.h                                    */
+/* Description : Configuration for USART module stm32f103          */
 /*******************************************************************/
 
 // This header file guards against multiple inclusion
@@ -17,20 +17,20 @@
 - Connect the USART1 or USART2 pins to the appropriate external device for communication.
 
  GPIO pins used for USART communication:
-	USART1:
-		PA9: USART1_TX
-		PA10: USART1_RX
-	USART2:
-		PA2: USART2_TX
-		PA3: USART2_RX
-		
+    USART1:
+        PA9: USART1_TX
+        PA10: USART1_RX
+    USART2:
+        PA2: USART2_TX
+        PA3: USART2_RX
+        
  Note: Failing to meet any of these requirements may result in unexpected behavior of the driver.
 */
 
 
 // Default USART configuration options for USART1
-#define USART1_STOP_BITS                                USART_1_STOP_BIT     // 1 stop bit			
-#define USART1_RECEIVER_ENABLE                          USART_ENABLED      	 // Receiver enabled
+#define USART1_STOP_BITS                                USART_1_STOP_BIT     // 1 stop bit          
+#define USART1_RECEIVER_ENABLE                          USART_ENABLED        // Receiver enabled
 #define USART1_TRANSMITTER_ENABLE                       USART_ENABLED        // Transmitter enabled
 #define USART1_RXNE_INTERRUPT_ENABLE                    USART_DISABLED       // RXNE interrupt disabled
 #define USART1_TRANSMISSION_COMPLETE_INTERRUPT_ENABLE   USART_DISABLED       // Transmission complete interrupt disabled
@@ -52,18 +52,18 @@
 
 
 /*
-	USART configuration options:
+    USART configuration options:
 
-STOP_BITS								>> USART_1_STOP_BIT (Default), USART_2_STOP_BIT 
-WORD_LENGTH								>> USART_8_DATA_BITS(Default), USART_9_DATA_BITS
-PARITY_SELECTION 						>> USART_EVEN_PARITY(Default), USART_ODD_PARITY		
-RECEIVER_ENABLE							>> USART_DISABLED(Default), USART_ENABLED
-TRANSMITTER_ENABLE						>> USART_DISABLED(Default), USART_ENABLED
-RXNE_INTERRUPT_ENABLE 				    >> USART_DISABLED(Default), USART_ENABLED
-TRANSMISSION_COMPLETE_INTERRUPT_ENABLE 	>> USART_DISABLED(Default), USART_ENABLED
-TXE_INTERRUPT_ENABLE 					>> USART_DISABLED(Default), USART_ENABLED			
-PARITY_CONTROL_ENABLE 					>> USART_DISABLED(Default), USART_ENABLED	
-							
+STOP_BITS                               >> USART_1_STOP_BIT (Default), USART_2_STOP_BIT 
+WORD_LENGTH                             >> USART_8_DATA_BITS(Default), USART_9_DATA_BITS
+PARITY_SELECTION                        >> USART_EVEN_PARITY(Default), USART_ODD_PARITY     
+RECEIVER_ENABLE                         >> USART_DISABLED(Default), USART_ENABLED
+TRANSMITTER_ENABLE                      >> USART_DISABLED(Default), USART_ENABLED
+RXNE_INTERRUPT_ENABLE                   >> USART_DISABLED(Default), USART_ENABLED
+TRANSMISSION_COMPLETE_INTERRUPT_ENABLE  >> USART_DISABLED(Default), USART_ENABLED
+TXE_INTERRUPT_ENABLE                    >> USART_DISABLED(Default), USART_ENABLED           
+PARITY_CONTROL_ENABLE                   >> USART_DISABLED(Default), USART_ENABLED   
+                            
 */
 
 

@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : SPI_interface.h    		   					   */
-/* Description : Interfacing macros for SPI module stm32f103 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : SPI_interface.h                                   */
+/* Description : Interfacing macros for SPI module stm32f103       */
 /*******************************************************************/
 #ifndef SPI_INTERFACE_H
 #define SPI_INTERFACE_H

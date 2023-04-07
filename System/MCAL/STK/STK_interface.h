@@ -1,6 +1,6 @@
 /**************************************************************************************/
-/* Author	   : Ibrahim Diab			   					       					  */
-/* File Name   : STK_interface.h    		   					  				      */
+/* Author      : Ibrahim Diab                                                         */
+/* File Name   : STK_interface.h                                                      */
 /* Description : Interfacing macros for System Tick core peripheral for ARM cortex-m3 */
 /**************************************************************************************/
 

@@ -1,7 +1,7 @@
 /**************************************************************************************/
 /* Author     : Ibrahim Diab                                                          */
 /* File Name  : LM35_interface.h                                                      */
-/* Description: Interfacing macros for LM35 temperature sensor (HAL Layer)     	      */
+/* Description: Interfacing macros for LM35 temperature sensor (HAL Layer)            */
 /**************************************************************************************/
 
 #ifndef LM35_INTERFACE_H
@@ -42,7 +42,7 @@ int8 LM35_getTemperature();
 
 
 
-/**				*** Driver Description ***
+/**             *** Driver Description ***
 
 This is a driver for LM35 temperature sensor on STM32F103C6 microcontroller.
 

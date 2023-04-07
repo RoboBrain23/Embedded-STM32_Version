@@ -1,6 +1,6 @@
 /************************************************************************************************/
-/* Author	   : Ibrahim Diab			   					   					   				*/
-/* File Name   : OS_private.h    		   					   				 		    		*/
+/* Author      : Ibrahim Diab                                                                   */
+/* File Name   : OS_private.h                                                                   */
 /* Description : Private definitions for Simple Operating system to handle the application tasks*/
 /************************************************************************************************/
 
@@ -8,9 +8,9 @@
 #define OS_PRIVATE_H
 
 // Define some constants for task states
-#define TASK_READY  	0
-#define TASK_SUSPEND	1
-#define TASK_DELETED	2
+#define TASK_READY      0
+#define TASK_SUSPEND    1
+#define TASK_DELETED    2
 
 // Define a task struct to hold task information
 typedef struct

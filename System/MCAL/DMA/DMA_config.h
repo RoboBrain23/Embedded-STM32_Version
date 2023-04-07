@@ -1,7 +1,7 @@
 /***************************************************************/
-/* Author	   : Ibrahim Diab			   					   */
-/* File Name   : DMA_config.h    		   					   */
-/* Description : Configuration for DMA module stm32f103 	   */
+/* Author      : Ibrahim Diab                                  */
+/* File Name   : DMA_config.h                                  */
+/* Description : Configuration for DMA module stm32f103        */
 /***************************************************************/
 
 

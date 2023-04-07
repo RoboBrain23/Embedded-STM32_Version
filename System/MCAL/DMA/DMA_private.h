@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : DMA_private.h    		   		     			   */
-/* Description : Private addresses for DMA module stm32f103 	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : DMA_private.h                                     */
+/* Description : Private addresses for DMA module stm32f103        */
 /*******************************************************************/
 
 #ifndef DMA_PRIVATE_H
@@ -15,19 +15,19 @@ static void (*DMA_ErrTra_channel[7])(void) = { NULL };
 // DMA channel struct
 typedef struct 
 {
-	uint32 CCR;
-	uint32 CNDTR;
-	uint32 CPAR;
-	uint32 CMAR;
-	uint32 Reserved;
+    uint32 CCR;
+    uint32 CNDTR;
+    uint32 CPAR;
+    uint32 CMAR;
+    uint32 Reserved;
 }channel_t;
 
 // DMA struct
 typedef struct
 {
-	uint32 ISR;
-	uint32 IFCR;
-	channel_t channel[7]; 
+    uint32 ISR;
+    uint32 IFCR;
+    channel_t channel[7]; 
 }DMA_t;
 
 // Define DMA base address

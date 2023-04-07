@@ -1,7 +1,7 @@
 /**************************************************************************************/
 /* Author     : Ibrahim Diab                                                          */
-/* File Name  : BatteryIndicator_interface.h    	                                  */
-/* Description: Interfacing macros for  Battery Indicator (HAL Layer)          	      */
+/* File Name  : BatteryIndicator_interface.h                                          */
+/* Description: Interfacing macros for  Battery Indicator (HAL Layer)                 */
 /**************************************************************************************/
 
 #ifndef BATTERY_INDICATOR_INTERFACE_H
@@ -41,7 +41,7 @@ uint8 BattInd_getBatteryCapacityPercentage();
 #endif
 
 
-/**				*** Driver Description ***
+/**             *** Driver Description ***
 
 This driver is used for a battery indicator module. To use it, follow these steps:
 

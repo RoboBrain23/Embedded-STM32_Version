@@ -1,6 +1,6 @@
 /*************************************************************************************/
-/* Author	   : Ibrahim Diab			   					       					 */
-/* File Name   : STK_private.h    		   		     			  					 */
+/* Author      : Ibrahim Diab                                                        */
+/* File Name   : STK_private.h                                                       */
 /* Description : Private addresses for System Tick core peripheral for ARM cortex-m3 */
 /*************************************************************************************/
 
@@ -10,16 +10,16 @@
 
 typedef struct
 {
-	uint32 CTRL  ;
-	uint32 LOAD  ;
-	uint32 VAL   ;
-	uint32 CALIB ;
+    uint32 CTRL  ;
+    uint32 LOAD  ;
+    uint32 VAL   ;
+    uint32 CALIB ;
 }STK_t;
 
 #define STK ((volatile STK_t *)0xE000ED00)
 
-#define STK_AHB			  	  0
-#define STK_AHB_DIV8		  1
+#define STK_AHB               0
+#define STK_AHB_DIV8          1
 
 #define STK_SINGLE_INTERVAL   0
 #define STK_PERIODIC_INTERVAL 1

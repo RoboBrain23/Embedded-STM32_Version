@@ -1,7 +1,7 @@
 /***************************************************************/
-/* Author	   : Ibrahim Diab			   					   */
-/* File Name   : AFIO_config.h    		   					   */
-/* Description : Configuration for AFIO module stm32f103 	   */
+/* Author      : Ibrahim Diab                                  */
+/* File Name   : AFIO_config.h                                 */
+/* Description : Configuration for AFIO module stm32f103       */
 /***************************************************************/
 
 

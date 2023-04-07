@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : I2C_program.c    		   		    	 		   */
-/* Description : Functions Implementation for I2C module	  	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : I2C_program.c                                     */
+/* Description : Functions Implementation for I2C module           */
 /*******************************************************************/
 
 #include "STM32F103C6.h"
@@ -34,7 +34,7 @@ void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config)
         
         // Configure I2C1 acknowledge, general call, stretch mode, and SMBus mode
         I2C1->CR1 = (I2C_config-> I2C_Acknowledge << 10) | (I2C_config-> general_call << 6) |
-        		    (I2C_config-> stretch_mode << 7)     | (I2C_config-> SM_Bus_mode << 1);
+                    (I2C_config-> stretch_mode << 7)     | (I2C_config-> SM_Bus_mode << 1);
 
         // Configure I2C1 rise time
         I2C1->TRISE = ((RCC_APB1_CLK_FRQ / 1000000) + 1);
@@ -70,7 +70,7 @@ void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config)
         // Configure I2C2 acknowledge, general call, stretch mode, and SMBus mode
         I2C2->CR1 = (I2C_config->I2C_Acknowledge << 10) | (I2C_config->general_call << 6);
 
-		// Configure I2C2 rise time
+        // Configure I2C2 rise time
         I2C2->TRISE = ((RCC_APB1_CLK_FRQ / 1000000) + 1);
         
         // Configure I2C2 event and error interrupts and clock frequency
@@ -88,7 +88,7 @@ void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config)
         
         // Enable I2C2
         SET_BIT(I2C2->CR1, 0);
-	}
+    }
 }
 
 
@@ -106,183 +106,183 @@ void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config)
  */
 void I2C_sendData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState)
 {
-	uint32 dummyRead;
-	switch(I2CNum)
-	{
-		case I2C1:
-			// Generate start condition if specified
-			generateStart(I2C1, startState);
-					
-			// Wait for start condition to be generated
-			while(!GET_BIT(I2C1->SR1,0));
-					
-			// Send slave address with write bit (1) set
-			sendAddress(I2C1, address, 1);
-					
-			// Wait for address to be sent and ACK received
-			while(!GET_BIT(I2C1->SR1,1));
-					
-			// To reset ADDR bit
-			dummyRead = I2C1->SR2;
-			
-			// Wait for byte transfer to complete
-			while(!GET_BIT(I2C1->SR1,7));
-					
-			// Send data bytes one by one
-			for(uint16 index=0; index < dataLength; index++)
-			{
-				I2C1->DR = dataBuffer[index];
-						
-				// Wait for byte transfer to complete
-				while(!GET_BIT(I2C1->SR1,7));
-			}
-					
-			// Wait for byte transfer to complete
-			while(!GET_BIT(I2C1->SR1,2));
-					
-			// Generate stop condition if specified
-			if(stopState == WITH_STOP)
-			{
-				generateStop(I2C1);
-			}
-			break;
-		
-		case I2C2:
-			// Generate start condition if specified
-			generateStart(I2C2, startState);
-					
-			// Wait for start condition to be generated
-			while(!GET_BIT(I2C2->SR1,0));
-					
-			// Send slave address with write bit (1) set
-			sendAddress(I2C2, address, 1);
-					
-			// Wait for address to be sent and ACK received
-			while(!GET_BIT(I2C2->SR1,1));
-			
-			// To reset ADDR bit
-			dummyRead = I2C2->SR2;
-					
-			// Wait for byte transfer to complete
-			while(!GET_BIT(I2C2->SR1,7));
-					
-			// Send data bytes one by one
-			for(uint16 index=0; index < dataLength; index++)
-			{
-				I2C2->DR = dataBuffer[index];
-						
-				// Wait for byte transfer to complete
-				while(!GET_BIT(I2C2->SR1,7));
-			}
-					
-			// Wait for byte transfer to complete
-			while(!GET_BIT(I2C2->SR1,2));
-					
-			// Generate stop condition if specified
-			if(stopState == WITH_STOP)
-			{
-				generateStop(I2C2);
-			}
-			break;
-	}
-	
+    uint32 dummyRead;
+    switch(I2CNum)
+    {
+        case I2C1:
+            // Generate start condition if specified
+            generateStart(I2C1, startState);
+                    
+            // Wait for start condition to be generated
+            while(!GET_BIT(I2C1->SR1,0));
+                    
+            // Send slave address with write bit (1) set
+            sendAddress(I2C1, address, 1);
+                    
+            // Wait for address to be sent and ACK received
+            while(!GET_BIT(I2C1->SR1,1));
+                    
+            // To reset ADDR bit
+            dummyRead = I2C1->SR2;
+            
+            // Wait for byte transfer to complete
+            while(!GET_BIT(I2C1->SR1,7));
+                    
+            // Send data bytes one by one
+            for(uint16 index=0; index < dataLength; index++)
+            {
+                I2C1->DR = dataBuffer[index];
+                        
+                // Wait for byte transfer to complete
+                while(!GET_BIT(I2C1->SR1,7));
+            }
+                    
+            // Wait for byte transfer to complete
+            while(!GET_BIT(I2C1->SR1,2));
+                    
+            // Generate stop condition if specified
+            if(stopState == WITH_STOP)
+            {
+                generateStop(I2C1);
+            }
+            break;
+        
+        case I2C2:
+            // Generate start condition if specified
+            generateStart(I2C2, startState);
+                    
+            // Wait for start condition to be generated
+            while(!GET_BIT(I2C2->SR1,0));
+                    
+            // Send slave address with write bit (1) set
+            sendAddress(I2C2, address, 1);
+                    
+            // Wait for address to be sent and ACK received
+            while(!GET_BIT(I2C2->SR1,1));
+            
+            // To reset ADDR bit
+            dummyRead = I2C2->SR2;
+                    
+            // Wait for byte transfer to complete
+            while(!GET_BIT(I2C2->SR1,7));
+                    
+            // Send data bytes one by one
+            for(uint16 index=0; index < dataLength; index++)
+            {
+                I2C2->DR = dataBuffer[index];
+                        
+                // Wait for byte transfer to complete
+                while(!GET_BIT(I2C2->SR1,7));
+            }
+                    
+            // Wait for byte transfer to complete
+            while(!GET_BIT(I2C2->SR1,2));
+                    
+            // Generate stop condition if specified
+            if(stopState == WITH_STOP)
+            {
+                generateStop(I2C2);
+            }
+            break;
+    }
+    
 }
 
 
 
 void I2C_receiveData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState)
 {
-	uint32 dummyRead;
-	switch(I2CNum)
-	{
-		case I2C1:
-			
-			// Generate start condition if specified
-			generateStart(I2C1, startState);
-			
-			// Wait for start condition to be generated
-			while(!GET_BIT(I2C1->SR1,0));
-			
-			// Send slave address with read bit (0) set
-			sendAddress(I2C1, address, 0);
-			
-			// Wait for address to be sent and ACK received
-			while(!GET_BIT(I2C1->SR1,1));
-			
-			// To reset ADDR bit
-			dummyRead = I2C1->SR2;
-			
-			// Acknowledge returned after a byte is received (matched address or data)
-			SET_BIT(I2C1->CR1,10);
-			
-			if(dataLength) //Check if data length exist
-			{
-			for(uint16 index=0; index < dataLength; index++)
-			{
-				// wait until data register is ready
-				while(!GET_BIT(I2C1->SR1,6));
-				dataBuffer[index] =I2C1->DR;	
-			}
-			}
-			
-			// disable Acknowledge
-			CLR_BIT(I2C1->CR1,10);
-			
-			// Generate stop condition if specified
-			if(stopState == WITH_STOP)
-			{
-				generateStop(I2C1);
-			}
-			
-			// enable Acknowledge
-			SET_BIT(I2C1->CR1,10);
-			
-			break;
-		
-		case I2C2:
-			
-			// Generate start condition if specified
-			generateStart(I2C2, startState);
-			
-			// Wait for start condition to be generated
-			while(!GET_BIT(I2C2->SR1,0));
-			
-			// Send slave address with read bit (0) set
-			sendAddress(I2C2, address, 0);
-			
-			// Wait for address to be sent and ACK received
-			while(!GET_BIT(I2C2->SR1,1));
-			
-			// To reset ADDR bit
-			dummyRead = I2C2->SR2;
-			
-			// Acknowledge returned after a byte is received (matched address or data)
-			SET_BIT(I2C2->CR1,10);
-			
-			if(dataLength) //Check if data length exist
-			{
-			for(uint16 index=0; index < dataLength; index++)
-			{
-				// wait until data register is ready
-				while(!GET_BIT(I2C2->SR1,6));				
-				dataBuffer[index] =I2C2->DR;	
-			}
-			}
-			
-			// disable Acknowledge
-			CLR_BIT(I2C2->CR1,10);
-			
-			// Generate stop condition if specified
-			if(stopState == WITH_STOP)
-			{
-				generateStop(I2C2);
-			}
-			
-			// enable Acknowledge
-			SET_BIT(I2C2->CR1,10);
-			
-			break;
-	}
+    uint32 dummyRead;
+    switch(I2CNum)
+    {
+        case I2C1:
+            
+            // Generate start condition if specified
+            generateStart(I2C1, startState);
+            
+            // Wait for start condition to be generated
+            while(!GET_BIT(I2C1->SR1,0));
+            
+            // Send slave address with read bit (0) set
+            sendAddress(I2C1, address, 0);
+            
+            // Wait for address to be sent and ACK received
+            while(!GET_BIT(I2C1->SR1,1));
+            
+            // To reset ADDR bit
+            dummyRead = I2C1->SR2;
+            
+            // Acknowledge returned after a byte is received (matched address or data)
+            SET_BIT(I2C1->CR1,10);
+            
+            if(dataLength) //Check if data length exist
+            {
+            for(uint16 index=0; index < dataLength; index++)
+            {
+                // wait until data register is ready
+                while(!GET_BIT(I2C1->SR1,6));
+                dataBuffer[index] =I2C1->DR;    
+            }
+            }
+            
+            // disable Acknowledge
+            CLR_BIT(I2C1->CR1,10);
+            
+            // Generate stop condition if specified
+            if(stopState == WITH_STOP)
+            {
+                generateStop(I2C1);
+            }
+            
+            // enable Acknowledge
+            SET_BIT(I2C1->CR1,10);
+            
+            break;
+        
+        case I2C2:
+            
+            // Generate start condition if specified
+            generateStart(I2C2, startState);
+            
+            // Wait for start condition to be generated
+            while(!GET_BIT(I2C2->SR1,0));
+            
+            // Send slave address with read bit (0) set
+            sendAddress(I2C2, address, 0);
+            
+            // Wait for address to be sent and ACK received
+            while(!GET_BIT(I2C2->SR1,1));
+            
+            // To reset ADDR bit
+            dummyRead = I2C2->SR2;
+            
+            // Acknowledge returned after a byte is received (matched address or data)
+            SET_BIT(I2C2->CR1,10);
+            
+            if(dataLength) //Check if data length exist
+            {
+            for(uint16 index=0; index < dataLength; index++)
+            {
+                // wait until data register is ready
+                while(!GET_BIT(I2C2->SR1,6));               
+                dataBuffer[index] =I2C2->DR;    
+            }
+            }
+            
+            // disable Acknowledge
+            CLR_BIT(I2C2->CR1,10);
+            
+            // Generate stop condition if specified
+            if(stopState == WITH_STOP)
+            {
+                generateStop(I2C2);
+            }
+            
+            // enable Acknowledge
+            SET_BIT(I2C2->CR1,10);
+            
+            break;
+    }
 }
 
 
@@ -292,25 +292,25 @@ void I2C_receiveData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 da
 // It sets the appropriate bit in the I2C control register to generate the start condition
 void generateStart(uint8 I2CNum, uint8 startState)
 {
-	switch(I2CNum)
-	{
-		case I2C1:
-		if(startState!= REPEATED_START)
-		{
-			while(GET_BIT(I2C1->SR2,1)); // wait until bus is ready
-		}
-		SET_BIT(I2C1->CR1,8); // set start bit in control register
-		break;
-		
-		case I2C2:
-		if(startState!= REPEATED_START)
-		{
-			while(GET_BIT(I2C2->SR2,1)); // wait until bus is ready
-		}
-		SET_BIT(I2C2->CR1,8); // set start bit in control register
-		break;
-	}
-	
+    switch(I2CNum)
+    {
+        case I2C1:
+        if(startState!= REPEATED_START)
+        {
+            while(GET_BIT(I2C1->SR2,1)); // wait until bus is ready
+        }
+        SET_BIT(I2C1->CR1,8); // set start bit in control register
+        break;
+        
+        case I2C2:
+        if(startState!= REPEATED_START)
+        {
+            while(GET_BIT(I2C2->SR2,1)); // wait until bus is ready
+        }
+        SET_BIT(I2C2->CR1,8); // set start bit in control register
+        break;
+    }
+    
 }
 
 
@@ -320,20 +320,20 @@ void generateStart(uint8 I2CNum, uint8 startState)
 // It then sends the address over the I2C bus using the appropriate data register
 void sendAddress(uint8 I2CNum, uint16 address, uint8 transmitDirection)
 {
-	switch (I2CNum)
-	{
-		case I2C1:		
-				address <<= 1; // shift address left by one
-				address  |= transmitDirection; // OR with transmit direction to create 8-bit address
-				I2C1->DR =(uint8)address; // send address using data register
-		break;
-		
-		case I2C2:
-				address <<= 1; // shift address left by one
-				address  |= transmitDirection; // OR with transmit direction to create 8-bit address
-				I2C2->DR =(uint8)address; // send address using data register
-		break;
-	}
+    switch (I2CNum)
+    {
+        case I2C1:      
+                address <<= 1; // shift address left by one
+                address  |= transmitDirection; // OR with transmit direction to create 8-bit address
+                I2C1->DR =(uint8)address; // send address using data register
+        break;
+        
+        case I2C2:
+                address <<= 1; // shift address left by one
+                address  |= transmitDirection; // OR with transmit direction to create 8-bit address
+                I2C2->DR =(uint8)address; // send address using data register
+        break;
+    }
 }
 
 
@@ -341,15 +341,15 @@ void sendAddress(uint8 I2CNum, uint16 address, uint8 transmitDirection)
 // It takes in the I2C bus number and sets the appropriate bit in the I2C control register to generate the stop condition
 void generateStop(uint8 I2CNum)
 {
-		switch (I2CNum)
-	{
-		case I2C1:		
-				SET_BIT(I2C1->CR1,9); // set stop bit in control register
-		break;
-		
-		case I2C2:
-				SET_BIT(I2C2->CR1,9); // set stop bit in control register
+        switch (I2CNum)
+    {
+        case I2C1:      
+                SET_BIT(I2C1->CR1,9); // set stop bit in control register
+        break;
+        
+        case I2C2:
+                SET_BIT(I2C2->CR1,9); // set stop bit in control register
 
-		break;
-	}
+        break;
+    }
 }

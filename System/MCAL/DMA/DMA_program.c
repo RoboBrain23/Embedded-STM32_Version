@@ -1,7 +1,7 @@
 /*******************************************************************/
-/* Author	   : Ibrahim Diab			   					       */
-/* File Name   : DMA_program.c    		   		     			   */
-/* Description : Functions Implementation for DMA module	  	   */
+/* Author      : Ibrahim Diab                                      */
+/* File Name   : DMA_program.c                                     */
+/* Description : Functions Implementation for DMA module           */
 /*******************************************************************/
 
 #include "std_types.h"
@@ -77,20 +77,20 @@ void DMA_InitChannel(uint8 channelNum, DMA_Channel_Config_t * DMA_channelCfgPtr)
 
 void DMA_StartTransmit(uint8 channelNum, uint32 * ptrAddressSrc, uint32 * ptrAddressDes, uint32 DataLength)
 {
-	// Disable the DMA channel to configure it
-	CLR_BIT(DMA->channel[channelNum].CCR,0);
-	
-	// Set the number of data items to transfer
-	DMA->channel[channelNum].CNDTR = DataLength;
-	
-	// Set the source address for the transfer
-	DMA->channel[channelNum].CPAR = ptrAddressSrc;
-	
-	// Set the destination address for the transfer
-	DMA->channel[channelNum].CMAR = ptrAddressDes;
-	
-	// Enable the DMA channel to start the transfer
-	SET_BIT(DMA->channel[channelNum].CCR,0);
+    // Disable the DMA channel to configure it
+    CLR_BIT(DMA->channel[channelNum].CCR,0);
+    
+    // Set the number of data items to transfer
+    DMA->channel[channelNum].CNDTR = DataLength;
+    
+    // Set the source address for the transfer
+    DMA->channel[channelNum].CPAR = ptrAddressSrc;
+    
+    // Set the destination address for the transfer
+    DMA->channel[channelNum].CMAR = ptrAddressDes;
+    
+    // Enable the DMA channel to start the transfer
+    SET_BIT(DMA->channel[channelNum].CCR,0);
 }
 
 void DMA_setCallBackInt(uint8 DMA_channelNumber, void (*DMA_Ch_CmpTtr)(void), void (*DMA_CH_HlfTtr)(void), void (*DMA_CH_ErrTtr)(void))
