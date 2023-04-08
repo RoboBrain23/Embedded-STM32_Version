@@ -92,24 +92,24 @@ SPIX_BAUD_RATE_CONTROL               >>     SPI_FRQ_CLK_DIV_2
                             
                             
 
-SPI2_INTERNAL_SLAVE_SELECT           >> SPI_DISABLED ,SPI_ENABLED   
-
-SPI2_SOFTWARE_SLAVE_MANAGEMENT       >> SPI_DISABLED ,SPI_ENABLED   
-
-SPI2_HARDWARE_CRC_CALCULATION_ENABLE >> SPI_DISABLED ,SPI_ENABLED   
-
-SPI2_OUTPUT_ENABLE_IN_BI_DIR_MODE    >> SPI_DISABLED ,SPI_ENABLED   
-                                                        
-        
+SPIX_INTERNAL_SLAVE_SELECT           >> SPI_DISABLED ,SPI_ENABLED   
+   
+SPIX_SOFTWARE_SLAVE_MANAGEMENT       >> SPI_DISABLED ,SPI_ENABLED   
+   
+SPIX_HARDWARE_CRC_CALCULATION_ENABLE >> SPI_DISABLED ,SPI_ENABLED   
+   
+SPIX_OUTPUT_ENABLE_IN_BI_DIR_MODE    >> SPI_DISABLED ,SPI_ENABLED   
+                                                       
+       
 SPIX_FRAME_FORMAT                    >> SPI_MSB_FIRST ,SPI_LSB_FIRST            
-     
-SPI2_TRANSFER_DIR                    >> SPI_TRANSMIT_AND_RECEIVE ,SPI_RECEIVE_ONLY      
-
-SPI2_DATA_FRAME_FORMAT               >> SPI_8_BIT_DATA ,SPI_16_BIT_DATA         
-
-SPI2_CRC_TRANSFER_NEXT               >> SPI_NO_CRC ,SPI_CRC                 
-     
-SPI2_BIDIRECTIONAL_DATA_MODE         >> SPI_2_LINE_UNI_DIR_DATA ,SPI_1_LINE_BI_DIR_DATA 
+    
+SPIX_TRANSFER_DIR                    >> SPI_TRANSMIT_AND_RECEIVE ,SPI_RECEIVE_ONLY      
+   
+SPIX_DATA_FRAME_FORMAT               >> SPI_8_BIT_DATA ,SPI_16_BIT_DATA         
+   
+SPIX_CRC_TRANSFER_NEXT               >> SPI_NO_CRC ,SPI_CRC                 
+    
+SPIX_BIDIRECTIONAL_DATA_MODE         >> SPI_2_LINE_UNI_DIR_DATA ,SPI_1_LINE_BI_DIR_DATA 
 
 
 
