@@ -65,14 +65,9 @@ typedef struct
 #define REPEATED_START           1  // Indicates that repeated start condition will be generated before sending data
 
 
-void I2C_init        (uint8 I2CNum, I2C_config_t I2C_config);
+void I2C_init        (uint8 I2CNum, I2C_config_t * I2C_config);
 void I2C_sendData    (uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
 void I2C_receiveData (uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
 
 
 #endif // I2C_INTERFACE_H
-
-
-
-
-
