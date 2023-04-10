@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : DIO_config.h                                      */
-/* Description : Configuration for DIO module stm32f103            */
+/* Description : Configuration for DIO module STM32F103            */
 /*******************************************************************/
 
 #ifndef DIO_CONFIG_H

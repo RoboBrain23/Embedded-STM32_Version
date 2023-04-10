@@ -1,7 +1,7 @@
 /*********************************************************************************/
 /* Author      : Ibrahim Diab                                                    */
 /* File Name   : STK_config.h                                                    */
-/* Description : Configuration for System Tick core peripheral for ARM cortex-m3 */
+/* Description : Configuration for System Tick core peripheral for ARM CORTEX-M3 */
 /*********************************************************************************/
 
 
@@ -10,7 +10,8 @@
 
 /**
  NOTE:
-        EnSure that the SysTick timer is not being used by other drivers or application code, as the STK driver relies on it to generate interrupts.
+        EnSure that the SysTick timer is not being used by other drivers or application code,
+        as the STK driver relies on it to generate interrupts.
 */
 
 

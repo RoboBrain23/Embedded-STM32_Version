@@ -1,7 +1,7 @@
 /**************************************************************************/
 /* Author      : Ibrahim Diab                                             */
 /* File Name   : NVIC_config.h                                            */
-/* Description : Configuration for NVIC core peripheral for Arm Cortex-m3 */
+/* Description : Configuration for NVIC core peripheral for Arm CORTEX-M3 */
 /**************************************************************************/
 
 #ifndef NVIC_CONFIG_H

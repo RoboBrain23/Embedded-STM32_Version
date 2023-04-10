@@ -19,7 +19,7 @@ void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode)
     // Select the GPIO port based on the input parameter
     switch (Port)
     {
-        case GPIOA:
+        case DIO_GPIOA:
             // If the pin number is within the range of 0-7 (inclusive)
             if (Pin <= 7)
             {
@@ -40,7 +40,7 @@ void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode)
             }
             break;
 
-        case GPIOB:
+        case DIO_GPIOB:
             // Same as above for GPIOB
             if (Pin <= 7)
             {
@@ -55,7 +55,7 @@ void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode)
             }
             break;
 
-        case GPIOC:
+        case DIO_GPIOC:
             // Same as above for GPIOC
             if (Pin <= 7)
             {
@@ -79,12 +79,12 @@ void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode)
 
 
 /* Set the binary value of a specific pin in a specific GPIO port.*/
-void setPinValue(uint8 Port, uint8 Pin, uint8 Value)
+void DIO_setPinValue(uint8 Port, uint8 Pin, uint8 Value)
 {
     /* Select the appropriate GPIO port */
     switch(Port)
     {
-        case GPIOA:
+        case DIO_GPIOA:
             /* Set the pin to HIGH if the value is HIGH, else set it to LOW */
             if(Value == HIGH)
                 SET_BIT(GPIOA_ODR, Pin);
@@ -92,7 +92,7 @@ void setPinValue(uint8 Port, uint8 Pin, uint8 Value)
                 CLR_BIT(GPIOA_ODR, Pin);
             break;
 
-        case GPIOB:
+        case DIO_GPIOB:
             /* Set the pin to HIGH if the value is HIGH, else set it to LOW */
             if(Value == HIGH)
                 SET_BIT(GPIOB_ODR, Pin);
@@ -100,7 +100,7 @@ void setPinValue(uint8 Port, uint8 Pin, uint8 Value)
                 CLR_BIT(GPIOB_ODR, Pin);
             break;
 
-        case GPIOC:
+        case DIO_GPIOC:
             /* Set the pin to HIGH if the value is HIGH, else set it to LOW */
             if(Value == HIGH)
                 SET_BIT(GPIOC_ODR, Pin);
@@ -112,23 +112,23 @@ void setPinValue(uint8 Port, uint8 Pin, uint8 Value)
 
 
  /* Get the binary value of a specific pin in a specific GPIO port. */
-uint8 getPinValue(uint8 Port, uint8 Pin)
+uint8 DIO_getPinValue(uint8 Port, uint8 Pin)
 {
     uint8 pinValue = 0;
     
     switch(Port)
     {
-        case GPIOA:
+        case DIO_GPIOA:
             /* Read the binary value of the pin from GPIOA */
             pinValue = GET_BIT(GPIOA_IDR, Pin);
             break;
         
-        case GPIOB:
+        case DIO_GPIOB:
             /* Read the binary value of the pin from GPIOB */
             pinValue = GET_BIT(GPIOB_IDR, Pin);
             break;
         
-        case GPIOC:
+        case DIO_GPIOC:
             /* Read the binary value of the pin from GPIOC */
             pinValue = GET_BIT(GPIOC_IDR, Pin);
             break;
@@ -163,7 +163,7 @@ void DIO_setMultiPinsDirection(uint8 Port, uint8 startPin, uint8 Numpins, uint8 
 
 
 /* Set the values of multiple pins on a GPIO port based on a binary value */
-void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value )
+void DIO_setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value )
 {
     // Check if the number of pins to modify is valid (less than or equal to 16)
     if((NumPins+StartPin)<=16)
@@ -171,15 +171,15 @@ void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value )
         // Select the specified GPIO port and modify the specified pins with the specified value
         switch(Port)
         {
-            case GPIOA:
+            case DIO_GPIOA:
                 MOD_NBIT(GPIOA_ODR, StartPin, NumPins, Value);
                 break;
 
-            case GPIOB:
+            case DIO_GPIOB:
                 MOD_NBIT(GPIOB_ODR, StartPin, NumPins, Value);
                 break;
 
-            case GPIOC:
+            case DIO_GPIOC:
                 MOD_NBIT(GPIOC_ODR, StartPin, NumPins, Value);
                 break;
         }
@@ -192,7 +192,7 @@ void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value )
 
 
 /* Returns the binary value of multiple pins on a specific GPIO port */
-uint16 getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins)
+uint16 DIO_getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins)
 {
     // Initialize binary value to 0
     uint16 pinsValue = 0;
@@ -200,17 +200,17 @@ uint16 getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins)
     // Switch statement based on selected GPIO port
     switch(Port)
     {
-        case GPIOA:
+        case DIO_GPIOA:
             // Read the binary value of the pins from GPIOA
             pinsValue = GET_NBIT(GPIOA_IDR, StartPin, NumPins);
             break;
         
-        case GPIOB:
+        case DIO_GPIOB:
             // Read the binary value of the pins from GPIOB
             pinsValue = GET_NBIT(GPIOB_IDR, StartPin, NumPins);
             break;
         
-        case GPIOC:
+        case DIO_GPIOC:
             // Read the binary value of the pins from GPIOC
             pinsValue = GET_NBIT(GPIOC_IDR, StartPin, NumPins);
             break;

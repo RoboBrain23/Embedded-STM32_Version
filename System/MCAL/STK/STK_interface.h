@@ -1,7 +1,7 @@
 /**************************************************************************************/
 /* Author      : Ibrahim Diab                                                         */
 /* File Name   : STK_interface.h                                                      */
-/* Description : Interfacing macros for System Tick core peripheral for ARM cortex-m3 */
+/* Description : Interfacing macros for System Tick core peripheral for ARM CORTEX-M3 */
 /**************************************************************************************/
 
 
@@ -13,13 +13,13 @@
 void STK_init(void);
 
 // Delay for a specified number of microseconds using the SysTick timer.
-void STK_delayMicroSec(uint32_t NoMicroSec);
+void STK_delayMicroSec(uint32 NoMicroSec);
 
 // Delay for a specified number of milliseconds using the SysTick timer.
-void STK_delayMilliSec(uint32_t NoMilliSec);
+void STK_delayMilliSec(uint32 NoMilliSec);
 
 // Delay for a specified number of seconds using the SysTick timer.
-void STK_delaySec(uint32_t NoSec);
+void STK_delaySec(uint32 NoSec);
 
 // Set the SysTick timer to trigger a single interrupt after a specified number of microseconds.
 void STK_setIntervalSingle ( uint32 NoMicroSec, void (*ptr)(void) );
@@ -31,10 +31,10 @@ void STK_setIntervalPeriodic ( uint32 NoMicroSec, void (*ptr)(void) );
 void STK_stopInterval(void);
 
 // Get the amount of time in microseconds that has elapsed since the last SysTick interrupt in ticks.
-uint32_t STK_getElapsedTime(void);
+uint32 STK_getElapsedTime(void);
 
 // Get the remaining time in microseconds until the next SysTick interrupt in ticks.
-uint32_t STK_getRemainingTime(void);
+uint32 STK_getRemainingTime(void);
 
 
 

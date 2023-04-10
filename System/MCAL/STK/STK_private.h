@@ -1,7 +1,7 @@
 /*************************************************************************************/
 /* Author      : Ibrahim Diab                                                        */
 /* File Name   : STK_private.h                                                       */
-/* Description : Private addresses for System Tick core peripheral for ARM cortex-m3 */
+/* Description : Private addresses for System Tick core peripheral for ARM CORTEX-M3 */
 /*************************************************************************************/
 
 
@@ -25,7 +25,7 @@ typedef struct
 #define STK_PERIODIC_INTERVAL 1
 
 static void (*STK_callBack)(void) = NULL;
-static uint8 STK_INTERVAL_MODE    =0;
+static uint8 STK_INTERVAL_MODE    = 0;
 
 static volatile uint16 microSecToTicksRatio =0;
 

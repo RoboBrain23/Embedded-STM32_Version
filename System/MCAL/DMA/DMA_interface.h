@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : DMA_interface.h                                   */
-/* Description : Interfacing macros for DMA module stm32f103       */
+/* Description : Interfacing macros for DMA module STM32F103       */
 /*******************************************************************/
 
 
@@ -9,7 +9,7 @@
 #define DMA_INTERFACE_H
 
 /*
- * Configuration options for DMA_Channel_Config_t struct
+ * Configuration options for DMA_Channel_Config_t structure
  * Mem2Mem_Mode: enable memory-to-memory mode if set to 1
  * mem_Inc: enable memory increment if set to 1
  * per_Inc: enable peripheral increment if set to 1
@@ -56,7 +56,7 @@ typedef struct
 /* 
  * Initialize DMA channel with the given configuration settings.
  * channelNum: DMA channel number (1 to 7)
- * DMA_channelCfgPtr: pointer to DMA channel configuration struct
+ * DMA_channelCfgPtr: pointer to DMA channel configuration structure
  */
 void DMA_InitChannel(uint8 channelNum, DMA_Channel_Config_t *DMA_channelCfgPtr);
 

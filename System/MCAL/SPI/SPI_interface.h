@@ -4,10 +4,7 @@
 /* Description : Interfacing macros for SPI module stm32f103       */
 /*******************************************************************/
 #ifndef SPI_INTERFACE_H
-#define SPI_INTERFACE_H
-
-volatile uint8 SPI1_ReadyToSend =1;  
-volatile uint8 SPI2_ReadyToSend =1;  
+#define SPI_INTERFACE_H 
 
 void SPI1_init();  // declare a function prototype to initialize SPI1
 void SPI2_init();  // declare a function prototype to initialize SPI2

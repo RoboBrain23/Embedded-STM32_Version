@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : AFIO_interface.h                                  */
-/* Description : Interfacing macros for AFIO module stm32f103      */
+/* Description : Interfacing macros for AFIO module STM32F103      */
 /*******************************************************************/
 
 
@@ -12,7 +12,7 @@
  This function configures an external interrupt line to a GPIO port.
  Copy_uint8Line is the ID of the external interrupt line to be configured.
  Copy_uint8PortMap is the ID of the GPIO port to be mapped to the line.
- Only ports A, B, and C are supported by the STM32f103c6 microcontroller.
+ Only ports A, B, and C are supported by the STM32f103c6.
 */
 void AFIO_setEXTIConfig(uint8 Line ,uint8 PortMap);
 

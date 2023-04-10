@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : AFIO_private.h                                    */
-/* Description : Private addresses for AFIO module stm32f103       */
+/* Description : Private addresses for AFIO module STM32F103       */
 /*******************************************************************/
 
 

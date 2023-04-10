@@ -84,10 +84,10 @@ void DMA_StartTransmit(uint8 channelNum, uint32 * ptrAddressSrc, uint32 * ptrAdd
     DMA->channel[channelNum].CNDTR = DataLength;
     
     // Set the source address for the transfer
-    DMA->channel[channelNum].CPAR = ptrAddressSrc;
+    DMA->channel[channelNum].CPAR = (uint32)ptrAddressSrc;
     
     // Set the destination address for the transfer
-    DMA->channel[channelNum].CMAR = ptrAddressDes;
+    DMA->channel[channelNum].CMAR = (uint32)ptrAddressDes;
     
     // Enable the DMA channel to start the transfer
     SET_BIT(DMA->channel[channelNum].CCR,0);

@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : DIO_interface.h                                   */
-/* Description : Interfacing macros for DIO module stm32f103       */
+/* Description : Interfacing macros for DIO module STM32F103       */
 /*******************************************************************/
 
 // Header guard to prevent multiple inclusion of this header file
@@ -9,27 +9,27 @@
 #define DIO_INTERFACE_H
 
 /* Port IDs */
-#define GPIOA  0    // ID for GPIO Port A
-#define GPIOB  1    // ID for GPIO Port B
-#define GPIOC  2    // ID for GPIO Port C
+#define DIO_GPIOA  0    // ID for GPIO Port A
+#define DIO_GPIOB  1    // ID for GPIO Port B
+#define DIO_GPIOC  2    // ID for GPIO Port C
 
 /* Pins IDs */
-#define PIN0   0    // ID for Pin 0
-#define PIN1   1    // ID for Pin 1
-#define PIN2   2    // ID for Pin 2
-#define PIN3   3    // ID for Pin 3
-#define PIN4   4    // ID for Pin 4
-#define PIN5   5    // ID for Pin 5
-#define PIN6   6    // ID for Pin 6
-#define PIN7   7    // ID for Pin 7
-#define PIN8   8    // ID for Pin 8
-#define PIN9   9    // ID for Pin 9
-#define PIN10  10   // ID for Pin 10
-#define PIN11  11   // ID for Pin 11
-#define PIN12  12   // ID for Pin 12
-#define PIN13  13   // ID for Pin 13
-#define PIN14  14   // ID for Pin 14
-#define PIN15  15   // ID for Pin 15
+#define DIO_PIN0   0    // ID for Pin 0
+#define DIO_PIN1   1    // ID for Pin 1
+#define DIO_PIN2   2    // ID for Pin 2
+#define DIO_PIN3   3    // ID for Pin 3
+#define DIO_PIN4   4    // ID for Pin 4
+#define DIO_PIN5   5    // ID for Pin 5
+#define DIO_PIN6   6    // ID for Pin 6
+#define DIO_PIN7   7    // ID for Pin 7
+#define DIO_PIN8   8    // ID for Pin 8
+#define DIO_PIN9   9    // ID for Pin 9
+#define DIO_PIN10  10   // ID for Pin 10
+#define DIO_PIN11  11   // ID for Pin 11
+#define DIO_PIN12  12   // ID for Pin 12
+#define DIO_PIN13  13   // ID for Pin 13
+#define DIO_PIN14  14   // ID for Pin 14
+#define DIO_PIN15  15   // ID for Pin 15
 
 
 /* Output Pins Mode with Maximum speed up to 2MHz */
@@ -80,7 +80,7 @@ void DIO_setPinDirection(uint8 Port, uint8 Pin, uint8 Mode);
  *  Pin   - the ID of the pin (PIN0 to PIN15)
  *  Value - the value to set the pin to (HIGH or LOW)
  */
-void setPinValue(uint8 Port, uint8 Pin, uint8 Value);
+void DIO_setPinValue(uint8 Port, uint8 Pin, uint8 Value);
 
 
 /*
@@ -90,7 +90,7 @@ void setPinValue(uint8 Port, uint8 Pin, uint8 Value);
  *  Pin  - the ID of the pin (PIN0 to PIN15)
  *  Returns the binary value of the pin (HIGH or LOW)
  */
-uint8 getPinValue(uint8 Port, uint8 Pin);
+uint8 DIO_getPinValue(uint8 Port, uint8 Pin);
 
 
 
@@ -114,7 +114,7 @@ void DIO_setMultiPinsDirection(uint8 Port, uint8 startPin, uint8 Numpins, uint8 
  *  NumPins  - the number of pins to be set (1 to 16)
  *  Value    - the binary value of the pins to be set (a 16-bit integer, where each bit corresponds to a pin)
  */
-void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value );
+void DIO_setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value );
 
 
 
@@ -128,7 +128,7 @@ void setMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins, uint16 Value );
  *
  *  Returns the binary value of the specified pins (a 16-bit integer, where each bit corresponds to a pin)
  */
-uint16 getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins);
+uint16 DIO_getMultiPinValue(uint8 Port, uint8 StartPin, uint8 NumPins);
 
 
 #endif // DIO_INTERFACE_H

@@ -117,14 +117,14 @@ uint8 NVIC_getActiveFlag (uint8 IntNum)
     if ( IntNum <= 31 )
     {
         // Get the active status of the interrupt from NVIC_IABR0 register
-        flagStatus = GETBIT(NVIC_IABR0,IntNum);
+        flagStatus = GET_BIT(NVIC_IABR0,IntNum);
     }
     
     else if ( IntNum <= 59 )
     {
         // Get the active status of the interrupt from NVIC_IABR1 register
         IntNum -= 32 ;
-        flagStatus = GETBIT(NVIC_IABR0,IntNum);
+        flagStatus = GET_BIT(NVIC_IABR0,IntNum);
     }
     
     else 
@@ -138,7 +138,7 @@ uint8 NVIC_getActiveFlag (uint8 IntNum)
 
 
 // This function sets the priority for the given interrupt number, group priority, and subgroup priority
-// Note: Priority parameters must be limited between number of bits values for groups and subgroups as preconfigured value
+// Note: Priority parameters must be limited between number of bits values for groups and subgroups as pre-configured value
 void NVIC_setPriority (uint8 IntNum, uint8 GroubPriority,  uint8 SubPriority)
 {
     

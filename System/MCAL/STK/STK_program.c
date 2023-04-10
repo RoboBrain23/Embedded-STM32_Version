@@ -1,7 +1,7 @@
 /********************************************************************************************/
 /* Author      : Ibrahim Diab                                                               */
 /* File Name   : STK_program.c                                                              */
-/* Description : Functions Implementation for System Tick core peripheral for ARM cortex-m3 */
+/* Description : Functions Implementation for System Tick core peripheral for ARM CORTEX-m3 */
 /********************************************************************************************/
 
 #include  "STM32F103C6.h"
@@ -45,7 +45,7 @@ void STK_delayMicroSec ( uint32 NoMicroSec )
     // Assign number of TIcks To load register.
     STK->LOAD = (NoMicroSec *microSecToTicksRatio);
     
-    // Init Timer.
+    // Initiate Timer.
     SET_BIT(STK->CTRL,0);
     
     // Wait the Time delay.
@@ -53,8 +53,8 @@ void STK_delayMicroSec ( uint32 NoMicroSec )
     
     //Stop Timer and reset its value.
     CLR_BIT(STK->CTRL,0);
-    STK->LOAD =0;
-    STK->VAL  =0;
+    STK->LOAD = 0;
+    STK->VAL  = 0;
 }
 
 
@@ -66,7 +66,7 @@ void STK_delayMilliSec ( uint32 NoMilliSec )
     // Assign number of TIcks To load register.
     STK->LOAD = (1000 *microSecToTicksRatio); //No Ticks equals to equation
     
-    // Init Timer.
+    // Initiate Timer.
     SET_BIT(STK->CTRL,0);
     
     // Wait the Time delay.
@@ -90,7 +90,7 @@ void STK_delaySec ( uint32 NoSec )
         // Assign number of TIcks To load register.
         STK->LOAD = (1000 *microSecToTicksRatio); //No Ticks equals to equation
         
-        // Init Timer.
+        // Initiate Timer.
         SET_BIT(STK->CTRL,0);
         
         // Wait the Time delay.
@@ -108,7 +108,7 @@ void STK_delaySec ( uint32 NoSec )
 // Set the SysTick timer to trigger a single interrupt after a specified number of microseconds.
 void STK_setIntervalSingle ( uint32 NoMicroSec, void (*ptr)(void) )
 {
-    //Load number of ticks to Load Reg.
+    //Load number of ticks to Load Register.
     STK->LOAD = (NoMicroSec *microSecToTicksRatio);
     
     // Assign callback function.
@@ -125,7 +125,7 @@ void STK_setIntervalSingle ( uint32 NoMicroSec, void (*ptr)(void) )
 // Set the SysTick timer to trigger periodic interrupts after a specified number of microseconds.
 void STK_setIntervalPeriodic ( uint32 NoMicroSec, void (*ptr)(void) )
 {
-    //Load number of ticks to Load Reg.
+    //Load number of ticks to Load Register.
     STK->LOAD = (NoMicroSec *microSecToTicksRatio);
     
     // Assign callback function.
@@ -154,10 +154,10 @@ void STK_stopInterval (void)
 }
 
 // Get the amount of time that has elapsed since the last SysTick interrupt in microseconds.
-uint32_t STK_getElapsedTime(void)
+uint32 STK_getElapsedTime(void)
 {
     // Initialize ElapsedTime to 0.
-    uint32_t ElapsedTime = 0;
+    uint32 ElapsedTime = 0;
 
     // Calculate the number of ticks that have elapsed.
     ElapsedTime = (STK->LOAD - STK->VAL);
@@ -170,10 +170,10 @@ uint32_t STK_getElapsedTime(void)
 }
 
 // Get the remaining time until the next SysTick interrupt in microseconds.
-uint32_t STK_getRemainingTime(void)
+uint32 STK_getRemainingTime(void)
 {
     // Initialize RemainingTime to 0.
-    uint32_t RemainingTime = 0;
+    uint32 RemainingTime = 0;
 
     // Calculate the number of ticks remaining until the next interrupt.
     RemainingTime = STK->VAL;
@@ -194,7 +194,7 @@ void SysTick_Handler(void)
         // Stop the timer and clear the registers.
         STK->CTRL = 0;
         STK->LOAD = 0;
-        STK->VAL = 0;
+        STK->VAL  = 0;
     }
 
     // Call the callback function.

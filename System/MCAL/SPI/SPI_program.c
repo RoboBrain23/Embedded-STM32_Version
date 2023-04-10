@@ -106,7 +106,7 @@ void SPI1_sendReceiveByteSync (uint8 SPI1_ByteToSend, uint8 * SPI1_ByteToReceive
 {
     #if SPI1_SET_SLAVE_PIN_SOFTWARE == 1
     // If software control of the slave pin is enabled, set it low to indicate the start of the transaction.
-    DIO_voidSetBinValue(SPI1_SLAVE_PIN, LOW);
+    DIO_setPinValue(SPI1_SLAVE_PIN, LOW);
     #endif
     
     // Send the byte of data over SPI1.
@@ -120,7 +120,7 @@ void SPI1_sendReceiveByteSync (uint8 SPI1_ByteToSend, uint8 * SPI1_ByteToReceive
     
     #if SPI1_SET_SLAVE_PIN_SOFTWARE == 1
     // If software control of the slave pin is enabled, set it high to indicate the end of the transaction.
-    DIO_voidSetBinValue(SPI1_SLAVE_PIN, HIGH);
+    DIO_setPinValue(SPI1_SLAVE_PIN, HIGH);
     #endif
     
 }
@@ -146,7 +146,7 @@ void SPI2_sendReceiveByteSync (uint8 SPI2_ByteToSend, uint8 * SPI2_ByteToReceive
 {
     // If the slave pin is software-controlled, set it to LOW
     #if SPI2_SET_SLAVE_PIN_SOFTWARE == 1
-    DIO_voidSetBinValue(SPI2_SLAVE_PIN, LOW);
+    DIO_setPinValue(SPI2_SLAVE_PIN, LOW);
     #endif
     
     // Send the byte to the SPI2 data register
@@ -160,7 +160,7 @@ void SPI2_sendReceiveByteSync (uint8 SPI2_ByteToSend, uint8 * SPI2_ByteToReceive
     
     // If the slave pin is software-controlled, set it to HIGH
     #if SPI2_SET_SLAVE_PIN_SOFTWARE == 1
-    DIO_voidSetBinValue(SPI2_SLAVE_PIN, HIGH);
+    DIO_setPinValue(SPI2_SLAVE_PIN, HIGH);
     #endif
 }
 

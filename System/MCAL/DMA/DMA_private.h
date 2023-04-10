@@ -1,18 +1,18 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : DMA_private.h                                     */
-/* Description : Private addresses for DMA module stm32f103        */
+/* Description : Private addresses for DMA module STM32F103        */
 /*******************************************************************/
 
 #ifndef DMA_PRIVATE_H
 #define DMA_PRIVATE_H
 
-// Array of function pointers for DMA interrupt callbacks
+// Array of function pointers for DMA interrupt callback
 static void (*DMA_CmpTra_channel[7])(void) = { NULL };
 static void (*DMA_HlfTra_channel[7])(void) = { NULL };
 static void (*DMA_ErrTra_channel[7])(void) = { NULL };
 
-// DMA channel struct
+// DMA channel structure
 typedef struct 
 {
     uint32 CCR;
@@ -22,7 +22,7 @@ typedef struct
     uint32 Reserved;
 }channel_t;
 
-// DMA struct
+// DMA structure
 typedef struct
 {
     uint32 ISR;

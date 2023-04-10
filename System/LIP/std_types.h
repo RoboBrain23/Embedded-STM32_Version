@@ -1,8 +1,8 @@
-/*******************************************/
-/* Author      : Ibrahim Diab              */
-/* File Name   : Std_Types.h               */
-/* Description : Common Std types file     */
-/*******************************************/
+/************************************************/
+/* Author      : Ibrahim Diab                   */
+/* File Name   : Std_Types.h                    */
+/* Description : Common Standard types file     */
+/************************************************/
 
 #ifndef STD_TYPES_H
 #define STD_TYPES_H

@@ -1,7 +1,7 @@
 /***************************************************************/
 /* Author      : Ibrahim Diab                                  */
 /* File Name   : RCC_config.h                                  */
-/* Description : Configuration for RCC module stm32f103        */
+/* Description : Configuration for RCC module STM32F103        */
 /***************************************************************/
 
 
@@ -11,7 +11,7 @@
 /* 
  IMPORTANT NOTES: 
  
-- The driver does not support error handling that may occur when setting different clock frequency inputs and prescaler values.
+- The driver does not support error handling that may occur when setting different clock frequency inputs and pre-scaler values.
  It is the responsibility of the user to ensure that correct configurations are set to avoid any errors.
  
 - The driver does not support getting the current frequency of clock buses.

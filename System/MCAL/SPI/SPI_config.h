@@ -32,12 +32,12 @@
 
 // Define the slave pin for SPI1 if software control is enabled
 #if SPI1_SET_SLAVE_PIN_SOFTWARE == 1
-#define SPI1_SLAVE_PIN GPIOA,0
+#define SPI1_SLAVE_PIN DIO_GPIOA,0
 #endif
 
 // Define the slave pin for SPI2 if software control is enabled
 #if SPI2_SET_SLAVE_PIN_SOFTWARE == 1
-#define SPI2_SLAVE_PIN GPIOA,1
+#define SPI2_SLAVE_PIN DIO_GPIOA,1
 #endif
 
 

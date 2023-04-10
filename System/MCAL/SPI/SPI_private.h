@@ -11,6 +11,9 @@
 void (*SPI1_callBack)(uint8 byteReceived)= NULL;
 void (*SPI2_callBack)(uint8 byteReceived)= NULL;
 
+volatile uint8 SPI1_ReadyToSend =1;
+volatile uint8 SPI2_ReadyToSend =1;
+
 typedef struct
 { 
     volatile uint32 CR1    ;
@@ -63,7 +66,6 @@ typedef struct
              
 #define SPI_2_LINE_UNI_DIR_DATA     0       // Constant representing SPI mode with 2-line unidirectional data flow
 #define SPI_1_LINE_BI_DIR_DATA      1       // Constant representing SPI mode with 1-line bidirectional data flow
-
 
 
 #endif // SPI_PRIVATE_H
