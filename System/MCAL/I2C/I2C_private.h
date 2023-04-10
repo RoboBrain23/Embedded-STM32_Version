@@ -25,11 +25,31 @@ typedef struct
 
 
 //Array of pointers to I2C_t structures
-const volatile I2C_t * I2C[NNUMBER_OF_I2C_IN_STM32F103C6] =
+ volatile I2C_t * I2C[NNUMBER_OF_I2C_IN_STM32F103C6] =
 {
     ((volatile I2C_t *)0x40005400),  //I2C1 Address
     ((volatile I2C_t *)0x40005800)   //I2C2 Address
 };
+
+
+ // This function generates a stop condition for I2C communication on a specified I2C bus
+ // It takes in the I2C bus number and sets the appropriate bit in the I2C control register to generate the stop condition
+ void generateStop(uint8 I2CNum);
+
+
+ // This function sends the specified address and transmission direction over the specified I2C bus
+ // It takes in the I2C bus number, the address to send, and a transmit direction (either READ or WRITE)
+ // It shifts the address left by one and ORs it with the transmit direction to create the appropriate 8-bit address
+ // It then sends the address over the I2C bus using the appropriate data register
+ void sendAddress(uint8 I2CNum, uint16 address, uint8 transmitDirection);
+
+
+ // This function generates a start condition for I2C communication on a specified I2C bus
+ // It takes in the I2C bus number and a start state parameter (either START or REPEATED_START)
+ // If the start state is not REPEATED_START, it waits until the bus is ready before generating the start condition
+ // It sets the appropriate bit in the I2C control register to generate the start condition
+ void generateStart(uint8 I2CNum, uint8 startState);
+
 
 #endif // I2C_PRIVATE_H
  

@@ -67,16 +67,17 @@ void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config)
  */
 void I2C_sendData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState)
 {
-    uint32 dummyRead;
+    // To read register value and reset it
+    volatile uint32 dummyRead __attribute__((unused));
 
     // Generate start condition if specified
-    generateStart(I2C[I2CNum], startState);
+    generateStart(I2CNum, startState);
             
     // Wait for start condition to be generated
     while(!GET_BIT(I2C[I2CNum]->SR1,0));
             
     // Send slave address with write bit (1) set
-    sendAddress(I2C[I2CNum], address, 1);
+    sendAddress(I2CNum, address, 1);
             
     // Wait for address to be sent and ACK received
     while(!GET_BIT(I2C[I2CNum]->SR1,1));
@@ -102,7 +103,7 @@ void I2C_sendData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataL
     // Generate stop condition if specified
     if(stopState == WITH_STOP)
     {
-        generateStop(I2C[I2CNum]);
+        generateStop(I2CNum);
     }   
 }
 
@@ -119,16 +120,17 @@ void I2C_sendData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataL
  */
 void I2C_receiveData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState)
 {
-    uint32 dummyRead;
+    // To read register value and reset it
+    volatile uint32 dummyRead __attribute__((unused));
            
     // Generate start condition if specified
-    generateStart(I2C[I2CNum], startState);
+    generateStart(I2CNum, startState);
     
     // Wait for start condition to be generated
     while(!GET_BIT(I2C[I2CNum]->SR1,0));
     
     // Send slave address with read bit (0) set
-    sendAddress(I2C[I2CNum], address, 0);
+    sendAddress(I2CNum, address, 0);
     
     // Wait for address to be sent and ACK received
     while(!GET_BIT(I2C[I2CNum]->SR1,1));
@@ -155,7 +157,7 @@ void I2C_receiveData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 da
     // Generate stop condition if specified
     if(stopState == WITH_STOP)
     {
-        generateStop(I2C[I2CNum]);
+        generateStop(I2CNum);
     }
     
     // enable Acknowledge

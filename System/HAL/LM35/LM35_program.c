@@ -22,30 +22,30 @@ void LM35_init()
     if(LM35_channel_ID <= ADC_CHANNEL_7 && LM35_channel_ID >= ADC_CHANNEL_0)
     {
         // enable clock for GPIOA
-        RCC_enableClk (RCC_APB2, GPIOA);
+        RCC_enableClk (RCC_APB2, RCC_GPIOA);
         
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOA, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOA, LM35_channel_ID, INPUT_ANALOG);
     }
     
     // check if LM35_channel_ID is within valid range for GPIOB
     else if(LM35_channel_ID <= ADC_CHANNEL_9)
     {
         // enable clock for GPIOB
-        RCC_enableClk (RCC_APB2, GPIOB);
+        RCC_enableClk (RCC_APB2, RCC_GPIOB);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOB, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOB, LM35_channel_ID, INPUT_ANALOG);
     }
     
     // check if LM35_channel_ID is within valid range for GPIOC
     else if(LM35_channel_ID <= ADC_CHANNEL_15)
     {
         // enable clock for GPIOC
-        RCC_enableClk (RCC_APB2, GPIOC);
+        RCC_enableClk (RCC_APB2, RCC_GPIOC);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOC, LM35_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOC, LM35_channel_ID, INPUT_ANALOG);
     }
     
     // if LM35_channel_ID is out of range, do nothing or return error
@@ -67,7 +67,7 @@ void LM35_init()
     ADC_regulargroupInit(ADC1, LM35_convertion_NUM);
 
     // set the ADC to single conversion mode
-    Adc_setMode(ADC_MODE_SINGLE);
+    Adc_setMode(ADC1,ADC_MODE_SINGLE);
 }
 
 #if MEASURE_SETUP == LM35_BASIC

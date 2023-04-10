@@ -29,30 +29,30 @@ void BattInd_init()
     if(BattInd_channel_ID <= ADC_CHANNEL_7 && BattInd_channel_ID >= ADC_CHANNEL_0)
     {
         // enable clock for GPIOA
-        RCC_enableClk (RCC_APB2, GPIOA);
+        RCC_enableClk (RCC_APB2, RCC_GPIOA);
         
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOA, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOA, BattInd_channel_ID, INPUT_ANALOG);
     }
     
     // check if BattInd_channel_ID is within valid range for GPIOB
     else if(BattInd_channel_ID <= ADC_CHANNEL_9)
     {
         // enable clock for GPIOB
-        RCC_enableClk (RCC_APB2, GPIOB);
+        RCC_enableClk (RCC_APB2, RCC_GPIOB);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOB, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOB, BattInd_channel_ID, INPUT_ANALOG);
     }
     
     // check if BattInd_channel_ID is within valid range for GPIOC
     else if(BattInd_channel_ID <= ADC_CHANNEL_15)
     {
         // enable clock for GPIOC
-        RCC_enableClk (RCC_APB2, GPIOC);
+        RCC_enableClk (RCC_APB2, RCC_GPIOC);
 
         // set the direction of the corresponding GPIO pin to input analog mode
-        DIO_setPinDirection(GPIOC, BattInd_channel_ID, INPUT_ANALOG);
+        DIO_setPinDirection(DIO_GPIOC, BattInd_channel_ID, INPUT_ANALOG);
     }
     
     // if BattInd_channel_ID is out of range, do nothing or return error
@@ -62,7 +62,7 @@ void BattInd_init()
     }
     
     // enable clock for ADC1
-    RCC_enableClk (RCC_APB2, ADC1);
+    RCC_enableClk (RCC_APB2, RCC_ADC1);
     
     // initialize ADC1
     ADC_init(ADC1);
@@ -74,7 +74,7 @@ void BattInd_init()
     ADC_regulargroupInit(ADC1, Batt_convertion_NUM);
 
     // set the ADC to single conversion mode
-    Adc_setMode(ADC_MODE_SINGLE);
+    Adc_setMode(ADC1, ADC_MODE_SINGLE);
 }
  
  

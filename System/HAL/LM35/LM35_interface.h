@@ -74,7 +74,7 @@ Here is an example code snippet that demonstrates how to use the LM35 driver to 
 > LM35_init();
 >
 > //read the temperature value
-> uint8 temp = LM35_getTemperature();
+> uint8 temperature = LM35_getTemperature();
 
 Dependencies:
 An STM32F103C6 microcontroller

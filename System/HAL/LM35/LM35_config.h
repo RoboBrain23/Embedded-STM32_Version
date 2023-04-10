@@ -33,7 +33,7 @@ ADC_channel_t LM35_channel_ID = ADC_CHANNEL_0;
  
     options:
     Conversion_1 .... Conversion_16
-    debends on channel sequence.
+    Depends on channel sequence.
 */
 Convertion_Number LM35_convertion_NUM = Conversion_1;
 

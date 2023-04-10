@@ -65,9 +65,32 @@ typedef struct
 #define REPEATED_START           1  // Indicates that repeated start condition will be generated before sending data
 
 
-void I2C_init        (uint8 I2CNum, I2C_config_t * I2C_config);
-void I2C_sendData    (uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
-void I2C_receiveData (uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
+// Initialize I2C peripheral
+void I2C_init(uint8 I2CNum, I2C_config_t * I2C_config);
+
+/*
+ * Sends data over I2C interface
+ *
+ * I2Cx: specifies the I2C peripheral to use (I2C1 or I2C2)
+ * address: the 7-bit address of the I2C slave
+ * dataBuffer: pointer to the buffer containing the data to be sent
+ * dataLength: length of the data to be sent
+ * startState: specifies whether to use a repeated start or not
+ * stopState: specifies whether to send a stop condition after the data has been sent
+ */
+void I2C_sendData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
+
+/*
+ * Receive data over I2C interface
+ *
+ * I2Cx: specifies the I2C peripheral to use (I2C1 or I2C2)
+ * address: the 7-bit address of the I2C slave
+ * dataBuffer: pointer to the buffer containing the data to be received
+ * dataLength: length of the data to be received
+ * startState: specifies whether to use a repeated start or not
+ * stopState: specifies whether to send a stop condition after the data has been received
+ */
+void I2C_receiveData(uint8 I2CNum, uint16 address, uint8 * dataBuffer, uint16 dataLength, uint8 startState, uint8 stopState);
 
 
 #endif // I2C_INTERFACE_H
