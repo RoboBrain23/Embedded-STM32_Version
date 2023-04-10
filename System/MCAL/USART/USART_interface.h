@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : USART_interface.h                                 */
-/* Description : Interfacing macros for USART module stm32f103     */
+/* Description : Interfacing macros for USART module STM32F103     */
 /*******************************************************************/
 
  // Header guard to prevent multiple inclusions

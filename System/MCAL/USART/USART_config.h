@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : USART_config.h                                    */
-/* Description : Configuration for USART module stm32f103          */
+/* Description : Configuration for USART module STM32F103          */
 /*******************************************************************/
 
 // This header file guards against multiple inclusion
@@ -24,7 +24,7 @@
         PA2: USART2_TX
         PA3: USART2_RX
         
- Note: [Option] You can remap USART1 to the alternative pins (B6 as TX and B7 as RX).      
+ Note: [Option] You can re-map USART1 to the alternative pins (B6 as TX and B7 as RX).
  Note: Failing to meet any of these requirements may result in unexpected behavior of the driver.
 */
 

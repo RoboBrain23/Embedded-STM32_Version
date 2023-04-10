@@ -15,7 +15,7 @@
 
 
 /* Initialize USART1 with the given baud rate */
-void USART1_init(uint16 baudRate) {
+void USART1_init(uint32 baudRate) {
     // Set CR1 register with various USART parameters
     USART1->CR1 = (
         USART1_RECEIVER_ENABLE                          << 2  |
@@ -30,7 +30,7 @@ void USART1_init(uint16 baudRate) {
     // Set the number of stop bits for USART1
     MOD_2BIT(USART1->CR2, 12, USART1_STOP_BITS);
     // Set the baud rate for USART1
-    USART1->BRR = calcBRRReg(baudRate, 0); /* refer to USART1 */
+    USART1->BRR = calcBRRReg(baudRate, USART1_ID);
     // Clear the status register for USART1
     USART1->SR = 0;
     // Enable USART1 Peripheral
@@ -39,7 +39,7 @@ void USART1_init(uint16 baudRate) {
 
 
 /* Initialize USART2 with the given baud rate */
-void USART2_init(uint16 baudRate) {
+void USART2_init(uint32 baudRate) {
     // Set CR1 register with various USART parameters
     USART2->CR1 = (
         USART2_RECEIVER_ENABLE                          << 2  |
@@ -54,7 +54,7 @@ void USART2_init(uint16 baudRate) {
     // Set the number of stop bits for USART2
     MOD_2BIT(USART2->CR2, 12, USART2_STOP_BITS);
     // Set the baud rate for USART2
-    USART2->BRR = calcBRRReg(baudRate, 1); /* 1 refers to USART2 */
+    USART2->BRR = calcBRRReg(baudRate, USART2_ID);
     // Clear the status register for USART2
     USART2->SR = 0;
     // Enable USART2 Peripheral
@@ -187,21 +187,27 @@ uint16 calcBRRReg(uint32 baudRate, uint8 USARTX)
     float32 fraction, div;
     
     /* Calculate the divisor based on the system clock and baud rate */
-    if(USARTX==0)
-    div = RCC_APB2_CLK_FRQ / (baudRate << 4); //peripheral clock for USART0
-    else
-    div = RCC_APB1_CLK_FRQ / (baudRate << 4); //peripheral clock for USART1
+    switch(USARTX)
+    {
+        case USART1_ID:
+            div = RCC_APB2_CLK_FRQ / (float32)(baudRate << 4); //peripheral clock for USART1
+        break;
 
+        case USART2_ID:
+            div = RCC_APB1_CLK_FRQ / (float32)(baudRate << 4); //peripheral clock for USART2
+        break;
+    }
     /* Extract the integer part of the divisor as the mantissa */
     mantissa = div;
     
     /* Extract the fractional part of the divisor as the fraction and round it to the nearest integer */
-    fraction = (int)((div - mantissa) * 16 + 0.5);
+    fraction = (uint32)((div - mantissa) * 16 + 0.5);
     
     /* Add the integer part of the fraction to the mantissa and adjust the fraction for the BRR register format */
-    mantissa += (fraction >> 4);
-    fraction &= 0xf;
+    mantissa += ((uint32)fraction >> 4);
+    fraction  =  (uint32)fraction & 0xf;
     
     /* Combine the mantissa and fraction into the BRR register value and return it */
-    return ((uint16)((mantissa << 4) | fraction));
+    return ((uint16)((mantissa << 4) | (uint32)fraction));
 }
+

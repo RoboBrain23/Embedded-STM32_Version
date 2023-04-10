@@ -1,7 +1,7 @@
 /*******************************************************************/
 /* Author      : Ibrahim Diab                                      */
 /* File Name   : USART_private.h                                   */
-/* Description : Private addresses for USART module stm32f103      */
+/* Description : Private addresses for USART module STM32F103      */
 /*******************************************************************/
 
 #ifndef USART_PRIVATE_H
@@ -22,9 +22,8 @@ typedef struct
 #define USART1 ((volatile USART_t *)0x40013800) 
 #define USART2 ((volatile USART_t *)0x40004400) 
 
-uint16 calcBRRReg(uint32 baudRate);
-
-
+#define USART1_ID 			0
+#define USART2_ID 			1
 
 #define USART_1_STOP_BIT    0b00
 #define USART_2_STOP_BIT    0b11
@@ -38,5 +37,8 @@ uint16 calcBRRReg(uint32 baudRate);
 #define USART_8_DATA_BITS   0
 #define USART_9_DATA_BITS   1               
 
+
+/* Calculate the BRR register value for a given baud rate */
+uint16 calcBRRReg(uint32 baudRate, uint8 USARTX);
 
 #endif // USART_PRIVATE_H
