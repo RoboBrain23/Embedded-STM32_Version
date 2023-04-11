@@ -1,0 +1,841 @@
+
+Wheelchair.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000130  08000000  08000000  00010000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         0000038c  08000130  08000130  00010130  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000000  080004bc  080004c4  000104c4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  3 .ARM.extab    00000000  080004bc  080004bc  000104c4  2**0
+                  CONTENTS
+  4 .ARM          00000000  080004bc  080004bc  000104c4  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  080004bc  080004c4  000104c4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  080004bc  080004bc  000104bc  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  7 .fini_array   00000004  080004c0  080004c0  000104c0  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  8 .data         00000000  20000000  20000000  000104c4  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .bss          0000006c  20000000  080004c4  00020000  2**2
+                  ALLOC
+ 10 ._user_heap_stack 00000604  2000006c  080004c4  0002006c  2**0
+                  ALLOC
+ 11 .ARM.attributes 00000029  00000000  00000000  000104c4  2**0
+                  CONTENTS, READONLY
+ 12 .debug_info   00000bf8  00000000  00000000  000104ed  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 13 .debug_abbrev 00000442  00000000  00000000  000110e5  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 14 .debug_aranges 00000228  00000000  00000000  00011528  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 15 .debug_ranges 000001d0  00000000  00000000  00011750  2**3
+                  CONTENTS, READONLY, DEBUGGING
+ 16 .debug_macro  00000472  00000000  00000000  00011920  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 17 .debug_line   000008de  00000000  00000000  00011d92  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 18 .debug_str    00004c1c  00000000  00000000  00012670  2**0
+                  CONTENTS, READONLY, DEBUGGING
+ 19 .comment      0000007b  00000000  00000000  0001728c  2**0
+                  CONTENTS, READONLY
+ 20 .debug_frame  000006d8  00000000  00000000  00017308  2**2
+                  CONTENTS, READONLY, DEBUGGING
+
+Disassembly of section .text:
+
+08000130 <__do_global_dtors_aux>:
+ 8000130:	b510      	push	{r4, lr}
+ 8000132:	4c05      	ldr	r4, [pc, #20]	; (8000148 <__do_global_dtors_aux+0x18>)
+ 8000134:	7823      	ldrb	r3, [r4, #0]
+ 8000136:	b933      	cbnz	r3, 8000146 <__do_global_dtors_aux+0x16>
+ 8000138:	4b04      	ldr	r3, [pc, #16]	; (800014c <__do_global_dtors_aux+0x1c>)
+ 800013a:	b113      	cbz	r3, 8000142 <__do_global_dtors_aux+0x12>
+ 800013c:	4804      	ldr	r0, [pc, #16]	; (8000150 <__do_global_dtors_aux+0x20>)
+ 800013e:	f3af 8000 	nop.w
+ 8000142:	2301      	movs	r3, #1
+ 8000144:	7023      	strb	r3, [r4, #0]
+ 8000146:	bd10      	pop	{r4, pc}
+ 8000148:	20000000 	.word	0x20000000
+ 800014c:	00000000 	.word	0x00000000
+ 8000150:	080004a4 	.word	0x080004a4
+
+08000154 <frame_dummy>:
+ 8000154:	b508      	push	{r3, lr}
+ 8000156:	4b03      	ldr	r3, [pc, #12]	; (8000164 <frame_dummy+0x10>)
+ 8000158:	b11b      	cbz	r3, 8000162 <frame_dummy+0xe>
+ 800015a:	4903      	ldr	r1, [pc, #12]	; (8000168 <frame_dummy+0x14>)
+ 800015c:	4803      	ldr	r0, [pc, #12]	; (800016c <frame_dummy+0x18>)
+ 800015e:	f3af 8000 	nop.w
+ 8000162:	bd08      	pop	{r3, pc}
+ 8000164:	00000000 	.word	0x00000000
+ 8000168:	20000004 	.word	0x20000004
+ 800016c:	080004a4 	.word	0x080004a4
+
+08000170 <DMA1_Channel1_IRQHandler>:
+    DMA_ErrTra_channel[(DMA_channelNumber-1)] = DMA_CH_ErrTtr;  // Set the error transfer callback function for the specified DMA channel.
+}
+
+
+void DMA1_Channel1_IRQHandler(void)
+{
+ 8000170:	b480      	push	{r7}
+ 8000172:	af00      	add	r7, sp, #0
+
+    if(GET_BIT(DMA->ISR,1)==1) // check if transfer complete interrupt flag is set for channel 1
+ 8000174:	4b07      	ldr	r3, [pc, #28]	; (8000194 <DMA1_Channel1_IRQHandler+0x24>)
+ 8000176:	681b      	ldr	r3, [r3, #0]
+    {
+        // transfer complete
+        if(DMA_CmpTra_channel[0]!= NULL)
+            DMA_CmpTra_channel[0]();
+    }
+    else if((GET_BIT(DMA->ISR,2)==1)) // check if half transfer interrupt flag is set for channel 1
+ 8000178:	4b06      	ldr	r3, [pc, #24]	; (8000194 <DMA1_Channel1_IRQHandler+0x24>)
+ 800017a:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[0]!= NULL)
+            DMA_HlfTra_channel[0]();
+    }
+    else if(GET_BIT(DMA->ISR,3)==1) // check if transfer error interrupt flag is set for channel 1
+ 800017c:	4b05      	ldr	r3, [pc, #20]	; (8000194 <DMA1_Channel1_IRQHandler+0x24>)
+ 800017e:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[0]!= NULL)
+            DMA_ErrTra_channel[0]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,0,0xf);
+ 8000180:	4b04      	ldr	r3, [pc, #16]	; (8000194 <DMA1_Channel1_IRQHandler+0x24>)
+ 8000182:	685b      	ldr	r3, [r3, #4]
+ 8000184:	4a03      	ldr	r2, [pc, #12]	; (8000194 <DMA1_Channel1_IRQHandler+0x24>)
+ 8000186:	f043 030f 	orr.w	r3, r3, #15
+ 800018a:	6053      	str	r3, [r2, #4]
+}
+ 800018c:	bf00      	nop
+ 800018e:	46bd      	mov	sp, r7
+ 8000190:	bc80      	pop	{r7}
+ 8000192:	4770      	bx	lr
+ 8000194:	40020000 	.word	0x40020000
+
+08000198 <DMA1_Channel2_IRQHandler>:
+
+void DMA1_Channel2_IRQHandler(void)
+{
+ 8000198:	b480      	push	{r7}
+ 800019a:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,5)==1) // check if transfer complete interrupt flag is set for channel 2
+ 800019c:	4b07      	ldr	r3, [pc, #28]	; (80001bc <DMA1_Channel2_IRQHandler+0x24>)
+ 800019e:	681b      	ldr	r3, [r3, #0]
+        // transfer complete
+        if(DMA_CmpTra_channel[1]!= NULL)
+            DMA_CmpTra_channel[1]();
+
+    }
+    else if((GET_BIT(DMA->ISR,6)==1)) // check if half transfer interrupt flag is set for channel 2
+ 80001a0:	4b06      	ldr	r3, [pc, #24]	; (80001bc <DMA1_Channel2_IRQHandler+0x24>)
+ 80001a2:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[1]!= NULL)
+            DMA_HlfTra_channel[1]();
+    }
+    else if(GET_BIT(DMA->ISR,7)==1) // check if transfer error interrupt flag is set for channel 2
+ 80001a4:	4b05      	ldr	r3, [pc, #20]	; (80001bc <DMA1_Channel2_IRQHandler+0x24>)
+ 80001a6:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[1]!= NULL)
+            DMA_ErrTra_channel[1]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,4,0xf);
+ 80001a8:	4b04      	ldr	r3, [pc, #16]	; (80001bc <DMA1_Channel2_IRQHandler+0x24>)
+ 80001aa:	685b      	ldr	r3, [r3, #4]
+ 80001ac:	4a03      	ldr	r2, [pc, #12]	; (80001bc <DMA1_Channel2_IRQHandler+0x24>)
+ 80001ae:	f043 03f0 	orr.w	r3, r3, #240	; 0xf0
+ 80001b2:	6053      	str	r3, [r2, #4]
+}
+ 80001b4:	bf00      	nop
+ 80001b6:	46bd      	mov	sp, r7
+ 80001b8:	bc80      	pop	{r7}
+ 80001ba:	4770      	bx	lr
+ 80001bc:	40020000 	.word	0x40020000
+
+080001c0 <DMA1_Channel3_IRQHandler>:
+
+void DMA1_Channel3_IRQHandler(void)
+{
+ 80001c0:	b480      	push	{r7}
+ 80001c2:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,9)==1) // check if transfer complete interrupt flag is set for channel 3
+ 80001c4:	4b07      	ldr	r3, [pc, #28]	; (80001e4 <DMA1_Channel3_IRQHandler+0x24>)
+ 80001c6:	681b      	ldr	r3, [r3, #0]
+        // transfer complete
+        if(DMA_CmpTra_channel[2]!= NULL)
+            DMA_CmpTra_channel[2]();
+
+    }
+    else if((GET_BIT(DMA->ISR,10)==1)) // check if half transfer interrupt flag is set for channel 3
+ 80001c8:	4b06      	ldr	r3, [pc, #24]	; (80001e4 <DMA1_Channel3_IRQHandler+0x24>)
+ 80001ca:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[2]!= NULL)
+            DMA_HlfTra_channel[2]();
+    }
+    else if(GET_BIT(DMA->ISR,11)==1) // check if transfer error interrupt flag is set for channel 3
+ 80001cc:	4b05      	ldr	r3, [pc, #20]	; (80001e4 <DMA1_Channel3_IRQHandler+0x24>)
+ 80001ce:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[2]!= NULL)
+            DMA_ErrTra_channel[2]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,8,0xf);
+ 80001d0:	4b04      	ldr	r3, [pc, #16]	; (80001e4 <DMA1_Channel3_IRQHandler+0x24>)
+ 80001d2:	685b      	ldr	r3, [r3, #4]
+ 80001d4:	4a03      	ldr	r2, [pc, #12]	; (80001e4 <DMA1_Channel3_IRQHandler+0x24>)
+ 80001d6:	f443 6370 	orr.w	r3, r3, #3840	; 0xf00
+ 80001da:	6053      	str	r3, [r2, #4]
+}
+ 80001dc:	bf00      	nop
+ 80001de:	46bd      	mov	sp, r7
+ 80001e0:	bc80      	pop	{r7}
+ 80001e2:	4770      	bx	lr
+ 80001e4:	40020000 	.word	0x40020000
+
+080001e8 <DMA1_Channel4_IRQHandler>:
+
+void DMA1_Channel4_IRQHandler(void)
+{
+ 80001e8:	b480      	push	{r7}
+ 80001ea:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,13)==1) // check if transfer complete interrupt flag is set for channel 4
+ 80001ec:	4b07      	ldr	r3, [pc, #28]	; (800020c <DMA1_Channel4_IRQHandler+0x24>)
+ 80001ee:	681b      	ldr	r3, [r3, #0]
+        // transfer complete
+        if(DMA_CmpTra_channel[3]!= NULL)
+            DMA_CmpTra_channel[3]();
+
+    }
+    else if((GET_BIT(DMA->ISR,13)==1)) // check if half transfer interrupt flag is set for channel 4
+ 80001f0:	4b06      	ldr	r3, [pc, #24]	; (800020c <DMA1_Channel4_IRQHandler+0x24>)
+ 80001f2:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[3]!= NULL)
+            DMA_HlfTra_channel[3]();
+    }
+    else if(GET_BIT(DMA->ISR,13)==1) // check if transfer error interrupt flag is set for channel 4
+ 80001f4:	4b05      	ldr	r3, [pc, #20]	; (800020c <DMA1_Channel4_IRQHandler+0x24>)
+ 80001f6:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[3]!= NULL)
+            DMA_ErrTra_channel[3]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,12,0xf);
+ 80001f8:	4b04      	ldr	r3, [pc, #16]	; (800020c <DMA1_Channel4_IRQHandler+0x24>)
+ 80001fa:	685b      	ldr	r3, [r3, #4]
+ 80001fc:	4a03      	ldr	r2, [pc, #12]	; (800020c <DMA1_Channel4_IRQHandler+0x24>)
+ 80001fe:	f443 4370 	orr.w	r3, r3, #61440	; 0xf000
+ 8000202:	6053      	str	r3, [r2, #4]
+}
+ 8000204:	bf00      	nop
+ 8000206:	46bd      	mov	sp, r7
+ 8000208:	bc80      	pop	{r7}
+ 800020a:	4770      	bx	lr
+ 800020c:	40020000 	.word	0x40020000
+
+08000210 <DMA1_Channel5_IRQHandler>:
+
+
+void DMA1_Channel5_IRQHandler(void)
+{
+ 8000210:	b480      	push	{r7}
+ 8000212:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,17)==1) // check if transfer complete interrupt flag is set for channel 5
+ 8000214:	4b07      	ldr	r3, [pc, #28]	; (8000234 <DMA1_Channel5_IRQHandler+0x24>)
+ 8000216:	681b      	ldr	r3, [r3, #0]
+        // transfer complete
+        if(DMA_CmpTra_channel[4]!= NULL)
+            DMA_CmpTra_channel[4]();
+
+    }
+    else if((GET_BIT(DMA->ISR,18)==1)) // check if half transfer interrupt flag is set for channel 5
+ 8000218:	4b06      	ldr	r3, [pc, #24]	; (8000234 <DMA1_Channel5_IRQHandler+0x24>)
+ 800021a:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[4]!= NULL)
+            DMA_HlfTra_channel[4]();
+    }
+    else if(GET_BIT(DMA->ISR,19)==1) // check if transfer error interrupt flag is set for channel 5
+ 800021c:	4b05      	ldr	r3, [pc, #20]	; (8000234 <DMA1_Channel5_IRQHandler+0x24>)
+ 800021e:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[4]!= NULL)
+            DMA_ErrTra_channel[4]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,16,0xf);
+ 8000220:	4b04      	ldr	r3, [pc, #16]	; (8000234 <DMA1_Channel5_IRQHandler+0x24>)
+ 8000222:	685b      	ldr	r3, [r3, #4]
+ 8000224:	4a03      	ldr	r2, [pc, #12]	; (8000234 <DMA1_Channel5_IRQHandler+0x24>)
+ 8000226:	f443 2370 	orr.w	r3, r3, #983040	; 0xf0000
+ 800022a:	6053      	str	r3, [r2, #4]
+}
+ 800022c:	bf00      	nop
+ 800022e:	46bd      	mov	sp, r7
+ 8000230:	bc80      	pop	{r7}
+ 8000232:	4770      	bx	lr
+ 8000234:	40020000 	.word	0x40020000
+
+08000238 <DMA1_Channel6_IRQHandler>:
+
+void DMA1_Channel6_IRQHandler(void)
+{
+ 8000238:	b480      	push	{r7}
+ 800023a:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,21)==1) // check if transfer complete interrupt flag is set for channel 6
+ 800023c:	4b07      	ldr	r3, [pc, #28]	; (800025c <DMA1_Channel6_IRQHandler+0x24>)
+ 800023e:	681b      	ldr	r3, [r3, #0]
+        // transfer complete
+        if(DMA_CmpTra_channel[5]!= NULL)
+            DMA_CmpTra_channel[5]();
+
+    }
+    else if((GET_BIT(DMA->ISR,22)==1)) // check if half transfer interrupt flag is set for channel 6
+ 8000240:	4b06      	ldr	r3, [pc, #24]	; (800025c <DMA1_Channel6_IRQHandler+0x24>)
+ 8000242:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[5]!= NULL)
+            DMA_HlfTra_channel[5]();
+    }
+    else if(GET_BIT(DMA->ISR,23)==1) // check if transfer error interrupt flag is set for channel 6
+ 8000244:	4b05      	ldr	r3, [pc, #20]	; (800025c <DMA1_Channel6_IRQHandler+0x24>)
+ 8000246:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[5]!= NULL)
+            DMA_ErrTra_channel[5]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,20,0xf);
+ 8000248:	4b04      	ldr	r3, [pc, #16]	; (800025c <DMA1_Channel6_IRQHandler+0x24>)
+ 800024a:	685b      	ldr	r3, [r3, #4]
+ 800024c:	4a03      	ldr	r2, [pc, #12]	; (800025c <DMA1_Channel6_IRQHandler+0x24>)
+ 800024e:	f443 0370 	orr.w	r3, r3, #15728640	; 0xf00000
+ 8000252:	6053      	str	r3, [r2, #4]
+}
+ 8000254:	bf00      	nop
+ 8000256:	46bd      	mov	sp, r7
+ 8000258:	bc80      	pop	{r7}
+ 800025a:	4770      	bx	lr
+ 800025c:	40020000 	.word	0x40020000
+
+08000260 <DMA1_Channel7_IRQHandler>:
+
+void DMA1_Channel7_IRQHandler(void)
+{
+ 8000260:	b480      	push	{r7}
+ 8000262:	af00      	add	r7, sp, #0
+    if(GET_BIT(DMA->ISR,25)==1) // check if transfer complete interrupt flag is set for channel 7
+ 8000264:	4b07      	ldr	r3, [pc, #28]	; (8000284 <DMA1_Channel7_IRQHandler+0x24>)
+ 8000266:	681b      	ldr	r3, [r3, #0]
+    {
+        // transfer complete
+        if(DMA_CmpTra_channel[6]!= NULL)
+            DMA_CmpTra_channel[6]();
+    }
+    else if((GET_BIT(DMA->ISR,26)==1)) // check if half transfer interrupt flag is set for channel 7
+ 8000268:	4b06      	ldr	r3, [pc, #24]	; (8000284 <DMA1_Channel7_IRQHandler+0x24>)
+ 800026a:	681b      	ldr	r3, [r3, #0]
+    {
+        // half transfer
+        if(DMA_HlfTra_channel[6]!= NULL)
+            DMA_HlfTra_channel[6]();
+    }
+    else if(GET_BIT(DMA->ISR,27)==1) // check if transfer error interrupt flag is set for channel 7
+ 800026c:	4b05      	ldr	r3, [pc, #20]	; (8000284 <DMA1_Channel7_IRQHandler+0x24>)
+ 800026e:	681b      	ldr	r3, [r3, #0]
+        if(DMA_ErrTra_channel[6]!= NULL)
+            DMA_ErrTra_channel[6]();
+    }
+
+    /*Clear Interrupt flag*/
+    MOD_4BIT(DMA->IFCR,24,0xf);
+ 8000270:	4b04      	ldr	r3, [pc, #16]	; (8000284 <DMA1_Channel7_IRQHandler+0x24>)
+ 8000272:	685b      	ldr	r3, [r3, #4]
+ 8000274:	4a03      	ldr	r2, [pc, #12]	; (8000284 <DMA1_Channel7_IRQHandler+0x24>)
+ 8000276:	f043 6370 	orr.w	r3, r3, #251658240	; 0xf000000
+ 800027a:	6053      	str	r3, [r2, #4]
+}
+ 800027c:	bf00      	nop
+ 800027e:	46bd      	mov	sp, r7
+ 8000280:	bc80      	pop	{r7}
+ 8000282:	4770      	bx	lr
+ 8000284:	40020000 	.word	0x40020000
+
+08000288 <EXTI0_IRQHandler>:
+}
+
+
+
+void EXTI0_IRQHandler(void)
+{
+ 8000288:	b580      	push	{r7, lr}
+ 800028a:	af00      	add	r7, sp, #0
+    EXTI_callBack[0]();
+ 800028c:	4b05      	ldr	r3, [pc, #20]	; (80002a4 <EXTI0_IRQHandler+0x1c>)
+ 800028e:	681b      	ldr	r3, [r3, #0]
+ 8000290:	4798      	blx	r3
+    
+    /*  Clear pending Bit       */
+    SET_BIT(EXTI->PR,0);
+ 8000292:	4b05      	ldr	r3, [pc, #20]	; (80002a8 <EXTI0_IRQHandler+0x20>)
+ 8000294:	695b      	ldr	r3, [r3, #20]
+ 8000296:	4a04      	ldr	r2, [pc, #16]	; (80002a8 <EXTI0_IRQHandler+0x20>)
+ 8000298:	f043 0301 	orr.w	r3, r3, #1
+ 800029c:	6153      	str	r3, [r2, #20]
+    
+}
+ 800029e:	bf00      	nop
+ 80002a0:	bd80      	pop	{r7, pc}
+ 80002a2:	bf00      	nop
+ 80002a4:	2000001c 	.word	0x2000001c
+ 80002a8:	40010400 	.word	0x40010400
+
+080002ac <EXTI1_IRQHandler>:
+
+void EXTI1_IRQHandler(void)
+{
+ 80002ac:	b580      	push	{r7, lr}
+ 80002ae:	af00      	add	r7, sp, #0
+    EXTI_callBack[1]();
+ 80002b0:	4b05      	ldr	r3, [pc, #20]	; (80002c8 <EXTI1_IRQHandler+0x1c>)
+ 80002b2:	685b      	ldr	r3, [r3, #4]
+ 80002b4:	4798      	blx	r3
+    
+    /*  Clear pending Bit       */
+    SET_BIT(EXTI->PR,1);
+ 80002b6:	4b05      	ldr	r3, [pc, #20]	; (80002cc <EXTI1_IRQHandler+0x20>)
+ 80002b8:	695b      	ldr	r3, [r3, #20]
+ 80002ba:	4a04      	ldr	r2, [pc, #16]	; (80002cc <EXTI1_IRQHandler+0x20>)
+ 80002bc:	f043 0302 	orr.w	r3, r3, #2
+ 80002c0:	6153      	str	r3, [r2, #20]
+    
+}
+ 80002c2:	bf00      	nop
+ 80002c4:	bd80      	pop	{r7, pc}
+ 80002c6:	bf00      	nop
+ 80002c8:	2000001c 	.word	0x2000001c
+ 80002cc:	40010400 	.word	0x40010400
+
+080002d0 <EXTI2_IRQHandler>:
+
+void EXTI2_IRQHandler(void)
+{
+ 80002d0:	b580      	push	{r7, lr}
+ 80002d2:	af00      	add	r7, sp, #0
+    EXTI_callBack[2]();
+ 80002d4:	4b05      	ldr	r3, [pc, #20]	; (80002ec <EXTI2_IRQHandler+0x1c>)
+ 80002d6:	689b      	ldr	r3, [r3, #8]
+ 80002d8:	4798      	blx	r3
+    
+    /*  Clear pending Bit       */
+    SET_BIT(EXTI->PR,2);
+ 80002da:	4b05      	ldr	r3, [pc, #20]	; (80002f0 <EXTI2_IRQHandler+0x20>)
+ 80002dc:	695b      	ldr	r3, [r3, #20]
+ 80002de:	4a04      	ldr	r2, [pc, #16]	; (80002f0 <EXTI2_IRQHandler+0x20>)
+ 80002e0:	f043 0304 	orr.w	r3, r3, #4
+ 80002e4:	6153      	str	r3, [r2, #20]
+    
+}
+ 80002e6:	bf00      	nop
+ 80002e8:	bd80      	pop	{r7, pc}
+ 80002ea:	bf00      	nop
+ 80002ec:	2000001c 	.word	0x2000001c
+ 80002f0:	40010400 	.word	0x40010400
+
+080002f4 <EXTI3_IRQHandler>:
+
+void EXTI3_IRQHandler(void)
+{
+ 80002f4:	b580      	push	{r7, lr}
+ 80002f6:	af00      	add	r7, sp, #0
+    EXTI_callBack[3]();
+ 80002f8:	4b05      	ldr	r3, [pc, #20]	; (8000310 <EXTI3_IRQHandler+0x1c>)
+ 80002fa:	68db      	ldr	r3, [r3, #12]
+ 80002fc:	4798      	blx	r3
+    
+    /*  Clear pending Bit       */
+    SET_BIT(EXTI->PR,3);
+ 80002fe:	4b05      	ldr	r3, [pc, #20]	; (8000314 <EXTI3_IRQHandler+0x20>)
+ 8000300:	695b      	ldr	r3, [r3, #20]
+ 8000302:	4a04      	ldr	r2, [pc, #16]	; (8000314 <EXTI3_IRQHandler+0x20>)
+ 8000304:	f043 0308 	orr.w	r3, r3, #8
+ 8000308:	6153      	str	r3, [r2, #20]
+    
+}
+ 800030a:	bf00      	nop
+ 800030c:	bd80      	pop	{r7, pc}
+ 800030e:	bf00      	nop
+ 8000310:	2000001c 	.word	0x2000001c
+ 8000314:	40010400 	.word	0x40010400
+
+08000318 <EXTI4_IRQHandler>:
+void EXTI4_IRQHandler(void)
+{
+ 8000318:	b580      	push	{r7, lr}
+ 800031a:	af00      	add	r7, sp, #0
+    EXTI_callBack[4]();
+ 800031c:	4b05      	ldr	r3, [pc, #20]	; (8000334 <EXTI4_IRQHandler+0x1c>)
+ 800031e:	691b      	ldr	r3, [r3, #16]
+ 8000320:	4798      	blx	r3
+    
+    /*  Clear pending Bit       */
+    SET_BIT(EXTI->PR,4);
+ 8000322:	4b05      	ldr	r3, [pc, #20]	; (8000338 <EXTI4_IRQHandler+0x20>)
+ 8000324:	695b      	ldr	r3, [r3, #20]
+ 8000326:	4a04      	ldr	r2, [pc, #16]	; (8000338 <EXTI4_IRQHandler+0x20>)
+ 8000328:	f043 0310 	orr.w	r3, r3, #16
+ 800032c:	6153      	str	r3, [r2, #20]
+    
+}
+ 800032e:	bf00      	nop
+ 8000330:	bd80      	pop	{r7, pc}
+ 8000332:	bf00      	nop
+ 8000334:	2000001c 	.word	0x2000001c
+ 8000338:	40010400 	.word	0x40010400
+
+0800033c <SPI1_IRQHandler>:
+}
+
+
+
+void SPI1_IRQHandler(void)
+{
+ 800033c:	b580      	push	{r7, lr}
+ 800033e:	af00      	add	r7, sp, #0
+    // Check if RXNE flag is set
+    if(GET_BIT(SPI1->SR,0)==1)
+ 8000340:	4b0d      	ldr	r3, [pc, #52]	; (8000378 <SPI1_IRQHandler+0x3c>)
+ 8000342:	689b      	ldr	r3, [r3, #8]
+ 8000344:	f003 0301 	and.w	r3, r3, #1
+ 8000348:	2b01      	cmp	r3, #1
+ 800034a:	d110      	bne.n	800036e <SPI1_IRQHandler+0x32>
+    {
+        // Call the callback function with the received byte
+        if(SPI1_callBack!=NULL)
+ 800034c:	4b0b      	ldr	r3, [pc, #44]	; (800037c <SPI1_IRQHandler+0x40>)
+ 800034e:	681b      	ldr	r3, [r3, #0]
+ 8000350:	2b00      	cmp	r3, #0
+ 8000352:	d006      	beq.n	8000362 <SPI1_IRQHandler+0x26>
+        {
+            SPI1_callBack((SPI1->DR));
+ 8000354:	4b09      	ldr	r3, [pc, #36]	; (800037c <SPI1_IRQHandler+0x40>)
+ 8000356:	681b      	ldr	r3, [r3, #0]
+ 8000358:	4a07      	ldr	r2, [pc, #28]	; (8000378 <SPI1_IRQHandler+0x3c>)
+ 800035a:	68d2      	ldr	r2, [r2, #12]
+ 800035c:	b2d2      	uxtb	r2, r2
+ 800035e:	4610      	mov	r0, r2
+ 8000360:	4798      	blx	r3
+        }
+        // Clear the RXNE flag
+        CLR_BIT(SPI1->SR,0);
+ 8000362:	4b05      	ldr	r3, [pc, #20]	; (8000378 <SPI1_IRQHandler+0x3c>)
+ 8000364:	689b      	ldr	r3, [r3, #8]
+ 8000366:	4a04      	ldr	r2, [pc, #16]	; (8000378 <SPI1_IRQHandler+0x3c>)
+ 8000368:	f023 0301 	bic.w	r3, r3, #1
+ 800036c:	6093      	str	r3, [r2, #8]
+    }
+    
+    // Check if TXE flag is set
+    if(GET_BIT(SPI1->SR,1)==1)
+ 800036e:	4b02      	ldr	r3, [pc, #8]	; (8000378 <SPI1_IRQHandler+0x3c>)
+ 8000370:	689b      	ldr	r3, [r3, #8]
+    {
+        // Set the flag indicating the SPI is ready to send data
+        SPI1_ReadyToSend = 1;
+    }
+}
+ 8000372:	bf00      	nop
+ 8000374:	bd80      	pop	{r7, pc}
+ 8000376:	bf00      	nop
+ 8000378:	40013000 	.word	0x40013000
+ 800037c:	2000005c 	.word	0x2000005c
+
+08000380 <SPI2_IRQHandler>:
+
+void SPI2_IRQHandler(void)
+{
+ 8000380:	b580      	push	{r7, lr}
+ 8000382:	af00      	add	r7, sp, #0
+    // Check if RXNE flag is set
+    if(GET_BIT(SPI2->SR,0)==1)
+ 8000384:	4b0d      	ldr	r3, [pc, #52]	; (80003bc <SPI2_IRQHandler+0x3c>)
+ 8000386:	689b      	ldr	r3, [r3, #8]
+ 8000388:	f003 0301 	and.w	r3, r3, #1
+ 800038c:	2b01      	cmp	r3, #1
+ 800038e:	d110      	bne.n	80003b2 <SPI2_IRQHandler+0x32>
+    {
+        // Call the callback function with the received byte
+        if(SPI2_callBack!=NULL)
+ 8000390:	4b0b      	ldr	r3, [pc, #44]	; (80003c0 <SPI2_IRQHandler+0x40>)
+ 8000392:	681b      	ldr	r3, [r3, #0]
+ 8000394:	2b00      	cmp	r3, #0
+ 8000396:	d006      	beq.n	80003a6 <SPI2_IRQHandler+0x26>
+        {
+            SPI2_callBack((SPI2->DR));
+ 8000398:	4b09      	ldr	r3, [pc, #36]	; (80003c0 <SPI2_IRQHandler+0x40>)
+ 800039a:	681b      	ldr	r3, [r3, #0]
+ 800039c:	4a07      	ldr	r2, [pc, #28]	; (80003bc <SPI2_IRQHandler+0x3c>)
+ 800039e:	68d2      	ldr	r2, [r2, #12]
+ 80003a0:	b2d2      	uxtb	r2, r2
+ 80003a2:	4610      	mov	r0, r2
+ 80003a4:	4798      	blx	r3
+        }
+        // Clear the RXNE flag
+        CLR_BIT(SPI2->SR,0);
+ 80003a6:	4b05      	ldr	r3, [pc, #20]	; (80003bc <SPI2_IRQHandler+0x3c>)
+ 80003a8:	689b      	ldr	r3, [r3, #8]
+ 80003aa:	4a04      	ldr	r2, [pc, #16]	; (80003bc <SPI2_IRQHandler+0x3c>)
+ 80003ac:	f023 0301 	bic.w	r3, r3, #1
+ 80003b0:	6093      	str	r3, [r2, #8]
+    }
+    
+    // Check if TXE flag is set
+    if(GET_BIT(SPI2->SR,1)==1)
+ 80003b2:	4b02      	ldr	r3, [pc, #8]	; (80003bc <SPI2_IRQHandler+0x3c>)
+ 80003b4:	689b      	ldr	r3, [r3, #8]
+    {
+        // Set the flag indicating the SPI is ready to send data
+        SPI2_ReadyToSend = 1;
+    }
+}
+ 80003b6:	bf00      	nop
+ 80003b8:	bd80      	pop	{r7, pc}
+ 80003ba:	bf00      	nop
+ 80003bc:	40003800 	.word	0x40003800
+ 80003c0:	20000060 	.word	0x20000060
+
+080003c4 <SysTick_Handler>:
+    return RemainingTime;
+}
+
+// SysTick interrupt handler function.
+void SysTick_Handler(void)
+{
+ 80003c4:	b580      	push	{r7, lr}
+ 80003c6:	af00      	add	r7, sp, #0
+    // Check if SysTick interval mode is single interval.
+    if (STK_INTERVAL_MODE == STK_SINGLE_INTERVAL)
+ 80003c8:	4b08      	ldr	r3, [pc, #32]	; (80003ec <SysTick_Handler+0x28>)
+ 80003ca:	781b      	ldrb	r3, [r3, #0]
+ 80003cc:	2b00      	cmp	r3, #0
+ 80003ce:	d108      	bne.n	80003e2 <SysTick_Handler+0x1e>
+    {
+        // Stop the timer and clear the registers.
+        STK->CTRL = 0;
+ 80003d0:	4b07      	ldr	r3, [pc, #28]	; (80003f0 <SysTick_Handler+0x2c>)
+ 80003d2:	2200      	movs	r2, #0
+ 80003d4:	601a      	str	r2, [r3, #0]
+        STK->LOAD = 0;
+ 80003d6:	4b06      	ldr	r3, [pc, #24]	; (80003f0 <SysTick_Handler+0x2c>)
+ 80003d8:	2200      	movs	r2, #0
+ 80003da:	605a      	str	r2, [r3, #4]
+        STK->VAL  = 0;
+ 80003dc:	4b04      	ldr	r3, [pc, #16]	; (80003f0 <SysTick_Handler+0x2c>)
+ 80003de:	2200      	movs	r2, #0
+ 80003e0:	609a      	str	r2, [r3, #8]
+    }
+
+    // Call the callback function.
+    STK_callBack();
+ 80003e2:	4b04      	ldr	r3, [pc, #16]	; (80003f4 <SysTick_Handler+0x30>)
+ 80003e4:	681b      	ldr	r3, [r3, #0]
+ 80003e6:	4798      	blx	r3
+}
+ 80003e8:	bf00      	nop
+ 80003ea:	bd80      	pop	{r7, pc}
+ 80003ec:	20000068 	.word	0x20000068
+ 80003f0:	e000ed00 	.word	0xe000ed00
+ 80003f4:	20000064 	.word	0x20000064
+
+080003f8 <main>:
+#include "BatteryIndicator_interface.h"
+#include "I2C_interface.h"
+#include "SPI_interface.h"
+
+int main(void)
+{
+ 80003f8:	b480      	push	{r7}
+ 80003fa:	af00      	add	r7, sp, #0
+ 80003fc:	2300      	movs	r3, #0
+	//Application layer code
+}
+ 80003fe:	4618      	mov	r0, r3
+ 8000400:	46bd      	mov	sp, r7
+ 8000402:	bc80      	pop	{r7}
+ 8000404:	4770      	bx	lr
+	...
+
+08000408 <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 8000408:	480d      	ldr	r0, [pc, #52]	; (8000440 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 800040a:	4685      	mov	sp, r0
+/* Call the clock system intitialization function.*/
+  bl  SystemInit
+ 800040c:	f3af 8000 	nop.w
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8000410:	480c      	ldr	r0, [pc, #48]	; (8000444 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8000412:	490d      	ldr	r1, [pc, #52]	; (8000448 <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8000414:	4a0d      	ldr	r2, [pc, #52]	; (800044c <LoopForever+0xe>)
+  movs r3, #0
+ 8000416:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 8000418:	e002      	b.n	8000420 <LoopCopyDataInit>
+
+0800041a <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 800041a:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 800041c:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 800041e:	3304      	adds	r3, #4
+
+08000420 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8000420:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 8000422:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 8000424:	d3f9      	bcc.n	800041a <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 8000426:	4a0a      	ldr	r2, [pc, #40]	; (8000450 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 8000428:	4c0a      	ldr	r4, [pc, #40]	; (8000454 <LoopForever+0x16>)
+  movs r3, #0
+ 800042a:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 800042c:	e001      	b.n	8000432 <LoopFillZerobss>
+
+0800042e <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 800042e:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8000430:	3204      	adds	r2, #4
+
+08000432 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 8000432:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 8000434:	d3fb      	bcc.n	800042e <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 8000436:	f000 f811 	bl	800045c <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 800043a:	f7ff ffdd 	bl	80003f8 <main>
+
+0800043e <LoopForever>:
+
+LoopForever:
+    b LoopForever
+ 800043e:	e7fe      	b.n	800043e <LoopForever>
+  ldr   r0, =_estack
+ 8000440:	20002800 	.word	0x20002800
+  ldr r0, =_sdata
+ 8000444:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 8000448:	20000000 	.word	0x20000000
+  ldr r2, =_sidata
+ 800044c:	080004c4 	.word	0x080004c4
+  ldr r2, =_sbss
+ 8000450:	20000000 	.word	0x20000000
+  ldr r4, =_ebss
+ 8000454:	2000006c 	.word	0x2000006c
+
+08000458 <ADC1_2_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 8000458:	e7fe      	b.n	8000458 <ADC1_2_IRQHandler>
+	...
+
+0800045c <__libc_init_array>:
+ 800045c:	b570      	push	{r4, r5, r6, lr}
+ 800045e:	2500      	movs	r5, #0
+ 8000460:	4e0c      	ldr	r6, [pc, #48]	; (8000494 <__libc_init_array+0x38>)
+ 8000462:	4c0d      	ldr	r4, [pc, #52]	; (8000498 <__libc_init_array+0x3c>)
+ 8000464:	1ba4      	subs	r4, r4, r6
+ 8000466:	10a4      	asrs	r4, r4, #2
+ 8000468:	42a5      	cmp	r5, r4
+ 800046a:	d109      	bne.n	8000480 <__libc_init_array+0x24>
+ 800046c:	f000 f81a 	bl	80004a4 <_init>
+ 8000470:	2500      	movs	r5, #0
+ 8000472:	4e0a      	ldr	r6, [pc, #40]	; (800049c <__libc_init_array+0x40>)
+ 8000474:	4c0a      	ldr	r4, [pc, #40]	; (80004a0 <__libc_init_array+0x44>)
+ 8000476:	1ba4      	subs	r4, r4, r6
+ 8000478:	10a4      	asrs	r4, r4, #2
+ 800047a:	42a5      	cmp	r5, r4
+ 800047c:	d105      	bne.n	800048a <__libc_init_array+0x2e>
+ 800047e:	bd70      	pop	{r4, r5, r6, pc}
+ 8000480:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 8000484:	4798      	blx	r3
+ 8000486:	3501      	adds	r5, #1
+ 8000488:	e7ee      	b.n	8000468 <__libc_init_array+0xc>
+ 800048a:	f856 3025 	ldr.w	r3, [r6, r5, lsl #2]
+ 800048e:	4798      	blx	r3
+ 8000490:	3501      	adds	r5, #1
+ 8000492:	e7f2      	b.n	800047a <__libc_init_array+0x1e>
+ 8000494:	080004bc 	.word	0x080004bc
+ 8000498:	080004bc 	.word	0x080004bc
+ 800049c:	080004bc 	.word	0x080004bc
+ 80004a0:	080004c0 	.word	0x080004c0
+
+080004a4 <_init>:
+ 80004a4:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80004a6:	bf00      	nop
+ 80004a8:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80004aa:	bc08      	pop	{r3}
+ 80004ac:	469e      	mov	lr, r3
+ 80004ae:	4770      	bx	lr
+
+080004b0 <_fini>:
+ 80004b0:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80004b2:	bf00      	nop
+ 80004b4:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80004b6:	bc08      	pop	{r3}
+ 80004b8:	469e      	mov	lr, r3
+ 80004ba:	4770      	bx	lr

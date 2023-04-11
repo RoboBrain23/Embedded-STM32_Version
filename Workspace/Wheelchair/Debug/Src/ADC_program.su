@@ -1,0 +1,6 @@
+ADC_program.c:16:6:ADC_init	16	static
+ADC_program.c:26:6:ADC_regulargroupInit	24	static
+ADC_program.c:44:6:ADC_injectedGroupInit	24	static
+ADC_program.c:63:6:ADC_setChannel	16	static
+ADC_program.c:81:6:Adc_setMode	16	static
+ADC_program.c:106:8:ADC_typeRead	24	static

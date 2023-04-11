@@ -1,0 +1,2 @@
+LM35_program.c:19:6:LM35_init	8	static
+LM35_program.c:75:7:LM35_getTemperature	24	static

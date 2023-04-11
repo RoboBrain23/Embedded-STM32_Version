@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete 3 resources" deleteContents="false" description="Delete 3 resources" element1="/Wheelchair/Src/main.c" element2="/Wheelchair/Src/syscalls.c" element3="/Wheelchair/Src/sysmem.c" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="3" stamp="1681171943494"/>
+</session>
