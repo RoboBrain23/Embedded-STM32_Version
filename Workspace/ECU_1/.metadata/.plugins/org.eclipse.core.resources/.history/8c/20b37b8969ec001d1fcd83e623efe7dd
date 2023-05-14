@@ -1,0 +1,25 @@
+/**************************************************************************************/
+/* Author      : Ibrahim Diab                                                         */
+/* File Name   : Ultrasonic_interface.h                                  	   	      */
+/* Description : Interfacing macros for  Ultrasonic (HAL Layer)                   	  */
+/**************************************************************************************/
+
+#ifndef ULTRASONIC_INTERFACE_H
+#define ULTRASONIC_INTERFACE_H
+
+typedef enum Ultrasonic_state_t
+{
+	Ultrasonic_enable ,
+	Ultrasonic_disable
+}Ultrasonic_state_t;
+
+
+void Ultrasonic_init(Ultrasonic_t * Ultrasonic);
+
+float32 Ultrasonic_readDistance(Ultrasonic_t * Ultrasonic);
+
+void Ultrasonic_setRange(Ultrasonic_t * Ultrasonic, uint16 Range_cm);
+
+void Ultrasonic_setState(Ultrasonic_t * Ultrasonic, Ultrasonic_state_t state);
+
+#endif //ULTRASONIC_INTERFACE_H

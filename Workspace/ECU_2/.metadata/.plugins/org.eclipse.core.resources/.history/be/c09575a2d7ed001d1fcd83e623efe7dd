@@ -1,0 +1,10 @@
+/*************************************************************************************/
+/* Author      : Ibrahim Diab                                                        */
+/* File Name   : Oximeter_private.h                	                        	     */
+/* Description : Private addresses for Max30102 Oximeter (HAL Layer)                 */
+/*************************************************************************************/
+
+#ifndef Oximeter_PRIVATE_H
+#define Oximeter_PRIVATE_H
+
+#endif // Oximeter_PRIVATE_H

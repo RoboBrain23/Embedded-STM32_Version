@@ -1,0 +1,11 @@
+USART_program.c:18:6:USART1_init	16	static
+USART_program.c:42:6:USART2_init	16	static
+USART_program.c:66:6:USART1_sendByte	16	static
+USART_program.c:75:6:USART2_sendByte	16	static
+USART_program.c:87:7:USART1_receiveByte	4	static
+USART_program.c:98:7:USART2_receiveByte	4	static
+USART_program.c:110:6:USART1_sendString	24	static
+USART_program.c:128:6:USART2_sendString	24	static
+USART_program.c:142:6:USART1_receiveString	32	static
+USART_program.c:164:6:USART2_receiveString	32	static
+USART_program.c:186:8:calcBRRReg	40	static

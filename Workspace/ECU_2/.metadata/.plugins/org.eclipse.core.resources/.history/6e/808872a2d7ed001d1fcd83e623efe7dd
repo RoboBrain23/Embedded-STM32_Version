@@ -1,0 +1,11 @@
+/**************************************************************************************/
+/* Author      : Ibrahim Diab                                                         */
+/* File Name   : Oximeter_interface.h             	                     	   	      */
+/* Description : Interfacing macros for Max30102 Oximeter (HAL Layer)                 */
+/**************************************************************************************/
+
+#ifndef Oximeter_INTERFACE_H
+#define Oximeter_INTERFACE_H
+
+
+#endif // Oximeter_INTERFACE_H

@@ -1,0 +1,8 @@
+SPI.c:17:6:SPI1_init	4	static
+SPI.c:61:6:SPI2_init	4	static
+SPI.c:105:6:SPI1_sendReceiveByteSync	16	static
+SPI.c:129:6:SPI1_sendReceiveByteAsync	16	static
+SPI.c:145:6:SPI2_sendReceiveByteSync	16	static
+SPI.c:167:6:SPI2_sendReceiveByteAsync	16	static
+SPI.c:185:6:SPI1_IRQHandler	8	static
+SPI.c:207:6:SPI2_IRQHandler	8	static

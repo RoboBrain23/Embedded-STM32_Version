@@ -1,0 +1,11 @@
+/**************************************************************************************/
+/* Author     : Ibrahim Diab                                                          */
+/* File Name  : Ultrasonic_interface.h                                  	   	      */
+/* Description: Interfacing macros for  Ultrasonic (HAL Layer)                   	  */
+/**************************************************************************************/
+
+#ifndef ULTRASONIC_INTERFACE_H
+#define ULTRASONIC_INTERFACE_H
+
+
+#endif //ULTRASONIC_INTERFACE_H

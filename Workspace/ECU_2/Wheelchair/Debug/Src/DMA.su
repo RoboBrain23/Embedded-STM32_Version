@@ -1,0 +1,10 @@
+DMA.c:16:6:DMA_InitChannel	16	static
+DMA.c:78:6:DMA_StartTransmit	24	static
+DMA.c:96:6:DMA_setCallBackInt	24	static
+DMA.c:105:6:DMA1_Channel1_IRQHandler	4	static
+DMA.c:131:6:DMA1_Channel2_IRQHandler	4	static
+DMA.c:157:6:DMA1_Channel3_IRQHandler	4	static
+DMA.c:183:6:DMA1_Channel4_IRQHandler	4	static
+DMA.c:210:6:DMA1_Channel5_IRQHandler	4	static
+DMA.c:236:6:DMA1_Channel6_IRQHandler	4	static
+DMA.c:262:6:DMA1_Channel7_IRQHandler	4	static

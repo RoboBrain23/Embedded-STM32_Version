@@ -1,0 +1,11 @@
+/*********************************************************************************/
+/* Author      : Ibrahim Diab                                                    */
+/* File Name   : Encoder_config.h                                                */
+/* Description : Configuration for Motors Encoder  (HAL Layer)         		     */
+/*********************************************************************************/
+
+#ifndef Encoder_CONFIG_H
+#define Encoder_CONFIG_H
+
+
+#endif //Encoder_CONFIG_H

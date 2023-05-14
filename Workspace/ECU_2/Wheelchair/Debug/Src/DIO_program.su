@@ -1,0 +1,6 @@
+DIO_program.c:17:6:DIO_setPinDirection	16	static
+DIO_program.c:143:6:DIO_setPinValue	16	static
+DIO_program.c:176:7:DIO_getPinValue	24	static
+DIO_program.c:205:6:DIO_setMultiPinsDirection	32	static
+DIO_program.c:227:6:DIO_setMultiPinValue	16	static
+DIO_program.c:256:8:DIO_getMultiPinValue	24	static

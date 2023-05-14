@@ -1,0 +1,106 @@
+/**********************************************************************************/
+/* Author   : Hind Fouad                                                          */
+/* date     :19 Mar 2022                                                          */
+/* Version  : V01                                                                 */
+/**********************************************************************************/
+#ifndef GPT_PRIVATE_H
+#define GPT_PRIVATE_H
+
+
+ /***********************Timx Addresses************************/
+ 
+ #define TIM1_BaseAddress           0x40012C00
+ #define TIM2_BaseAddress           0x40000000
+ #define TIM3_BaseAddress           0x40000400
+ #define TIM4_BaseAddress           0x40000800
+ #define TIM5_BaseAddress           0x40000C00
+ #define TIM6_BaseAddress           0x40001000
+ #define TIM7_BaseAddress           0x40001400
+ #define TIM8_BaseAddress           0x40013400
+ #define TIM9_BaseAddress           0x40014C00
+ 
+ 
+ /**********************TIMx Register Bits***********************/
+
+#define     CEN             (0)
+#define     UG              (0)
+#define     DIR             (4)
+#define     TIM_DIER_UIE    (0)
+#define     ARPE            (7)
+#define     CC1P            (1)
+#define     CC2P            (5)
+#define     CC3P            (9)
+#define     CC4P            (13)
+#define     CC1E            (0)
+#define     CC2E            (4)
+#define     CC3E            (8)
+#define     CC4E            (12)
+#define     OC1PE           (3)
+#define     OC2PE           (11)
+#define     OC3PE           (3)
+#define     OC4PE           (11)
+#define     IC1F            (4)
+#define     IC2F            (12)
+#define     IC3F            (4)
+#define     IC4F            (12)
+#define     UIE             (0)
+#define     UIF             (0)
+#define     TIM1EN          (11)
+#define     TIM8EN          (13)
+
+ /*******************************Registers ***********************/
+typedef struct
+{
+     /*control register */ 
+     volatile uint32 CR1;
+     volatile uint32 CR2;
+     /*slave mode control register*/
+     volatile uint32 SMCR;
+     /*DMA/Interrupt enable register*/
+     volatile uint32 DIER;
+     /*status register*/
+     volatile uint32 SR;
+     /*event generation register*/
+     volatile uint32 EGR;
+     /*capture/compare mode register x*/
+     volatile uint32 CCMR1;
+     volatile uint32 CCMR2;
+     /*capture/compare enable register*/
+     volatile uint32 CCER;
+     /*counter*/
+     volatile uint32 CNT;
+     /*pre scaler*/
+     volatile uint32 PSC;
+     /*auto-reload register*/
+     volatile uint32 ARR;
+     /*advanced for TIM1 & TIM8
+     *repetition counter
+     */
+     volatile uint32 RCR ;
+     /*capture/compare register x*/
+     volatile uint32 CCR1;
+     volatile uint32 CCR2;
+     volatile uint32 CCR3;
+     volatile uint32 CCR4;
+     /*advanced for TIM1 & TIM8
+     *break and dead-time register
+     */
+     volatile uint32 BDTR;
+     /*DMA control register*/
+     volatile uint32 DCR;
+     /*address for full transfer*/
+     volatile uint32 DMAR;
+    
+}TIM_t ;
+
+#define TIM1                ((volatile TIM_t *)TIM1_BaseAddress)
+#define TIM2    			((volatile TIM_t *)TIM2_BaseAddress)
+#define TIM3    			((volatile TIM_t *)TIM3_BaseAddress)	    
+#define TIM4    			((volatile TIM_t *)TIM4_BaseAddress)
+
+
+/*function prototype*/  
+void Tim_voidSetTicks (TIM_t *TIMx,u32 Copy_u32TimeInterval, u32 Copy_u32TimeIntervalUnit);
+
+
+#endif

@@ -1,0 +1,675 @@
+			 
+  /**********************************************************************************/
+/* Author	: Hind Fouad                                                          */
+/* date		:19 Mar 2022                                                          */
+/* Version	: V01                                                                 */
+/**********************************************************************************/
+
+/**************includes***************/
+#include "std_types.h"
+#include "BIT_MATH.h"
+#include "RCC_interface.h"
+#include "GPT_interface.h"
+#include "GPT_private.h"
+#include "GPT_config.h"
+#include "STM32F103C6.h"
+
+//RCC 
+
+/****************Functions***********/
+
+/************************************************************************************************************* */
+/*Static global variables*/
+/************************************************************************************************************* */
+/* Variable to define interval mode of Timer*/
+static volatile u8 TIM_u8IntervalMode;
+
+
+/************************************************************************************************************* */
+/* Local macros to set and get Interval mode for timer interrupt*/
+#define TIM_SET_INTERVAL_MODE(MODE)                          TIM_u8IntervalMode = MODE
+#define TIM_GET_INTERVAL_MODE()                               (TIM_u8IntervalMode & 1)
+/************************************************************************************************************* */
+
+static void (*TIM1_CallBack)(void);
+static void (*TIM2_CallBack)(void);
+static void (*TIM3_CallBack)(void);
+static void (*TIM4_CallBack)(void);
+
+/************************************************************************************************************* */
+void Tim_voidInit(TIM_t * TIMx, TIM_ConfigType * config){
+	/*Enable the timer clock from RCC*/
+    if (TIMx == TIM1) {
+		SET_BIT (RCC->APB2ENR,TIM1EN);
+     
+    } else if (TIMx == TIM2) {
+        SET_BIT (RCC->APB1ENR,TIM2EN);
+    }else if (TIMx == TIM3) {
+        SET_BIT (RCC->APB1ENR,TIM3EN);
+    }else if (TIMx == TIM4) {
+        SET_BIT (RCC->APB1ENR,TIM4EN);
+    }
+   
+     /*call functions*/
+  Tim_voidStopTimer( TIMx);
+  Tim_voidSetPrescaler(TIMx , config -> DesiredTimerFreq);
+  Tim_VoidSetPeriod (TIMx , config -> AutoReloadValue);
+    
+    /* Set the update event as the interrupt source*/
+    TIMx->DIER |= TIM_DIER_UIE;
+	/* enable the timer interrupt in the NVIC*/
+  //NVIC_EnableIRQ(TIMx_IRQn);
+  Tim_voidSetClockSource(TIMx, config -> CLK_SRC );
+  Tim_voidSetClkDiv(TIMx,config ->ClockFactor );
+  Tim_voidCounterMode(TIMx,config -> CounterMode);
+  Tim_voidSet_Interrupt(TIMx,config -> State);
+  Tim_voidStartTimer( TIMx);
+
+
+
+}
+void Tim_voidStopTimer(TIM_t * TIMx){
+	
+	CLEAR_BIT(TIMx ->CR1 ,CEN);
+}
+void Tim_voidStartTimer(TIM_t* TIMx){
+	SET_BIT(TIMx->CR1,CEN);
+}
+void Tim_voidSetPrescaler(TIM_t * TIMx , u32 Copy_u32TimerFreq){
+	  /*Set the prescaler value in PSC register*/
+	  u32 Local_Prescaler = (SYSTEM_CLOCK_FREQUENCY) /(Copy_u32TimerFreq)-1;
+    TIMx ->PSC =  Local_Prescaler;
+	
+	
+}
+void Tim_VoidSetPeriod (TIM_t * TIMx , u32 Copy_u32Period){
+	/* Set the autoreload value value in ARP register*/
+    TIMx->ARR = Copy_u32Period;
+}
+void Tim_voidSetClockSource(TIM_t *TIMx, timer_clk_src_t Copy_CLK_SRC) {
+	switch (Copy_CLK_SRC){ 
+  
+	  case TIMER_CLK_SRC_INTERNAL:
+      // Configure timer clock source to internal oscillator
+	  /*SMS bits */
+	  CLEAR_BIT (TIMx -> SMCR ,0);
+	  CLEAR_BIT (TIMx -> SMCR ,1);
+	  CLEAR_BIT (TIMx -> SMCR ,2);
+      /*clear MMS bits*/
+	  CLEAR_BIT (TIMx -> CR2,4);
+	  CLEAR_BIT (TIMx -> CR2,5);
+	  CLEAR_BIT (TIMx -> CR2,6);
+    
+	  SET_BIT ( TIMx -> EGR , UG);
+      
+      break;
+
+    case TIMER_CLK_SRC_EXTERNAL_MODE1:
+      // Configure timer clock source to external clock mode 1
+      /*SMS bits */
+	  SET_BIT (TIMx -> SMCR ,0);
+	  SET_BIT (TIMx -> SMCR ,1);
+	  SET_BIT (TIMx -> SMCR ,2);
+      /*clear MMS bits*/
+	  CLEAR_BIT (TIMx -> CR2,4);
+	  CLEAR_BIT (TIMx -> CR2,5);
+	  CLEAR_BIT (TIMx -> CR2,6);
+      SET_BIT ( TIMx -> EGR , UG);
+      break;
+
+    case TIMER_CLK_SRC_EXTERNAL_MODE2:
+      // Configure timer clock source to external clock mode 2
+      CLEAR_BIT (TIMx -> SMCR ,0);
+	  CLEAR_BIT (TIMx -> SMCR ,1);
+	  SET_BIT (TIMx -> SMCR ,2);
+     
+      /*clear MMS bits*/
+	  CLEAR_BIT (TIMx -> CR2,4);
+	  CLEAR_BIT (TIMx -> CR2,5);
+	  SET_BIT (TIMx -> CR2,6);
+      
+      SET_BIT ( TIMx -> EGR , UG);
+      break;
+
+    default:
+      // Invalid clock source specified
+      return;
+	  
+	  
+  }
+	
+	
+}
+void Tim_voidCounterMode(TIM_t *TIMx,counter_m Copy_CounterMode){
+	switch (Copy_CounterMode){
+  case Up_Counting:
+  /*set direction of counter: up */
+      CLEAR_BIT(TIMx -> CR1 ,DIR );
+
+	  break;
+  case Down_Counting :
+    /*set direction of counter: up */
+      SET_BIT (TIMx -> CR1 ,DIR);
+	 
+	  break;
+  case Center_Aligned:
+      CLEAR_BIT ( TIMx -> CR1 , DIR);
+	  SET_BIT (TIMx -> CR1 ,6);
+	  CLEAR_BIT (TIMx -> CR1 ,5);
+     break;
+	  default:
+	  break;
+	  
+  
+    
+}
+}
+void TIM_voidReptitionCounter(TIM_t * TIMx,u32 Copy_u32Count ){
+	/*Auto-reload preload enable*/
+	SET_BIT (TIMx -> CR1 , ARPE);
+	/*save count number in repetition counter register*/
+	TIMx ->RCR = Copy_u32Count;
+
+}
+void Tim_voidSetClkDiv(TIM_t *TIMx,Clk_Div Copy_ClockDiv)
+{
+	switch(Copy_ClockDiv)
+	{
+	case Div_1:
+		CLEAR_BIT(TIMx->CR1,8);
+		CLEAR_BIT(TIMx->CR1,9);
+		break;
+
+	case Div_2:
+		SET_BIT(TIMx->CR1,8);
+		CLEAR_BIT(TIMx->CR1,9);
+		break;
+
+	case Div_3:
+		CLEAR_BIT(TIMx->CR1,8);
+		SET_BIT(TIMx->CR1,9);
+		break;
+
+	default:
+		break;
+	}
+}
+
+
+/*********Modes ( input capture|PEM input|forced output| output compare********/
+void Tim_voidInputCaptureMode(TIM_t* TIMx, channel_t Channel, u32 Copy_u32FilterDuration,edge_t Edge)
+{
+	u32 Local_u32Prescaler = TIMx -> PSC;
+	
+	/*select the channel*/
+	if (Channel == TIM_Channel1 )
+	{
+		
+	/*1-  write 01 to cc1s bits in CCMR register*/
+	SET_BIT (TIMx -> CCMR1 ,0) ;
+	CLEAR_BIT (TIMx -> CCMR1 ,1);
+	 /*2-set input filter */
+	CLEAR_BIT (TIMx -> CCMR1 , IC1F);   
+    TIMx->CCMR1 |= (Copy_u32FilterDuration << IC1F);  // Set IC1F bits
+	/*3- select edge*/
+	    if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC1P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC1P);
+		}
+		/*4- enable register*/
+		SET_BIT (TIMx -> CCER ,CC1E);
+	
+	}else if (Channel == TIM_Channel2){
+		/*1-  write 01 to cc2s bits in CCMR register*/
+	SET_BIT (TIMx -> CCMR1 ,8) ;
+	CLEAR_BIT (TIMx -> CCMR1 ,9);
+	  /*2-  set input filter */
+	CLEAR_BIT (TIMx -> CCMR1 , IC2F);   
+    TIMx->CCMR1 |= (Copy_u32FilterDuration << IC2F);  // Set IC2F bits
+	/*3- select edge*/
+	   if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC2P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC2P);
+		}
+		/*4- enable register*/
+		SET_BIT (TIMx -> CCER ,CC2E);
+	
+	}else if (Channel == TIM_Channel3){
+		/*1-  write 01 to cc3s bits in CCMR2 register*/
+	SET_BIT (TIMx -> CCMR2 ,0) ;
+	CLEAR_BIT (TIMx -> CCMR2 ,1);
+	  /*2- set input filter */
+	CLEAR_BIT (TIMx -> CCMR2 , IC3F);   
+    TIMx->CCMR2 |= (Copy_u32FilterDuration << IC3F);  // Set IC1F bits
+	/*3- select edge*/
+	 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC3P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC3P);
+		}
+		/*4- enable register*/
+		SET_BIT (TIMx -> CCER ,CC3E);
+	
+	}else if (Channel == TIM_Channel4){
+		/*1-  write 01 to cc4s bits in CCMR2 register*/
+	SET_BIT (TIMx -> CCMR2 ,8) ;
+	CLEAR_BIT (TIMx -> CCMR2 ,9);
+	 /*2- set input filter */
+	CLEAR_BIT (TIMx -> CCMR2 , IC4F);   
+    TIMx->CCMR2 |= (Copy_u32FilterDuration << IC4F);  // Set IC1F bits
+	/*3- select edge*/
+	 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC4P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC4P);
+		}
+		/*4- enable register*/
+		SET_BIT (TIMx -> CCER ,CC4E);
+	
+	}
+
+	
+	
+	
+	
+}
+
+void Tim_voidPWMInputMode(TIM_t* TIMx, channel_t Channel,edge_t Edge){
+	if (Channel== TIM_Channel1){
+	
+	
+		SET_BIT (TIMx -> CCMR1 ,0);
+		CLEAR_BIT (TIMx -> CCMR1 ,1);
+		 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC1P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC1P);
+		}
+		
+	}else if (Channel == TIM_Channel2){
+	
+		SET_BIT (TIMx -> CCMR1 ,9);
+		CLEAR_BIT (TIMx -> CCMR1 ,8);
+		 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC2P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC2P);
+		}
+	}else if (Channel == TIM_Channel3){
+		
+		SET_BIT (TIMx -> CCMR2 ,0);
+		CLEAR_BIT (TIMx -> CCMR2 ,1);
+		 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC3P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC3P);
+		}
+	}else if (Channel == TIM_Channel4){
+	
+		SET_BIT (TIMx -> CCMR1 ,9);
+		CLEAR_BIT (TIMx -> CCMR1 ,8);
+		 if (Edge == RISING ){
+			 CLEAR_BIT (TIMx -> CCER, CC4P);
+		}else if (Edge == FALLING)
+		{
+			SET_BIT (TIMx -> CCER, CC4P);
+		}
+		
+	}
+	/*Filtered Timer Input 1 (TI1FP1)*/
+	SET_BIT(TIMx -> SMCR,4);
+	CLEAR_BIT(TIMx -> SMCR,5);
+	SET_BIT(TIMx -> SMCR,6);
+	/*Reset Mode - Rising edge of the selected trigger input (TRGI) reinitializes the counter
+and generates an update of the registers.*/
+	CLEAR_BIT(TIMx -> SMCR,0);
+	CLEAR_BIT(TIMx -> SMCR,1);
+	SET_BIT(TIMx -> SMCR,2);
+	/*Capture enabled.*/
+	SET_BIT (TIMx -> CCER ,CC1E);
+	SET_BIT (TIMx -> CCER ,CC2E);
+}
+
+void Tim_voidForcedoutputMode(TIM_t *TIMx, channel_t Channel,edge_t Edge){
+	if (Channel == TIM_Channel1){
+		/*CC1 channel is configured as output*/
+		CLEAR_BIT(TIMx -> CCMR1 , 0);
+		CLEAR_BIT(TIMx -> CCMR1 , 0);
+		if (Edge == RISING){
+			SET_BIT (TIMx -> CCMR1 ,4);
+			CLEAR_BIT (TIMx -> CCMR1 ,5);
+			SET_BIT (TIMx -> CCMR1 ,6);
+			
+		}else if (Edge == FALLING){
+			CLEAR_BIT (TIMx -> CCMR1 ,4);
+			CLEAR_BIT (TIMx -> CCMR1 ,5);
+			SET_BIT (TIMx -> CCMR1 ,6);
+		}
+	}else if   (Channel == TIM_Channel2){
+		/*CC2 channel is configured as output*/
+		CLEAR_BIT(TIMx -> CCMR1 , 8);
+		CLEAR_BIT(TIMx -> CCMR1 , 9);
+		if (Edge == RISING){
+			SET_BIT (TIMx -> CCMR1 ,12);
+			CLEAR_BIT (TIMx -> CCMR1 ,13);
+			SET_BIT (TIMx -> CCMR1 ,14);
+			
+		}else if (Edge == FALLING){
+			CLEAR_BIT (TIMx -> CCMR1 ,12);
+			CLEAR_BIT (TIMx -> CCMR1 ,13);
+			SET_BIT (TIMx -> CCMR1 ,14);
+		}
+	}else if   (Channel ==TIM_Channel3){
+		/*CC3 channel is configured as output*/
+		CLEAR_BIT(TIMx -> CCMR2 , 0);
+		CLEAR_BIT(TIMx -> CCMR2 , 1);
+		if (Edge == RISING){
+			SET_BIT (TIMx -> CCMR2 ,4);
+			CLEAR_BIT (TIMx -> CCMR2 ,5);
+			SET_BIT (TIMx -> CCMR2 ,6);
+			
+		}else if (Edge == FALLING){
+			CLEAR_BIT (TIMx -> CCMR2 ,4);
+			CLEAR_BIT (TIMx -> CCMR2 ,5);
+			SET_BIT (TIMx -> CCMR2 ,6);
+		}
+	}else if   (Channel ==TIM_Channel4){
+		/*CC4 channel is configured as output*/
+		CLEAR_BIT(TIMx -> CCMR2 , 8);
+		CLEAR_BIT(TIMx -> CCMR2 , 9);
+		if (Edge == RISING){
+			SET_BIT (TIMx -> CCMR2 ,12);
+			CLEAR_BIT (TIMx -> CCMR2 ,13);
+			SET_BIT (TIMx -> CCMR2 ,14);
+			
+		}else if (Edge == FALLING){
+			CLEAR_BIT (TIMx -> CCMR2 ,12);
+			CLEAR_BIT (TIMx -> CCMR2 ,13);
+			SET_BIT (TIMx -> CCMR2 ,14);
+		}
+	}
+	
+	
+}
+void Tim_voidOutputCompareMode(TIM_t *Timx){
+	
+}
+/******************************************************************************/
+void Tim_voidSetPWMmode(TIM_t * TIMx ,channel_t Channel,PWM_t Mode, counter_m CounterMode,uint32 Copy_uint32DutyCycle){
+	uint32 Local_PWM_Freq = SYSTEM_CLOCK_FREQUENCY / ( (TIMx -> PSC)*(TIMx -> ARR) +1);
+	u32 Copy_u32Pulse = ( (SYSTEM_CLOCK_FREQUENCY /Local_PWM_Freq)*  Copy_uint32DutyCycle )-1;
+	SET_BIT (TIMx -> EGR,UG);
+	if (Channel == TIM_Channel1)
+	{
+		/*enable PWM mode 1*/
+		ClEAR_BIT(TIMx -> CCMR1,4);
+		SET_BIT(TIMx -> CCMR1,5);
+		SET_BIT(TIMx -> CCMR1,6);
+		/*enable preload*/
+		SET_BIT ( TIMx -> CCMR1,OC1PE);
+		TIMx -> CCR1 =Copy_u32Pulse;
+	
+	}else if 
+	(Channel == TIM_Channel2)
+	{
+		ClEAR_BIT(TIMx -> CCMR1,12);
+		SET_BIT(TIMx -> CCMR1,13);
+		SET_BIT(TIMx -> CCMR1,14);
+		SET_BIT ( TIMx -> CCMR1,OC2PE);
+		TIMx -> CCR2 = Copy_u32Pulse;
+	}else if (Channel == TIM_Channel3)
+	{
+		ClEAR_BIT(TIMx -> CCMR2,4);
+		SET_BIT(TIMx -> CCMR2,5);
+		SET_BIT(TIMx -> CCMR2,6);
+		SET_BIT ( TIMx -> CCMR2,OC3PE);
+		TIMx -> CCR3 = Copy_u32Pulse;
+	}else if 
+	(Channel == TIM_Channel4)
+	{
+		ClEAR_BIT(TIMx -> CCMR2,12);
+		SET_BIT(TIMx -> CCMR2,13);
+		SET_BIT(TIMx -> CCMR2,14);
+		SET_BIT ( TIMx -> CCMR2,OC4PE);
+		TIMx -> CCR1 =Copy_u32Pulse;
+	}
+	u32 Local = TIMx -> ARR;
+	if ( Mode == EdgeAligned_Mode){
+		
+		Tim_voidCounterMode(TIMx,CounterMode);
+	}else if ( Mode == CenterAligned_Mode){
+			Tim_voidCounterMode(TIMx,Center_Aligned);
+	}
+	
+	
+	
+}
+void Tim_voidSet_Interrupt(TIM_t *TIMx,TIM_Update_INT_State Copy_IntState)
+{
+	switch(Copy_IntState)
+	{
+	case Disable_Interrupt:
+		CLEAR_BIT(TIMx -> DIER,UIE);
+		break;
+	case Enable_Interrupts:
+		SET_BIT(TIMx -> DIER,UIE);
+		break;
+	default:
+		break;
+	}
+}	
+void Tim_voidSetTicks (TIM_t *TIMx,u32 Copy_u32TimeInterval, u32 Copy_u32TimeIntervalUnit){
+	 u32 Local_TicksPerInterval = SYSTEM_CLOCK_FREQUENCY *  Copy_u32TimeIntervalUnit;
+	  /* Calculate the number of intervals required */
+    u32 num_intervals = Copy_u32TimeInterval/ Local_TicksPerInterval;
+    /* Calculate the remainder (duration not covered by complete intervals) */
+    u32 Remainder_Duration = Copy_u32TimeInterval % Local_TicksPerInterval;
+	  /* Assign ticks to load register */
+    u32 ARR_value = 0;
+    for (u32 i = 0; i < Local_TicksPerInterval; i++) {
+        ARR_value += Local_TicksPerInterval;
+        /* Check for overflow */
+        if (ARR_value > 0xFFFF) {
+            /* Overflow occurred, set ARR to maximum value and exit loop */
+            TIMx->ARR = 0xFFFF;
+            break;
+        }
+    }
+    if (ARR_value <= 0xFFFF) {
+        /* Add the remaining duration to the last interval */
+        ARR_value += Remainder_Duration;
+        /* Check for overflow */
+        if (ARR_value > 0xFFFF) {
+            /* Overflow occurred, set ARR to maximum value */
+            TIMx->ARR = 0xFFFF;
+        } else {
+            /* No overflow, assign ARR the calculated value */
+            TIMx->ARR = ARR_value;
+        }
+    }
+
+
+
+}
+void Tim_voidSetBusyWait(TIM_t *TIMx,u32 Copy_u32TimeInterval, u32 Copy_u32TimeIntervalUnit)
+{
+	Tim_voidSetTicks (TIMx,Copy_u32TimeInterval, Copy_u32TimeIntervalUnit);
+	/*Start timer*/
+	SET_BIT(TIMx -> CR1,CEN);
+	/*Wait until busy wait flag is raised */
+	while(GET_BIT(TIMx -> SR,UIF) == 0);
+	/*Stop timer*/
+	CLEAR_BIT(TIMx -> CR1,CEN);
+	/*Clear Timer registers*/
+	TIMx->ARR = 0;
+	/*Clear interrupt flag*/
+	CLEAR_BIT(TIMx -> SR,UIF);
+}
+
+void Tim_voidSetIntervalSingle  (TIM_t *TIMx, u32 Copy_u32TimeInterval, u32 Copy_u32TimeIntervalUnit, void (*Copy_voidpFuncPtr)(void) )
+{
+	/*Stop timer*/
+	CLEAR_BIT(TIMx->CR1,CEN);
+	/*Clear Timer registers*/
+	//TIMx->ARR = 0;
+	 /* Calculate ticks from interval duration in milliseconds */
+	 Tim_voidSetTicks (TIMx,Copy_u32TimeInterval, Copy_u32TimeIntervalUnit);
+
+
+
+
+	/* Assign callBack function */
+	 if ( TIMx ==TIM1){
+
+		 TIM1_CallBack = Copy_voidpFuncPtr;
+
+	 }else if ( TIMx ==TIM2){
+
+		 TIM2_CallBack = Copy_voidpFuncPtr;
+
+	 }else if ( TIMx ==TIM3){
+
+		 TIM3_CallBack = Copy_voidpFuncPtr;
+
+	 }else if ( TIMx ==TIM4){
+
+		 TIM4_CallBack = Copy_voidpFuncPtr;
+
+	 }
+
+
+
+	/* Set Mode to Single */
+	TIM_SET_INTERVAL_MODE(TIM_SINGLE_INTERVAL_MODE);
+	/*Enable Timer interrupt*/
+	SET_BIT(TIMx->DIER,UIE);
+	/*Start timer*/
+	SET_BIT(TIMx->CR1,CEN);
+}
+
+void TIM_voidSetIntervalPeriodic(TIM_t *TIMx, u32 Copy_u32TimeInterval, u32 Copy_u32TimeIntervalUnit,  void (* Copy_voidpFuncPtr) (void))
+{
+		 Tim_voidSetTicks (TIMx,Copy_u32TimeInterval, Copy_u32TimeIntervalUnit);
+	/*Assign the function to the callback function */
+		 if ( TIMx ==TIM1){
+
+				 TIM1_CallBack = Copy_voidpFuncPtr;
+
+			 }else if ( TIMx ==TIM2){
+
+				 TIM2_CallBack = Copy_voidpFuncPtr;
+
+			 }else if ( TIMx ==TIM3){
+
+				 TIM3_CallBack = Copy_voidpFuncPtr;
+
+			 }else if ( TIMx ==TIM4){
+
+				 TIM4_CallBack = Copy_voidpFuncPtr;
+
+			 }
+	/* Set Mode to Single */
+	TIM_SET_INTERVAL_MODE(TIM_PERIODIC_INTERVAL_MODE);
+	/*Enable Timer interrupt*/
+	SET_BIT(TIMx->DIER,UIE);
+	/*Start the counter*/
+	SET_BIT(TIMx->CR1,CEN);
+}
+void TIM1_UP_IRQHandler (void)
+{
+	if(TIM_GET_INTERVAL_MODE() == TIM_SINGLE_INTERVAL_MODE)
+	{
+		/*Disable Timer interrupt*/
+		CLEAR_BIT(TIM1 -> DIER ,UIE);
+		/*Stop the counter*/
+		CLEAR_BIT(TIM1 ->CR1 ,CEN);
+		/*Clear timer registers*/
+		TIM1->ARR = 0;
+	}
+	else
+	{
+		/*do nothing*/
+	}
+
+	/*Execute callback function*/
+	TIM1_CallBack();
+
+	/*Clear interrupt flag*/
+	CLEAR_BIT(TIM1->SR,UIF);
+}
+
+void TIM2_UP_IRQHandler (void)
+{
+	if(TIM_GET_INTERVAL_MODE() == TIM_SINGLE_INTERVAL_MODE)
+	{
+		/*Disable Timer interrupt*/
+		CLEAR_BIT(TIM2 -> DIER ,UIE);
+		/*Stop the counter*/
+		CLEAR_BIT(TIM2 ->CR1 ,CEN);
+		/*Clear timer registers*/
+		TIM2->ARR = 0;
+	}
+	else
+	{
+		/*do nothing*/
+	}
+
+	/*Execute callback function*/
+	TIM2_CallBack();
+
+	/*Clear interrupt flag*/
+	CLEAR_BIT(TIM2->SR,UIF);
+}
+void TIM3_UP_IRQHandler (void)
+{
+	if(TIM_GET_INTERVAL_MODE() == TIM_SINGLE_INTERVAL_MODE)
+	{
+		/*Disable Timer interrupt*/
+		CLEAR_BIT(TIM3 -> DIER ,UIE);
+		/*Stop the counter*/
+		CLEAR_BIT(TIM3 ->CR1 ,CEN);
+		/*Clear timer registers*/
+		TIM3->ARR = 0;
+	}
+	else
+	{
+		/*do nothing*/
+	}
+
+	/*Execute callback function*/
+	TIM3_CallBack();
+
+	/*Clear interrupt flag*/
+	CLEAR_BIT(TIM3->SR,UIF);
+}
+void TIM4_UP_IRQHandler (void)
+{
+	if(TIM_GET_INTERVAL_MODE() == TIM_SINGLE_INTERVAL_MODE)
+	{
+		/*Disable Timer interrupt*/
+		CLEAR_BIT(TIM4 -> DIER ,UIE);
+		/*Stop the counter*/
+		CLEAR_BIT(TIM4 ->CR1 ,CEN);
+		/*Clear timer registers*/
+		TIM4->ARR = 0;
+	}
+	else
+	{
+		/*do nothing*/
+	}
+
+	/*Execute callback function*/
+	TIM4_CallBack();
+
+	/*Clear interrupt flag*/
+	CLEAR_BIT(TIM4->SR,UIF);
+}

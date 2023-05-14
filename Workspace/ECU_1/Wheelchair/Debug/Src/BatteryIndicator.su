@@ -1,0 +1,2 @@
+BatteryIndicator.c:26:6:BattInd_init	40	static
+BatteryIndicator.c:88:7:BattInd_getBatteryCapacityLevel	24	static

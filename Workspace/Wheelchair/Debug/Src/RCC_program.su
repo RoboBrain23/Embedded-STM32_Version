@@ -1,3 +1,0 @@
-RCC_program.c:16:6:RCC_initSysClk	4	static
-RCC_program.c:57:6:RCC_enableClk	16	static
-RCC_program.c:86:6:RCC_disableClk	16	static

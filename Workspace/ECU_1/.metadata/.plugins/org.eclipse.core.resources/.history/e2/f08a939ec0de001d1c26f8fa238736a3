@@ -1,0 +1,20 @@
+/********************************************************************************************/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : Encoder_program.c                                                          */
+/* Description : Functions Implementation for Motors Encoder   (HAL Layer)                  */
+/********************************************************************************************/
+
+#include "std_types.h"
+#include "common_macros.h"
+
+#include "RCC_interface.h"
+#include "DIO_interface.h"
+#include "ADC_interface.h"
+
+#include "Encoder_interface.h"
+#include "Encoder_private.h"
+#include "Encoder_config.h"
+
+
+
+#endif

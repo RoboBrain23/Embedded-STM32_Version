@@ -1,0 +1,10 @@
+/*********************************************************************************/
+/* Author      : Ibrahim Diab                                                    */
+/* File Name   : Ultrasonic_config.h                                  		     */
+/* Description : Configuration for Ultrasonic (HAL Layer)              	     	 */
+/*********************************************************************************/
+
+#ifndef ULTRASONIC_CONFIG_H
+#define ULTRASONIC_CONFIG_H
+
+#endif // ULTRASONIC_CONFIG_H

@@ -1,0 +1,24 @@
+/**************************************************************************************/
+/* Author     : Ibrahim Diab                                                          */
+/* File Name  : Encoder_interface.h                                                   */
+/* Description: Interfacing macros for Motors Encoder  (HAL Layer)                    */
+/**************************************************************************************/
+
+#ifndef ENCODER_INTERFACE_H
+#define ENCODER_INTERFACE_H
+
+typedef enum Encoders_Number_t
+{
+	RIGHT =0, LEFT
+};
+
+void Encoder_init(Encoders_Number_t Encoder_Num);
+
+int32 Encoder_getPosition();
+
+int32 Encoder_getSpeed();
+
+int32 Encoder_getAcceleration();
+
+
+#endif //ENCODER_INTERFACE_H

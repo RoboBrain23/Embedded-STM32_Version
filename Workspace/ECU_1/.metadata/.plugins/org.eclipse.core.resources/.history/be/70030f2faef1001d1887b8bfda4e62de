@@ -1,0 +1,78 @@
+/*************************************************************************************/
+/* Author      : Ibrahim Diab                                                        */
+/* File Name   : Oximeter_private.h                	                        	     */
+/* Description : Private addresses for Max30102 Oximeter (HAL Layer)                 */
+/*************************************************************************************/
+
+#ifndef Oximeter_PRIVATE_H
+#define Oximeter_PRIVATE_H
+
+
+// I2C slave Address of Max30102 Oximeter
+#define MAX30102_ADDRESS		 		    0x57
+
+#define I2C_MAX_BUFFER_SIZE 				10
+
+#define NUM_OF_INTERRUPT_STATUS				5
+
+#define FIFO_ALMOST_FULL_FLAG_INDEX			0
+#define FIFO_NEW_DATA_READY_INDEX			1
+#define AMBIENT_LIGHT_OVERFLOW_INDEX		2
+#define POWER_READY_FLAG_INDEX				3
+#define TEMPERATURE_READY_FLAG_INDEX		4
+
+#define FIFO_SIZE							32
+
+
+/************************ register addresses ***************************/
+
+/* Interrupt Status */
+#define INTR_STATUS_1 	 (uint8)0x00
+#define INTR_STATUS_2 	 (uint8)0x01
+
+/* Interrupt Enable */
+#define INTR_ENABLE_1 	 (uint8)0x02
+#define INTR_ENABLE_2 	 (uint8)0x03
+
+/* FIFO */
+#define FIFO_WR_PTR   	 (uint8)0x04
+#define OVF_COUNTER   	 (uint8)0x05
+#define FIFO_RD_PTR   	 (uint8)0x06
+#define FIFO_DATA	  	 (uint8)0x07
+
+/* FIFO Configuration */
+#define FIFO_CONFIG  	 (uint8)0x08
+
+/* Mode Configuration */
+#define MODE_CONFIG  	 (uint8)0x09
+
+/* SpO2 Configuration */
+#define SPO2_CONFIG   	 (uint8)0x0A
+
+/* LED Pulse Amplitude */
+#define LED1_PA      	 (uint8)0x0C
+#define LED2_PA      	 (uint8)0x0D
+
+/* Multi-LED Mode Control Registers */
+#define MULTI_LED_CTRL1  (uint8)0x11
+#define MULTI_LED_CTRL2  (uint8)0x12
+
+/* Temperature Data */
+#define TEMP_INTR        (uint8)0x1F
+#define TEMP_FRAC	     (uint8)0x20
+#define TEMP_CONFIG      (uint8)0x21
+
+/* PART ID */
+#define REV_ID			 (uint8)0xFE
+#define PART_ID			 (uint8)0xFF
+
+/*************************************************************************/
+
+void writeRegister(uint8 registerAddress, uint8 * buffer, uint8 dataLength);
+
+void readRegister(uint8 registerAddress, uint8 * buffer, uint8 datalength);
+
+void updateReadySamplesNum();
+
+
+#endif // Oximeter_PRIVATE_H

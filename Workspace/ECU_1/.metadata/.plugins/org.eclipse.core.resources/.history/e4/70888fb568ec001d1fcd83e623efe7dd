@@ -1,0 +1,21 @@
+/*************************************************************************************/
+/* Author      : Ibrahim Diab                                                        */
+/* File Name   : Ultrasonic_private.h                                        	     */
+/* Description : Private addresses for Ultrasonic (HAL Layer)                 		 */
+/*************************************************************************************/
+
+#ifndef ULTRASONIC_PRIVATE_H
+#define ULTRASONIC_PRIVATE_H
+
+#define OUT_OF_RANGE 			-1
+
+#define RISING_DETECTED 		 0
+#define FALLING_DETECTED   		 1
+
+#define READING_PENDING			 0
+#define READING_DONE			 1
+
+void CalcDistance();
+void doNoThing();
+
+#endif // ULTRASONIC_PRIVATE_H

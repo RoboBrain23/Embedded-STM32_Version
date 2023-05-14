@@ -1,0 +1,13 @@
+/*************************************************************************************/
+/* Author     : Ibrahim Diab                                                         */
+/* File Name  : Encoder_private.h                                                    */
+/* Description: Private addresses for Motors Encoder  (HAL Layer)                    */
+/*************************************************************************************/
+
+#ifndef Encoder_PRIVATE_H
+#define Encoder_PRIVATE_H
+
+
+
+
+#endif // Encoder_PRIVATE_H

@@ -1,0 +1,6 @@
+algoritms.c:63:6:maxim_heart_rate_and_oxygen_saturation	344	static
+algoritms.c:255:6:maxim_find_peaks	32	static
+algoritms.c:269:6:maxim_peaks_above_min_height	32	static
+algoritms.c:300:6:maxim_remove_close_peaks	40	static
+algoritms.c:329:6:maxim_sort_ascend	32	static
+algoritms.c:347:6:maxim_sort_indices_descend	40	static

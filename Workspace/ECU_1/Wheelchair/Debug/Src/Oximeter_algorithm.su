@@ -1,0 +1,6 @@
+Oximeter_algorithm.c:79:6:maxim_heart_rate_and_oxygen_saturation	344	static
+Oximeter_algorithm.c:271:6:maxim_find_peaks	32	static
+Oximeter_algorithm.c:285:6:maxim_peaks_above_min_height	32	static
+Oximeter_algorithm.c:316:6:maxim_remove_close_peaks	40	static
+Oximeter_algorithm.c:345:6:maxim_sort_ascend	32	static
+Oximeter_algorithm.c:363:6:maxim_sort_indices_descend	40	static

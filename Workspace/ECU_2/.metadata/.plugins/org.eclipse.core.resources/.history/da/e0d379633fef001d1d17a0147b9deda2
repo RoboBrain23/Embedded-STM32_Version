@@ -1,0 +1,185 @@
+/*************************************************************************/
+/* Authors     : Ibrahim Diab, Ahmed Samy, Khlad saad, Hind Hassan       */
+/* File Name   : main.c                          		         		 */
+/* Description : The main program in APP layer for our RoboBrain project */
+/*************************************************************************/
+
+
+
+
+#define MCU STM32F103C6
+
+#include "STM32F103C6.H"
+
+#include "std_types.h"
+#include "common_macros.h"
+
+#include "RCC_interface.h"
+#include "NVIC_interface.h"
+#include "AFIO_interface.h"
+#include "DIO_interface.h"
+#include "STK_interface.h"
+#include "EXTI_interface.h"
+#include "USART_interface.h"
+#include "DMA_interface.h"
+#include "ADC_interface.h"
+#include "LM35_interface.h"
+#include "BatteryIndicator_interface.h"
+#include "I2C_interface.h"
+#include "SPI_interface.h"
+#include "ADC_interface.h"
+#include "Encoder_interface.h"
+
+int main(void){
+
+RCC_initSysClk();
+
+//STK_init();
+
+USART1_init(9600);
+
+//Encoder_init (RIGHT);
+
+uint32 counts =80;
+
+uint8 str[]=" test ";
+while(1)
+{
+//	counts = Encoder_getCounts( RIGHT);
+	USART1_sendByte( counts);
+
+	USART1_sendString(str);
+}
+
+return 0;
+}
+
+
+
+
+
+/*
+int main(void) {
+
+
+	RCC_initSysClk();
+	STK_init();
+	RCC_enableClk(RCC_APB2, RCC_GPIOA);
+	uint8 temp;
+
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN2, OUTPUT_SPEED_2MHZ_PP);
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN3, OUTPUT_SPEED_2MHZ_PP);
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN4, OUTPUT_SPEED_2MHZ_PP);
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN5, OUTPUT_SPEED_2MHZ_PP);
+
+
+
+	 DIO_setPinValue(DIO_GPIOA, DIO_PIN2, HIGH);
+	 STK_delayMilliSec(5000);
+
+	 DIO_setPinValue(DIO_GPIOA, DIO_PIN2, LOW);
+	 LM35_init();
+
+	while (1) {
+/*read temp from lm sensor*//*
+	temp = LM35_getTemperature();
+
+		 if(temp < 30) {
+
+			 DIO_setPinValue(DIO_GPIOA, DIO_PIN1, HIGH);
+		}else if ((temp >= 30) && (temp < 60)) {
+			 DIO_setPinValue(DIO_GPIOA, DIO_PIN2, HIGH);
+
+		}else if ((temp >= 60) && (temp < 90)){
+			 DIO_setPinValue(DIO_GPIOA, DIO_PIN3, HIGH);
+		} else if ((temp >= 90) && (temp < 120)){
+			 DIO_setPinValue(DIO_GPIOA, DIO_PIN4, HIGH);
+		}else if (temp >= 120) {
+			 DIO_setPinValue(DIO_GPIOA, DIO_PIN5, HIGH);
+		}
+
+}
+
+	return 0;
+}
+
+
+*/
+
+
+
+
+
+/*************************************************************************/
+/* Authors     : Ibrahim Diab, Ahmed Samy, Khlad saad, Hind Hassan       */
+/* File Name   : main.c                          		         		         */
+/* Description : The main program in APP layer for our RoboBrain project */
+/*************************************************************************/
+
+/*
+
+
+#define MCU STM32F103C6
+
+#include "STM32F103C6.H"
+
+#include "std_types.h"
+#include "common_macros.h"
+
+#include "RCC_interface.h"
+#include "NVIC_interface.h"
+#include "AFIO_interface.h"
+#include "DIO_interface.h"
+#include "STK_interface.h"
+#include "EXTI_interface.h"
+#include "USART_interface.h"
+#include "DMA_interface.h"
+#include "ADC_interface.h"
+#include "LM35_interface.h"
+#include "BatteryIndicator_interface.h"
+#include "I2C_interface.h"
+#include "SPI_interface.h"
+
+
+void turnOnLED(void);
+void turnOffLED(void);
+int main(void){
+
+	STK_init();
+
+	 RCC_initSysClk();
+	 RCC_enableClk (RCC_APB2, RCC_AFIO);
+	 RCC_enableClk (RCC_APB2, RCC_GPIOA);
+
+	 AFIO_setEXTIConfig(AFIO_LINE_0 , AFIO_PORT_A);
+	 AFIO_setEXTIConfig(AFIO_LINE_1 , AFIO_PORT_A);
+
+	 EXTI_enableEXTI(EXTI_LINE_0, RISING);
+	 EXTI_enableEXTI(EXTI_LINE_1, RISING);
+
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN2,OUTPUT_SPEED_2MHZ_PP );
+	 DIO_setPinDirection(DIO_GPIOA, DIO_PIN3,OUTPUT_SPEED_2MHZ_PP );
+
+	 EXTI_setCallBack(EXTI_LINE_0, turnOnLED);
+	 EXTI_setCallBack(EXTI_LINE_1, turnOffLED);
+
+	 NVIC_enableInterrupt(NVIC_EXTI0);
+	 NVIC_enableInterrupt(NVIC_EXTI1);
+
+	 while(1)
+	 {
+		 DIO_setPinValue(DIO_GPIOA,DIO_PIN2 , LOW);
+		 STK_delayMilliSec( 5000);
+	 }
+return 0;
+}
+
+void turnOnLED(void){
+	DIO_setPinValue(DIO_GPIOA,DIO_PIN2 , HIGH);
+	STK_delayMilliSec( 5000);
+}
+
+void turnOffLED(void){
+	DIO_setPinValue(DIO_GPIOA,DIO_PIN2 , LOW);
+}
+*/

@@ -22,11 +22,11 @@ typedef struct
 #define USART1 ((volatile USART_t *)0x40013800) 
 #define USART2 ((volatile USART_t *)0x40004400) 
 
-#define USART1_ID 			0
-#define USART2_ID 			1
+#define USART1_ID           0
+#define USART2_ID           1
 
 #define USART_1_STOP_BIT    0b00
-#define USART_2_STOP_BIT    0b11
+#define USART_2_STOP_BIT    0b10
 
 #define USART_DISABLED      0                       
 #define USART_ENABLED       1

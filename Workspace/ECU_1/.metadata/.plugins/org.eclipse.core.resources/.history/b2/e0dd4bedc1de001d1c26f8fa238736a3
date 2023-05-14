@@ -1,0 +1,182 @@
+/**********************************************************************************/
+/* Author	: Hind Fouad                                                          */
+/* date		:19 Mar 2022                                                          */
+/* Version	: V01                                                                 */
+/**********************************************************************************/
+
+#ifndef GPT_INTERFACE_H
+#define GPT_INTERFACE_H
+
+ /************************************************************************************************************* */
+/* TIM Interval modes*/
+#define TIM_SINGLE_INTERVAL_MODE		    0
+#define TIM_PERIODIC_INTERVAL_MODE	     	1
+
+/***************typedef******************/
+ typedef enum {
+	 /*count from 0 to auto-reload value*/
+	 Up_Counting,
+	 /*count from auto-reload value 0*/
+	 Down_Counting,
+	 /*count from 0 to (auto-reload value -1) then count from auto-reload value to 1*/
+	 Center_Aligned
+ }counter_m;
+ 
+ 
+ typedef enum {
+  TIMER_CLK_SRC_INTERNAL,
+  TIMER_CLK_SRC_EXTERNAL_MODE1,
+  TIMER_CLK_SRC_EXTERNAL_MODE2
+} timer_clk_src_t;
+
+typedef enum
+{
+	Div_1,
+	Div_2,
+	Div_3
+}Clk_Div;
+
+typedef enum
+{
+	TIM_Channel1,TIM_Channel2,TIM_Channel3,TIM_Channel4
+}channel_t;
+
+typedef enum
+{
+	 /*in forced output RISING meaning active and FAllING meaning inactive*/
+	 RISING, FALLING
+}edge_t;
+
+typedef enum
+{
+     EdgeAligned_Mode,CenterAligned_Mode
+}PWM_t;
+	 
+ typedef enum
+{
+	Disable_Interrupt,
+	Enable_Interrupts
+}TIM_Update_INT_State;
+
+
+ typedef struct
+{
+	uint32 Prescaler;
+	uint32 Period;
+	timer_clk_src_t CLK_SRC;
+	counter_m CounterMode;
+	Clk_Div ClockFactor;
+	TIM_Update_INT_State State;
+
+}TIM_ConfigType;
+
+/*******************************functions prototype*****************************/
+/*Function description:
+This function initializes the timer by setting the pre scaler and period values.
+Pre scaler = (timer clock frequency / desired interrupt frequency) - 1
+Period = (desired interrupt frequency / timer clock frequency) x (timer period) - 1
+take counter mode 
+*/
+void Tim_init(TIM_t* TIMx, TIM_ConfigType * config);
+
+/*Function description:
+This function stops the timer
+*/
+void Tim_stopTimer(TIM_t* TIMx);
+
+
+/*Function description:
+This function starts the timer
+*/
+void Tim_startTimer(TIM_t* TIMx);
+
+/*Function description:
+This function set timer pre scaler
+*/
+void Tim_setPrescaler(TIM_t * TIMx , uint32 prescaler);
+
+/*Function description:
+This function set timer auto-reload value
+*/
+void Tim_setPeriod (TIM_t * TIMx , uint32 period);
+
+/*Function description:
+This function set timer clock source ( Internal | External mode1 | External mode 2)
+*/
+void Tim_setClockSource(TIM_t *TIMx, timer_clk_src_t CLK_SRC);
+
+/*Function description:
+This function select counter mode ( UpCounting | DownCounting | centerAligned )
+*/
+void Tim_setCounterMode(TIM_t *TIMx,counter_m counterMode);
+
+
+/*Function description:
+This function turn on repetition counter and take count value
+*/
+void TIM_reptitionCounter(uint32 count );
+
+/***************************modes**********************/
+/*Function description:
+This function enable input capture mode
+*/
+void Tim_setInputCaptureMode(TIM_t* TIMx, channel_t Channel, uint32 filterDuration,edge_t Edge);
+
+/*Function description:
+This function sets the pulse width for a PWM output on the specified channel.
+*/
+void Tim_setPWMInputMode(TIM_t* TIMx, channel_t Channel,edge_t Edge);
+
+void Tim_setForcedOutputMode(TIM_t *Timx, channel_t Channel,edge_t Edge);
+
+/*Function description:
+This function is used to control an output waveform or indicating when a period of time has
+elapsed.
+*/
+
+
+
+/*Function description:
+Pulse Width Modulation mode allows generating a signal with a frequency determined by
+the value of the TIMx_ARR register and a duty cycle determined by the value of the
+TIMx_CCRx register.
+The value of the pulse depends on the desired duty cycle of the PWM signal. The duty cycle is the percentage of time that the signal is high (or low) during one period. For example, if you want a duty cycle of 50%, the signal will be high for half of the period and low for the other half.
+
+The formula to calculate the pulse value based on the desired duty cycle and the timer frequency is:
+
+Pulse = (Duty Cycle / 100) * (Timer Frequency / PWM Frequency)
+
+Where:
+
+Duty Cycle is the desired duty cycle in percentage (e.g. 50 for 50%)
+Timer Frequency is the frequency of the timer (e.g. 72 MHz for a timer running at the maximum frequency on STM32F103C8T6)
+PWM Frequency is the desired frequency of the PWM signal (e.g. 1000 Hz)
+
+*/
+void Tim_setPWMmode(TIM_t * TIMx ,channel_t Channel,PWM_t Mode, counter_m CounterMode,uint32 pulse);
+
+
+/* Function Description 
+this function is used to enable or disable the update interrupt of a timer. 
+**/
+void TIM_set_Interrupt(TIM_t *TIMx,TIM_Update_INT_State Copy_IntState);
+
+/*Function Description:
+this function is used to create a busy wait delay using a timer
+type is unit
+*/
+void TIM_setBusyWait(TIM_t *TIMx,uint32 ticks, uint32 ticksTybe);
+
+/*Function Description:
+this function is used to configure a timer to generate an interrupt after a specific time interval and execute a single callback function. 
+*/
+void Tim_setIntervalSingle  (TIM_t *TIMx, uint32 ticks, uint32 ticksTybe, void (*pFuncPtr)(void) );
+
+/*Function Description:
+this function is used to configure a timer to generate periodic interrupts and execute a callback function at every interrupt.
+*/
+void TIM_setIntervalPeriodic(TIM_t *TIMx,uint32 ticks ,uint32 ticksTybe , void (* pFuncPtr) (void));
+
+
+#endif
+

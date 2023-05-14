@@ -1,0 +1,74 @@
+/********************************************************************************************/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : Oximeter.c			                         	                      	    */
+/* Description : Functions Implementation for Max30102 Oximeter (HAL Layer)                 */
+/********************************************************************************************/
+
+/* Library includes */
+#include "Std_Types.h"
+#include "Common_Macros.h"
+
+/* MCU constant parameters includes */
+#include "STM32F103C6.h"
+
+/* Peripherals includes */
+#include "RCC_interface.h"
+#include "DIO_interface.h"
+#include "AFIO_interface.h"
+#include "EXTI_interface.h"
+#include "NVIC_interface.h"
+#include "I2C_interface.h"
+
+/* Module files includes */
+#include "Oximeter_interface.h"
+#include "Oximeter_private.h"
+#include "Oximeter_config.h"
+
+
+void Oximeter_init();
+
+void Oximeter_setInterruptState(Interrupt_Type_t interrupt_ID,State_t state);
+
+void Oximeter_getInterruptStatus();
+
+void Oximeter_setFIFOOverflowCounter();
+
+void Oximeter_setSampleAverging(Sample_Averaging_t sampleAveraging);
+
+void Oximeter_shutdowm(State_t state);
+
+void Oximeter_reset();
+
+void Oximeter_setMode(Mode_t Mode);
+
+void Oximeter_setSPO2ADCRange(SPO2_ADC_Range_t SPO2_ADC_Range);
+
+void Oximeter_setSPO2SampleRate(SPO2_Sample_Rate_t SPO2_Sample_Rate);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+// This function writes multiple bytes to the Oximeter.
+void writeRegister(uint8 registerAddress, uint8 * buffer, uint8 dataLength)
+{
+	// Define a buffer to store the memory address and data to be written.
+	uint8 bufferToSend[I2C_MAX_BUFFER_SIZE]={0};
+
+	// Store the memory address in the buffer.
+	bufferToSend[0]=(uint8)(registerAddress);
+
+	// Store the data to be written in the buffer.
+	for(uint8 i=1;i<(dataLength+1);i++)
+		bufferToSend[i]=buffer[i-1];
+
+	// Send the buffer data to the EEPROM via I2C protocol with a start condition and stop condition.
+	I2C_sendData(I2C_USED ,MAX30102_ADDRESS, bufferToSend ,  (dataLength+1), START , WITH_STOP);
+}
+
+void readRegister(uint8 registerAddress, uint8 * buffer, uint8 datalength)
+{
+
+}
+
+float32 Oximeter_readTemperature();

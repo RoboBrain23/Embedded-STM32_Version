@@ -1,0 +1,56 @@
+/**************************************************************************************/
+/* Author     : Ibrahim Diab                                                          */
+/* File Name  : Encoder_interface.h                                                   */
+/* Description: Interfacing macros for Motors Encoder  (HAL Layer)                    */
+/**************************************************************************************/
+
+#ifndef Encoder_INTERFACE_H
+#define Encoder_INTERFACE_H
+
+
+
+
+/**             *** Driver Description ***
+
+This is a driver for Encoder temperature sensor on STM32F103C6 microcontroller.
+
+Initialization:
+Call Encoder_init() to initialize the necessary peripheral(GPIO,ADC,RCC) Clocks and pins.
+
+Configuration:
+Define the MEASURE_SETUP macro to choose the desired temperature range (Encoder_BASIC or Encoder_FULL_RANGE).
+Set the Encoder_channel_ID and Encoder_convertion_NUM variables to the desired values.
+
+API:
+The driver provides a single API function, Encoder_getTemperature(), which returns the temperature value in degrees Celsius.
+The function reads the voltage output of the Encoder sensor using an ADC,
+converts the ADC reading to a temperature value using the formula provided in the code, and returns the temperature value as an uint8 type.
+
+Error handling:
+The driver does not provide any error handling functionality. However, if the Encoder_channel_ID option is set to an invalid value,
+the driver will not perform any initialization and will simply return without an error message.
+
+Limitations:
+The driver assumes that the Encoder sensor is linearly proportional to temperature and correctly calibrated. 
+The maximum operating temperature for the Encoder sensor is 150 degrees Celsius, as defined by the Encoder_MAX_TEMPERATURE macro. 
+For Encoder_FULL_RANGE mode, an external hardware circuit is needed.
+
+Examples:
+Here is an example code snippet that demonstrates how to use the Encoder driver to read the temperature value from the Encoder sensor:
+>
+> //initialize the Encoder driver
+> Encoder_init();
+>
+> //read the temperature value
+> uint8 temperature = Encoder_getTemperature();
+
+Dependencies:
+An STM32F103C6 microcontroller
+An analog to digital converter (ADC) module
+GPIO pins configured for input analog mode
+RCC driver for enabling the clock of the GPIO and ADC modules
+
+*/
+
+
+#endif //Encoder_INTERFACE_H

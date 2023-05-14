@@ -25,7 +25,7 @@ typedef struct
 
 
 //Array of pointers to I2C_t structures
- volatile I2C_t * I2C[NNUMBER_OF_I2C_IN_STM32F103C6] =
+ volatile I2C_t * const I2C[NNUMBER_OF_I2C_IN_STM32F103C6] =
 {
     ((volatile I2C_t *)0x40005400),  //I2C1 Address
     ((volatile I2C_t *)0x40005800)   //I2C2 Address
@@ -50,6 +50,8 @@ typedef struct
  // It sets the appropriate bit in the I2C control register to generate the start condition
  void generateStart(uint8 I2CNum, uint8 startState);
 
+#define I2C_WRITE   0
+#define I2C_READ    1
 
 #endif // I2C_PRIVATE_H
  

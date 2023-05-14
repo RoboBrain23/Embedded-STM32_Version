@@ -1,0 +1,144 @@
+/**************************************************************************************/
+/* Author      : Ibrahim Diab                                                         */
+/* File Name   : Oximeter_interface.h             	                     	   	      */
+/* Description : Interfacing macros for Max30102 Oximeter (HAL Layer)                 */
+/**************************************************************************************/
+
+#ifndef Oximeter_INTERFACE_H
+#define Oximeter_INTERFACE_H
+
+
+// Max30102 sample averaging enumeration definition
+typedef enum
+{
+	  Sample_Averaging_1  = 0b000,        /* no averaging */
+	  Sample_Averaging_2  = 0b001,        /* averaging 2  */
+	  Sample_Averaging_4  = 0b010,        /* averaging 4  */
+	  Sample_Averaging_8  = 0b011,        /* averaging 8  */
+	  Sample_Averaging_16 = 0b100,        /* averaging 16 */
+	  Sample_Averaging_32 = 0b101,        /* averaging 32 */
+}Sample_Averaging_t;
+
+
+// Max30102 mode enumeration definition
+typedef enum
+{
+    Mode_HEART_RATE = 0x02,        /* heart rate mode */
+    Mode_SPO2       = 0x03,        /* spo2 mode	      */
+    Mode_MULTI_LED  = 0x07,        /* multi-led mode  */
+} Mode_t;
+
+
+// Max30102 spo2 ADC range enumeration definition
+typedef enum
+{
+    SPO2_ADC_RANGE_2048  = 0,        /* range 2048  */
+    SPO2_ADC_RANGE_4096  = 1,        /* range 4096  */
+    SPO2_ADC_RANGE_8192  = 2,        /* range 8192  */
+    SPO2_ADC_RANGE_16384 = 3,        /* range 16384 */
+} SPO2_ADC_Range_t;
+
+
+// Max30102 spo2 sample rate enumeration definition
+typedef enum
+{
+    SPO2_SAMPLE_RATE_50_HZ   = 0,        /* 50Hz   */
+    SPO2_SAMPLE_RATE_100_HZ  = 1,        /* 100Hz  */
+    SPO2_SAMPLE_RATE_200_HZ  = 2,        /* 200Hz  */
+    SPO2_SAMPLE_RATE_400_HZ  = 3,        /* 400Hz  */
+    SPO2_SAMPLE_RATE_800_HZ  = 4,        /* 800Hz  */
+    SPO2_SAMPLE_RATE_1000_HZ = 5,        /* 1000Hz */
+    SPO2_SAMPLE_RATE_1600_HZ = 6,        /* 1600Hz */
+    SPO2_SAMPLE_RATE_3200_HZ = 7,        /* 3200Hz */
+} SPO2_Sample_Rate_t;
+
+
+// Max30102 ADC resolution enumeration definition
+typedef enum
+{
+    ADC_RESOLUTION_15_BIT = 0,        /* 15 bits */
+    ADC_RESOLUTION_16_BIT = 1,        /* 16 bits */
+    ADC_RESOLUTION_17_BIT = 2,        /* 17 bits */
+    ADC_RESOLUTION_18_BIT = 3,        /* 18 bits */
+} ADC_Resolution_t;
+
+
+// Max30102 led enumeration definition
+typedef enum
+{
+    LED_NONE = 0,        /* time slot is disabled */
+    LED_RED  = 1,        /* enable red			  */
+    LED_IR   = 2,        /* enable IR 			  */
+} led_State_t;
+
+// Max30102 slot enumeration definition
+typedef enum
+{
+	Slot_1 = 0,        /* slot 1 */
+	Slot_2 = 1,        /* slot 2 */
+	Slot_3 = 2,        /* slot 3 */
+	Slot_4 = 3,        /* slot 4 */
+} Max30102_slot_t;
+
+//
+typedef enum
+{
+	Disable =0 ,
+	Enable =1
+}State_t;
+
+// Max30102 interrupt enumeration definition
+typedef enum
+{
+    Interrupt_FIFO_FULL_EN    = 7,        /* FIFO almost full enable 					*/
+    Interrupt_PPG_RDY_EN      = 6,        /* new FIFO data ready enable 				*/
+    Interrupt_ALC_OVF_EN      = 5,        /* ambient light cancellation overflow enable */
+    Interrupt_DIE_TEMP_RDY_EN = 1,        /* internal temperature enable			    */
+} Interrupt_Type_t;
+
+void Oximeter_init();
+
+void Oximeter_setInterruptState(Interrupt_Type_t interrupt_ID,State_t state);
+
+void Oximeter_getInterruptStatus();
+
+uint8 Oximeter_getFIFOOverflowCounter();
+
+void Oximeter_setSampleAverging(Sample_Averaging_t sampleAveraging);
+
+void Oximeter_shutdowm(State_t state);
+
+void Oximeter_reset();
+
+void Oximeter_setMode(Mode_t Mode);
+
+void Oximeter_setSPO2ADCRange(SPO2_ADC_Range_t SPO2_ADC_Range);
+
+void Oximeter_setSPO2SampleRate(SPO2_Sample_Rate_t SPO2_Sample_Rate);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+float32 Oximeter_readTemperature();
+
+void Oximeter_getInterruptStatus();
+
+void Oximeter_setFIFOReadPtr(uint8 ptrValue);
+
+uint8 Oximeter_getFIFOReadPtr();
+
+void Oximeter_setFIFOWritePtr(uint8 ptrValue);
+
+uint8 Oximeter_getFIFOWritePtr();
+
+void Oximeter_setIRPulseAmplitude(uint8 value);
+
+void Oximeter_setRedPulseAmplitude(uint8 value);
+
+void Oximeter_setSlot(Max30102_slot_t slotNumber, led_State_t ledNumber);
+
+uint8 Oximeter_getReadySamplesNum();
+
+void Oximeter_setRollOnFullState(State_t state);
+#endif // Oximeter_INTERFACE_H

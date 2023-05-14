@@ -1,0 +1,126 @@
+/********************************************************************************************/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : Ultrasonic_program.c                                               	    */
+/* Description : Functions Implementation for Ultrasonic (HAL Layer)                 		*/
+/********************************************************************************************/
+
+/* Library includes */
+#include "Std_Types.h"
+#include "Common_Macros.h"
+
+/* MCU constant parameters includes */
+#include "STM32F103C6.h"
+
+/* Peripherals includes */
+#include "RCC_interface.h"
+#include "DIO_interface.h"
+#include "AFIO_interface.h"
+#include "EXTI_interface.h"
+#include "NVIC_interface.h"
+#include "STK_interface.h"
+
+/* Module files includes */
+#include "Ultrasonic_interface.h"
+#include "Ultrasonic_private.h"
+#include "Ultrasonic_config.h"
+
+
+
+	static volatile uint8 echoRisingFlag, readingState ;
+	static volatile float32 Distance;
+	Ultrasonic_t Ultrasonic[NUMBER_OF_ULTRASONIC_USED];
+
+// Initializes and configures the required modules for the Ultrasonic interface, including RCC, DIO, AFIO, EXTI, STK, and NVIC.
+void Ultrasonic_init(Ultrasonic_ID_t ID)
+{
+	Ultrasonic[ID].Timeout = (uint32)((Ultrasonic->DistanceRange * 58.824)+.5);
+
+	// Enable clock for encoder ports
+		RCC_enableClk(RCC_APB2, Ultrasonic[ID].Echo_port);
+		RCC_enableClk(RCC_APB2, Ultrasonic[ID].Trigger_port);
+
+
+		// Enable AFIO clock
+		RCC_enableClk(RCC_APB2, RCC_AFIO);
+
+		// Set pin directions to input floating
+		DIO_setPinDirection(Ultrasonic[ID].Echo_port, Ultrasonic[ID].Echo_pin, INPUT_FLOATING);
+		DIO_setPinDirection(Ultrasonic[ID].Trigger_port, Ultrasonic[ID].Trigger_pin, OUTPUT_SPEED_2MHZ_PP);
+
+
+		// Set EXTI configuration
+		AFIO_setEXTIConfig(Ultrasonic[ID].Echo_port, Ultrasonic[ID].Echo_pin);
+
+
+		// Enable EXTI interrupts and their corresponding NVIC
+		NVIC_enableInterrupt((NVIC_EXTI0 + Ultrasonic[ID].Echo_pin));	// It will cause error in case of using MCU instead of stm32f10x series.
+
+
+		// Set EXTI callback
+		EXTI_setCallBack(Ultrasonic[ID].Echo_pin, CalcDistance);
+
+
+		// Enable EXTI interrupts
+		EXTI_enableEXTI(Ultrasonic[ID].Echo_pin, CHANGE);
+
+
+		// Initialize and configure STK
+		STK_init();
+}
+
+float32 Ultrasonic_readDistance(Ultrasonic_ID_t Ultrasonic_ID)
+{
+	echoRisingFlag = RISING_DETECTED, readingState= READING_PENDING;
+
+	DIO_setPinValue(Ultrasonic[ID].Trigger_port , Ultrasonic[ID].Trigger_pin, LOW);
+	STK_delayMicroSec(2);
+	DIO_setPinValue(Ultrasonic[ID].Trigger_port , Ultrasonic[ID].Trigger_pin, HIGH);
+	STK_delayMicroSec(10);
+	DIO_setPinValue(Ultrasonic[ID].Trigger_port , Ultrasonic[ID].Trigger_pin, LOW);
+
+
+	while(readingState == READING_PENDING)
+	{
+		if(STK_getElapsedTime()>Ultrasonic[ID].Timeout)
+		{
+			readingState = READING_DONE;
+			STK_stopInterval();
+			Distance= (float32)OUT_OF_RANGE;
+			break;
+		}
+	}
+	return Distance;
+}
+
+void Ultrasonic_setRange(Ultrasonic_ID_t Ultrasonic_ID, uint16 Range_cm)
+{
+	Ultrasonic[ID].DistanceRange = Range_cm;
+	Ultrasonic[ID].Timeout = (uint32)((Ultrasonic[ID].DistanceRange * 58.824)+.5);
+}
+
+void Ultrasonic_setState(Ultrasonic_ID_t Ultrasonic_ID, Ultrasonic_state_t state)
+{
+	Ultrasonic->state =state;
+}
+
+void CalcDistance()
+{
+	if(echoRisingFlag == RISING_DETECTED)
+	{
+		STK_setIntervalSingle ( 10000, doNoThing );
+		echoRisingFlag = FALLING_DETECTED;
+	}
+	else
+	{
+		if(readingState != READING_DONE)
+		{
+			readingState = READING_DONE;
+			Distance = (0.017 * STK_getElapsedTime()) ;
+			STK_stopInterval();
+		}
+	}
+}
+
+void doNoThing()
+{
+}

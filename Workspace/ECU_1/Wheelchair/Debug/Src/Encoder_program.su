@@ -1,0 +1,12 @@
+Encoder_program.c:33:6:Encoder_init	16	static
+Encoder_program.c:81:6:Encoder_reset	24	static
+Encoder_program.c:96:7:Encoder_getCounts	24	static
+Encoder_program.c:113:9:Encoder_getConvertCounts	32	static
+Encoder_program.c:168:9:Encoder_getSpeed	32	static
+Encoder_program.c:221:6:Encoder_0_update_CH_A	8	static
+Encoder_program.c:227:6:Encoder_0_update_CH_B	4	static
+Encoder_program.c:245:6:Encoder_1_update_CH_A	8	static
+Encoder_program.c:251:6:Encoder_1_update_CH_B	4	static
+Encoder_program.c:270:6:updateEncoderData	16	static
+Encoder_program.c:338:6:updateSpeed	24	static
+Encoder_program.c:360:29:Encoder_getDirection	16	static

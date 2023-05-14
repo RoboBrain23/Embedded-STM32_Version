@@ -1,0 +1,3 @@
+EEPROM_program.c:20:6:EEPROM_init	16	static
+EEPROM_program.c:52:6:EEPROM_writeNBytes	296	static
+EEPROM_program.c:71:6:EEPROM_read_byte	40	static

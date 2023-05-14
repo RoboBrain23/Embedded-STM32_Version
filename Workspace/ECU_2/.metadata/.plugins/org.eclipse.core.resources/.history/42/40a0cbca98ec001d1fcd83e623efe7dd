@@ -1,0 +1,40 @@
+/*************************************************************************************/
+/* Author      : Ibrahim Diab                                                        */
+/* File Name   : Ultrasonic_private.h                                        	     */
+/* Description : Private addresses for Ultrasonic (HAL Layer)                 		 */
+/*************************************************************************************/
+
+#ifndef ULTRASONIC_PRIVATE_H
+#define ULTRASONIC_PRIVATE_H
+
+
+typedef struct Ultrasonic_t
+{
+	uint8 State;
+
+	uint8 Echo_pin;	 // DIO_PIN0 ... DIO_PIN4
+	uint8 Echo_port; // DIO_GPIOA, DIO_GPIOB
+
+	uint8 Trigger_pin;
+	uint8 Trigger_port;
+
+	uint32 DistanceRange;
+	uint32 Timeout;
+
+}Ultrasonic_t;
+
+
+#define OUT_OF_RANGE 			-1
+#define ULTRASONIC_DISABLE		-2
+
+#define RISING_DETECTED 		 0
+#define FALLING_DETECTED   		 1
+
+#define READING_PENDING			 0
+#define READING_DONE			 1
+
+#define TIMER_PERIOD			(10000)
+
+void CalcDistance();
+
+#endif // ULTRASONIC_PRIVATE_H

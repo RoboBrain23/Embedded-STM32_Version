@@ -33,29 +33,29 @@
 
 
 /* Output Pins Mode with Maximum speed up to 2MHz */
-#define OUTPUT_SPEED_2MHZ_PP     0b0010    // Output push-pull mode with max speed 2MHz
+#define OUTPUT_SPEED_2MHZ_PP     0b0010    // Output push-pull  mode with max speed 2MHz
 #define OUTPUT_SPEED_2MHZ_OD     0b0110    // Output open-drain mode with max speed 2MHz
-#define OUTPUT_SPEED_2MHZ_ALPP   0b1010    // Output push-pull mode with max speed 2MHz and alternate function
+#define OUTPUT_SPEED_2MHZ_ALPP   0b1010    // Output push-pull  mode with max speed 2MHz and alternate function
 #define OUTPUT_SPEED_2MHZ_ALOD   0b1110    // Output open-drain mode with max speed 2MHz and alternate function
 
 /* Output Pins Mode with Maximum speed up to 10MHz */
-#define OUTPUT_SPEED_10MHZ_PP    0b0001    // Output push-pull mode with max speed 10MHz
+#define OUTPUT_SPEED_10MHZ_PP    0b0001    // Output push-pull  mode with max speed 10MHz
 #define OUTPUT_SPEED_10MHZ_OD    0b0101    // Output open-drain mode with max speed 10MHz
-#define OUTPUT_SPEED_10MHZ_ALPP  0b1001    // Output push-pull mode with max speed 10MHz and alternate function
+#define OUTPUT_SPEED_10MHZ_ALPP  0b1001    // Output push-pull  mode with max speed 10MHz and alternate function
 #define OUTPUT_SPEED_10MHZ_ALOD  0b1101    // Output open-drain mode with max speed 10MHz and alternate function
 
 /* Output Pins Mode with Maximum speed up to 50MHz */
-#define OUTPUT_SPEED_50MHZ_PP    0b0011    // Output push-pull mode with max speed 50MHz
+#define OUTPUT_SPEED_50MHZ_PP    0b0011    // Output push-pull  mode with max speed 50MHz
 #define OUTPUT_SPEED_50MHZ_OD    0b0111    // Output open-drain mode with max speed 50MHz
-#define OUTPUT_SPEED_50MHZ_ALPP  0b1011    // Output push-pull mode with max speed 50MHz and alternate function
+#define OUTPUT_SPEED_50MHZ_ALPP  0b1011    // Output push-pull  mode with max speed 50MHz and alternate function
 #define OUTPUT_SPEED_50MHZ_ALOD  0b1111    // Output open-drain mode with max speed 50MHz and alternate function
 
 
 /* Inputs Pins Mode */
 #define INPUT_ANALOG             0b0000    // Input analog mode
 #define INPUT_FLOATING           0b0100    // Input floating mode
-#define INPUT_PULLUP_PULLDOWN    0b1000    // Input pull-up/pull-down mode
-
+#define INPUT_PULLDOWN           0b1000    // Input pull-down mode
+#define INPUT_PULLUP             0b1100    // Input pull-up mode
 
 /* Output pins Value */
 #define HIGH 1

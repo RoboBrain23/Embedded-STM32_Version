@@ -1,6 +1,0 @@
-I2C_program.c:20:6:I2C_init	16	static
-I2C_program.c:68:6:I2C_sendData	32	static
-I2C_program.c:121:6:I2C_receiveData	32	static
-I2C_program.c:172:6:generateStart	16	static
-I2C_program.c:186:6:sendAddress	16	static
-I2C_program.c:196:6:generateStop	16	static

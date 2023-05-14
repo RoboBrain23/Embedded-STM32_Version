@@ -1,0 +1,56 @@
+/********************************************************************************************/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : Oximeter.c			                         	                      	    */
+/* Description : Functions Implementation for Max30102 Oximeter (HAL Layer)                 */
+/********************************************************************************************/
+
+/* Library includes */
+#include "Std_Types.h"
+#include "Common_Macros.h"
+
+/* MCU constant parameters includes */
+#include "STM32F103C6.h"
+
+/* Peripherals includes */
+#include "RCC_interface.h"
+#include "DIO_interface.h"
+#include "AFIO_interface.h"
+#include "EXTI_interface.h"
+#include "NVIC_interface.h"
+#include "I2C_interface.h"
+
+/* Module files includes */
+#include "Oximeter_interface.h"
+#include "Oximeter_private.h"
+#include "Oximeter_config.h"
+
+
+void Oximeter_init();
+
+void Oximeter_setInterruptState(Interrupt_Type_t interrupt_ID,State_t state);
+
+void Oximeter_getInterruptStatus();
+
+void Oximeter_setFIFOOverflowCounter();
+
+void Oximeter_setSampleAverging(Sample_Averaging_t sampleAveraging);
+
+void Oximeter_shutdowm(State_t state);
+
+void Oximeter_reset();
+
+void Oximeter_setMode(Mode_t Mode);
+
+void Oximeter_setSPO2ADCRange(SPO2_ADC_Range_t SPO2_ADC_Range);
+
+void Oximeter_setSPO2SampleRate(SPO2_Sample_Rate_t SPO2_Sample_Rate);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+void Oximeter_setADCResolution(ADC_Resolution_t ADC_Resolution);
+
+void writeRegister(uint8 registerAddress, uint8 * buffer, uint8 dataLength);
+
+void readRegister(uint8 registerAddress, uint8 * buffer, uint8 datalength);
+
+float32 Oximeter_readTemperature();

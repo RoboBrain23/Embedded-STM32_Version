@@ -1,0 +1,142 @@
+/********************************************************************************************/
+/* Author      : Ibrahim Diab                                                               */
+/* File Name   : Ultrasonic_program.c                                               	    */
+/* Description : Functions Implementation for Ultrasonic (HAL Layer)                 		*/
+/********************************************************************************************/
+
+/* Library includes */
+#include "Std_Types.h"
+#include "Common_Macros.h"
+
+/* MCU constant parameters includes */
+#include "STM32F103C6.h"
+
+/* Peripherals includes */
+#include "RCC_interface.h"
+#include "DIO_interface.h"
+#include "AFIO_interface.h"
+#include "EXTI_interface.h"
+#include "NVIC_interface.h"
+#include "STK_interface.h"
+
+/* Module files includes */
+#include "Ultrasonic_interface.h"
+#include "Ultrasonic_private.h"
+#include "Ultrasonic_config.h"
+
+//typedef enum Ultrasonic_state
+//{
+//	Ultrasonic_enable ,
+//	Ultrasonic_disable
+//}Ultrasonic_state_t;
+//
+//
+//typedef struct Ultrasonic
+//{
+//	uint8 Ultrasonic_ID;
+//	Ultrasonic_state_t state;
+//
+//	uint8 Echo_pin;	// DIO_PIN0 ... DIO_PIN4
+//	uint8 Echo_port; // DIO_GPIOA, DIO_GPIOB
+//
+//	uint8 Trigger_pin;
+//	uint8 Trigger_port;
+//
+//
+//	float32 Distance;
+//	uint32 DistanceRange;
+//
+//}Ultrasonic_t;
+
+	static uint8 echoRisingFlag, readingState ,TimeOut;
+
+
+// Initializes and configures the required modules for the Ultrasonic interface, including RCC, DIO, AFIO, EXTI, STK, and NVIC.
+void Ultrasonic_init(Ultrasonic_t * Ultrasonic)
+{
+
+	// Enable clock for encoder ports
+		RCC_enableClk(RCC_APB2, Ultrasonic->Echo_port);
+		RCC_enableClk(RCC_APB2, Ultrasonic->Trigger_port);
+
+
+		// Enable AFIO clock
+		RCC_enableClk(RCC_APB2, RCC_AFIO);
+
+		// Set pin directions to input floating
+		DIO_setPinDirection(Ultrasonic->Echo_port, Ultrasonic->Echo_pin, INPUT_FLOATING);
+		DIO_setPinDirection(Ultrasonic->Trigger_port, Ultrasonic->Trigger_pin, OUTPUT_SPEED_2MHZ_PP);
+
+
+		// Set EXTI configuration
+		AFIO_setEXTIConfig(Ultrasonic->Echo_port, Ultrasonic->Echo_pin);
+
+
+		// Enable EXTI interrupts and their corresponding NVIC
+		NVIC_enableInterrupt((NVIC_EXTI0 + Ultrasonic->Echo_pin));	// It will cause error in case of using MCU instead of stm32f10x series.
+
+
+		// Set EXTI callback
+		EXTI_setCallBack(Ultrasonic->Echo_pin, CalcDistance);
+
+
+		// Enable EXTI interrupts
+		EXTI_enableEXTI(Ultrasonic->Echo_pin, CHANGE);
+
+
+		// Initialize and configure STK
+		STK_init();
+}
+
+void Ultrasonic_readDistance(Ultrasonic_t * Ultrasonic)
+{
+	echoRisingFlag = 0, readingState= READING_PENDING;
+
+	DIO_setPinValue(Ultrasonic->Trigger_port , Ultrasonic->Trigger_pin, LOW);
+	STK_delayMicroSec(2);
+	DIO_setPinValue(Ultrasonic->Trigger_port , Ultrasonic->Trigger_pin, HIGH);
+	STK_delayMicroSec(10);
+	DIO_setPinValue(Ultrasonic->Trigger_port , Ultrasonic->Trigger_pin, LOW);
+
+	while(!STK_isSYSTickFree() || readingState==READING_PENDING)
+	{
+		if(STK_getElapsedTime()>Timeout)
+		{
+			STK_stopInterval();
+			//return OUT_OF_RANGE;
+		}
+	}
+
+
+
+
+
+}
+
+void Ultrasonic_setRange(Ultrasonic_t * Ultrasonic, uint16 Range_cm)
+{
+
+}
+
+void Ultrasonic_setState(Ultrasonic_t * Ultrasonic, Ultrasonic_state_t state)
+{
+
+}
+
+void CalcDistance()
+{
+	if(echoRisingFlag == RISING_DETECTED)
+	{
+		STK_setIntervalSingle ( 10000, doNoThing );
+		echoRisingFlag = FALLING_DETECTED;
+	}
+	else
+	{
+		readingState = READING_DONE;
+	}
+}
+
+void doNoThing()
+{
+
+}

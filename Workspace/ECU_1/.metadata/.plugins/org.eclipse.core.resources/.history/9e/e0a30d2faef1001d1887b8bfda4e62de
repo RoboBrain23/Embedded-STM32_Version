@@ -1,0 +1,19 @@
+/*********************************************************************************/
+/* Author      : Ibrahim Diab                                                    */
+/* File Name   : Oximeter_config.h                                  		     */
+/* Description : Configuration for Max30102 Oximeter (HAL Layer)                 */
+/*********************************************************************************/
+
+#ifndef Oximeter_CONFIG_H
+#define Oximeter_CONFIG_H
+
+
+/* Options:  I2C1:				I2C2:
+ 	 	 	 - PB6: SCL			- PB10: SCL
+ 	 	 	 - PB7: SDA			- PB11: SDA
+*/
+#define I2C_USED 		 	I2C1
+
+
+
+#endif // Oximeter_CONFIG_H

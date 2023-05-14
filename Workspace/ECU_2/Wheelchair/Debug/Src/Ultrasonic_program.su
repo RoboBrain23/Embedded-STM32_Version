@@ -1,0 +1,5 @@
+Ultrasonic_program.c:34:6:Ultrasonic_init	24	static
+Ultrasonic_program.c:77:9:Ultrasonic_readDistance	16	static
+Ultrasonic_program.c:121:6:Ultrasonic_setRange	24	static
+Ultrasonic_program.c:132:6:Ultrasonic_setState	16	static
+Ultrasonic_program.c:139:6:CalcDistance	16	static
