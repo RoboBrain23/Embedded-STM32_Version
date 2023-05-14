@@ -1,7 +1,7 @@
 /*********************************************************************************/
 /* Author      : Ibrahim Diab                                                    */
 /* File Name   : LM35_config.h                                                   */
-/* Description : Configuration for EEPROM (HAL Layer)           */
+/* Description : Configuration for EEPROM (HAL Layer)                            */
 /*********************************************************************************/
 
 #ifndef EEPROM_CONFIG_H
