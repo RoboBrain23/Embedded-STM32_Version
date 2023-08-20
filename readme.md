@@ -69,18 +69,18 @@ The project utilizes the following hardware components:
 We have included the following screenshots for your reference:
 
 - System Overview
-![System Overview](Images/1_System Overview.png)
+![System Overview](Images/1_System_Overview.png)
 - Stm Diagram
-![Stm Diagram](Images/2_Stm Diagram.png)
+![Stm Diagram](Images/2_Stm_Diagram.png)
 - MCU_1 Architecture
-![MCU_1 Architecture](Images/3_MCU_1 Architure.png)
+![MCU_1 Architecture](Images/3_MCU_1_Architure.png)
 - MCU_2 Architecture
-![MCU_2 Architecture](Images/4_MCU_2 Architure .png)
+![MCU_2 Architecture](Images/4_MCU_2_Architure.png)
 - Schematic Diagram
-![Schematic Diagram](Images/7_Schematic Diagram.png)
+![Schematic Diagram](Images/7_Schematic_Diagram.png)
 - PCB Schematic Diagram
-![PCB Schematic](Images/9_PCB Schematic .png)
+![PCB Schematic](Images/9_PCB_Schematic.png)
 - PCB
-![PCB](Images/8_PCB .png)
+![PCB](Images/8_PCB.png)
 - Before & After
-![Before & After](Images/6_Before & After.png)
+![Before & After](Images/6_Before_After.png)
