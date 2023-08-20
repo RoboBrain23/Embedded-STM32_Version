@@ -10,11 +10,11 @@
 typedef unsigned char boolean;
 
 #ifndef FALSE
-#define FALSE    (0u)
+#define FALSE      (0u)
 #endif
 
 #ifndef TRUE
-#define TRUE     (1u)
+#define TRUE       (1u)
 #endif
 
 #ifndef DISABLE
