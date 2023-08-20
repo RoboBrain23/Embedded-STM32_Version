@@ -77,7 +77,7 @@ We have included the following screenshots for your reference:
 - MCU_2 Architecture
 ![MCU_2 Architecture](Images/4_MCU_2_Architure.png)
 - Schematic Diagram
-![Schematic Diagram](Images/7_Schematic_Diagram.png)
+![Schematic Diagram](Images/7_Schematic_Diagram.jpg)
 - PCB Schematic Diagram
 ![PCB Schematic](Images/9_PCB_Schematic.png)
 - PCB
